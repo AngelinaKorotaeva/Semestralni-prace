@@ -9,14 +9,14 @@
 
 -- predefined type, no DDL - XMLTYPE
 
-CREATE TABLE adresa (
+CREATE TABLE adresy (
     id_adresa INTEGER NOT NULL,
     psc       INTEGER NOT NULL,
     obec      VARCHAR2(50) NOT NULL,
     ulice     VARCHAR2(50) NOT NULL
 );
 
-ALTER TABLE adresa ADD CONSTRAINT adresa_pk PRIMARY KEY ( id_adresa );
+ALTER TABLE adresy ADD CONSTRAINT adresa_pk PRIMARY KEY ( id_adresa );
 
 CREATE TABLE alergie (
     id_alergie INTEGER NOT NULL,
@@ -26,12 +26,12 @@ CREATE TABLE alergie (
 
 ALTER TABLE alergie ADD CONSTRAINT alergie_pk PRIMARY KEY ( id_alergie );
 
-CREATE TABLE alergie_stravnik (
+CREATE TABLE alergie_stravnici (
     id_stravnik INTEGER NOT NULL,
     id_alergie  INTEGER NOT NULL
 );
 
-ALTER TABLE alergie_stravnik ADD CONSTRAINT alergie_stravnik_pk PRIMARY KEY ( id_stravnik,
+ALTER TABLE alergie_stravnici ADD CONSTRAINT alergie_stravnik_pk PRIMARY KEY ( id_stravnik,
                                                                               id_alergie );
 
 CREATE TABLE dietni_omezeni (
@@ -42,7 +42,7 @@ CREATE TABLE dietni_omezeni (
 
 ALTER TABLE dietni_omezeni ADD CONSTRAINT dietni_omezeni_pk PRIMARY KEY ( id_omezeni );
 
-CREATE TABLE jidlo (
+CREATE TABLE jidla (
     id_jidlo     INTEGER NOT NULL,
     nazev        VARCHAR2(30) NOT NULL,
     popis        VARCHAR2(50) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE jidlo (
     poznamka     VARCHAR2(500)
 );
 
-ALTER TABLE jidlo ADD CONSTRAINT jidlo_pk PRIMARY KEY ( id_jidlo );
+ALTER TABLE jidla ADD CONSTRAINT jidlo_pk PRIMARY KEY ( id_jidlo );
 
 CREATE TABLE menu (
     id_menu     INTEGER NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE menu (
 
 ALTER TABLE menu ADD CONSTRAINT menu_pk PRIMARY KEY ( id_menu );
 
-CREATE TABLE objednavka (
+CREATE TABLE objednavky (
     id_objednavka INTEGER NOT NULL,
     datum         DATE NOT NULL,
     celkova_cena  FLOAT(10) NOT NULL,
@@ -74,17 +74,17 @@ CREATE TABLE objednavka (
     id_stav       INTEGER NOT NULL
 );
 
-ALTER TABLE objednavka ADD CONSTRAINT objednavka_pk PRIMARY KEY ( id_objednavka );
+ALTER TABLE objednavky ADD CONSTRAINT objednavka_pk PRIMARY KEY ( id_objednavka );
 
-CREATE TABLE omezeni_stravnik (
+CREATE TABLE omezeni_stravnici (
     id_omezeni  INTEGER NOT NULL,
     id_stravnik INTEGER NOT NULL
 );
 
-ALTER TABLE omezeni_stravnik ADD CONSTRAINT omezeni_stravnik_pk PRIMARY KEY ( id_omezeni,
+ALTER TABLE omezeni_stravnici ADD CONSTRAINT omezeni_stravnik_pk PRIMARY KEY ( id_omezeni,
                                                                               id_stravnik );
 
-CREATE TABLE platba (
+CREATE TABLE platby (
     id_platba   INTEGER NOT NULL,
     datum       DATE NOT NULL,
     castka      FLOAT(10) NOT NULL,
@@ -92,16 +92,16 @@ CREATE TABLE platba (
     id_stravnik INTEGER NOT NULL
 );
 
-ALTER TABLE platba ADD CONSTRAINT platba_pk PRIMARY KEY ( id_platba );
+ALTER TABLE platby ADD CONSTRAINT platba_pk PRIMARY KEY ( id_platba );
 
-CREATE TABLE polozka (
+CREATE TABLE polozky (
     mnozstvi      INTEGER NOT NULL,
     cena_polozky  FLOAT(10) NOT NULL,
     id_objednavka INTEGER NOT NULL,
     id_jidlo      INTEGER NOT NULL
 );
 
-ALTER TABLE polozka ADD CONSTRAINT polozky_pk PRIMARY KEY ( id_objednavka,
+ALTER TABLE polozky ADD CONSTRAINT polozky_pk PRIMARY KEY ( id_objednavka,
                                                             id_jidlo );
 
 CREATE TABLE pozice (
@@ -113,44 +113,44 @@ ALTER TABLE pozice ADD CONSTRAINT pozice_pk PRIMARY KEY ( id_pozice );
 
 ALTER TABLE pozice ADD CONSTRAINT pozice_id_pozice_un UNIQUE ( id_pozice );
 
-CREATE TABLE pracovnik (
+CREATE TABLE pracovnici (
     id_stravnik INTEGER NOT NULL,
     telefon     INTEGER NOT NULL,
     id_pozice   INTEGER NOT NULL,
     id_pozice_2 INTEGER NOT NULL
 );
 
-ALTER TABLE pracovnik ADD CONSTRAINT pracovnik_pk PRIMARY KEY ( id_stravnik );
+ALTER TABLE pracovnici ADD CONSTRAINT pracovnik_pk PRIMARY KEY ( id_stravnik );
 
-CREATE TABLE slozka (
+CREATE TABLE slozky (
     id_slozka       INTEGER NOT NULL,
     nazev           VARCHAR2(30) NOT NULL,
     merna_jednotka  VARCHAR2(20) NOT NULL,
     datum_platnosti DATE NOT NULL
 );
 
-ALTER TABLE slozka ADD CONSTRAINT slozka_pk PRIMARY KEY ( id_slozka );
+ALTER TABLE slozky ADD CONSTRAINT slozka_pk PRIMARY KEY ( id_slozka );
 
-CREATE TABLE slozka_jidlo (
+CREATE TABLE slozky_jidla (
     mnozstvi  INTEGER NOT NULL,
     poznamka  VARCHAR2(30),
     id_jidlo  INTEGER NOT NULL,
     id_slozka INTEGER NOT NULL
 );
 
-ALTER TABLE slozka_jidlo ADD CONSTRAINT slozka_jidlo_pk PRIMARY KEY ( id_jidlo,
+ALTER TABLE slozky_jidla ADD CONSTRAINT slozka_jidlo_pk PRIMARY KEY ( id_jidlo,
                                                                       id_slozka );
 
-CREATE TABLE stav (
+CREATE TABLE stavy (
     id_stav INTEGER NOT NULL,
     nazev   VARCHAR2(30) NOT NULL
 );
 
-ALTER TABLE stav ADD CONSTRAINT stav_pk PRIMARY KEY ( id_stav );
+ALTER TABLE stavy ADD CONSTRAINT stav_pk PRIMARY KEY ( id_stav );
 
-ALTER TABLE stav ADD CONSTRAINT stav_un UNIQUE ( nazev );
+ALTER TABLE stavy ADD CONSTRAINT stav_un UNIQUE ( nazev );
 
-CREATE TABLE stravnik (
+CREATE TABLE stravnici (
     id_stravnik  INTEGER NOT NULL,
     jmeno        VARCHAR2(40) NOT NULL,
     primeni      VARCHAR2(40) NOT NULL,
@@ -160,93 +160,93 @@ CREATE TABLE stravnik (
     email        VARCHAR2(100) NOT NULL
 );
 
-ALTER TABLE stravnik ADD CONSTRAINT stravnik_pk PRIMARY KEY ( id_stravnik );
+ALTER TABLE stravnici ADD CONSTRAINT stravnik_pk PRIMARY KEY ( id_stravnik );
 
-CREATE TABLE student (
+CREATE TABLE studenti (
     id_stravnik    INTEGER NOT NULL,
     vek            INTEGER NOT NULL,
     trida_id_trida INTEGER NOT NULL
 );
 
-ALTER TABLE student ADD CONSTRAINT student_pk PRIMARY KEY ( id_stravnik );
+ALTER TABLE studenti ADD CONSTRAINT student_pk PRIMARY KEY ( id_stravnik );
 
-CREATE TABLE trida (
+CREATE TABLE tridy (
     id_trida    INTEGER NOT NULL,
     cislo_tridy INTEGER NOT NULL
 );
 
-ALTER TABLE trida ADD CONSTRAINT trida_pk PRIMARY KEY ( id_trida );
+ALTER TABLE tridy ADD CONSTRAINT trida_pk PRIMARY KEY ( id_trida );
 
-ALTER TABLE alergie_stravnik
+ALTER TABLE alergie_stravnici
     ADD CONSTRAINT alergie_stravnik_fk FOREIGN KEY ( id_alergie )
         REFERENCES alergie ( id_alergie );
 
-ALTER TABLE jidlo
+ALTER TABLE jidla
     ADD CONSTRAINT jidlo_menu_fk FOREIGN KEY ( menu_id_menu )
         REFERENCES menu ( id_menu );
 
-ALTER TABLE slozka_jidlo
+ALTER TABLE slozky_jidla
     ADD CONSTRAINT jidlo_slozka_fk FOREIGN KEY ( id_jidlo )
         REFERENCES jidlo ( id_jidlo );
 
-ALTER TABLE objednavka
+ALTER TABLE objednavky
     ADD CONSTRAINT objednavka_stav_fk FOREIGN KEY ( id_stav )
         REFERENCES stav ( id_stav );
 
-ALTER TABLE objednavka
+ALTER TABLE objednavky
     ADD CONSTRAINT objednavka_stravnik_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE omezeni_stravnik
+ALTER TABLE omezeni_stravnici
     ADD CONSTRAINT omezeni_stravnik_fk FOREIGN KEY ( id_omezeni )
         REFERENCES dietni_omezeni ( id_omezeni );
 
-ALTER TABLE platba
+ALTER TABLE platby
     ADD CONSTRAINT platba_stravnik_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE polozka
+ALTER TABLE polozky
     ADD CONSTRAINT polozka_jidlo_fk FOREIGN KEY ( id_jidlo )
         REFERENCES jidlo ( id_jidlo );
 
-ALTER TABLE polozka
+ALTER TABLE polozky
     ADD CONSTRAINT polozka_objednavka_fk FOREIGN KEY ( id_objednavka )
         REFERENCES objednavka ( id_objednavka );
 
-ALTER TABLE pracovnik
+ALTER TABLE pracovnici
     ADD CONSTRAINT pracovnik_pozice_fk FOREIGN KEY ( id_pozice_2 )
         REFERENCES pozice ( id_pozice );
 
-ALTER TABLE pracovnik
+ALTER TABLE pracovnici
     ADD CONSTRAINT pracovnik_stravnik_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE slozka_jidlo
+ALTER TABLE slozky_jidla
     ADD CONSTRAINT slozka_jidlo_fk FOREIGN KEY ( id_slozka )
         REFERENCES slozka ( id_slozka );
 
-ALTER TABLE stravnik
+ALTER TABLE stravnici
     ADD CONSTRAINT stravnik_adresa_fk FOREIGN KEY ( id_adresa )
         REFERENCES adresa ( id_adresa );
 
-ALTER TABLE alergie_stravnik
+ALTER TABLE alergie_stravnici
     ADD CONSTRAINT stravnik_alergie_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE omezeni_stravnik
+ALTER TABLE omezeni_stravnici
     ADD CONSTRAINT stravnik_omezeni_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE student
+ALTER TABLE studenti
     ADD CONSTRAINT student_stravnik_fk FOREIGN KEY ( id_stravnik )
         REFERENCES stravnik ( id_stravnik );
 
-ALTER TABLE student
+ALTER TABLE studenti
     ADD CONSTRAINT student_trida_fk FOREIGN KEY ( trida_id_trida )
         REFERENCES trida ( id_trida );
 
 CREATE OR REPLACE TRIGGER arc_fkarc_1_student BEFORE
-    INSERT OR UPDATE OF id_stravnik ON student
+    INSERT OR UPDATE OF id_stravnik ON studenti
     FOR EACH ROW
 DECLARE
     d VARCHAR2(20);
@@ -255,7 +255,7 @@ BEGIN
         a.typ_stravnik
     INTO d
     FROM
-        stravnik a
+        stravnici a
     WHERE
         a.id_stravnik = :new.id_stravnik;
 
@@ -273,7 +273,7 @@ END;
 /
 
 CREATE OR REPLACE TRIGGER arc_fkarc_1_pracovnik BEFORE
-    INSERT OR UPDATE OF id_stravnik ON pracovnik
+    INSERT OR UPDATE OF id_stravnik ON pracovnici
     FOR EACH ROW
 DECLARE
     d VARCHAR2(20);
@@ -282,7 +282,7 @@ BEGIN
         a.typ_stravnik
     INTO d
     FROM
-        stravnik a
+        stravnici a
     WHERE
         a.id_stravnik = :new.id_stravnik;
 
