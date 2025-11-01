@@ -123,7 +123,7 @@ ALTER TABLE pozice ADD CONSTRAINT pozice_pk PRIMARY KEY ( id_pozice );
 
 ALTER TABLE pozice ADD CONSTRAINT pozice_un UNIQUE ( id_pozice );
 
-CREATE TABLE pracovnik (
+CREATE TABLE pracovnici (
     id_stravnik INTEGER NOT NULL,
     telefon     INTEGER NOT NULL,
     id_pozice   INTEGER NOT NULL
@@ -159,7 +159,7 @@ ALTER TABLE stavy ADD CONSTRAINT stav_pk PRIMARY KEY ( id_stav );
 
 ALTER TABLE stavy ADD CONSTRAINT stav_un UNIQUE ( nazev );
 
-CREATE TABLE stravnik (
+CREATE TABLE stravnici (
     id_stravnik  INTEGER NOT NULL,
     jmeno        VARCHAR2(40) NOT NULL,
     primeni      VARCHAR2(40) NOT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE stravnik (
 
 ALTER TABLE stravnik ADD CONSTRAINT stravnici_pk PRIMARY KEY ( id_stravnik );
 
-CREATE TABLE student (
+CREATE TABLE studenti (
     id_stravnik    INTEGER NOT NULL,
     datum_narozeni DATE NOT NULL,
     id_trida       INTEGER NOT NULL

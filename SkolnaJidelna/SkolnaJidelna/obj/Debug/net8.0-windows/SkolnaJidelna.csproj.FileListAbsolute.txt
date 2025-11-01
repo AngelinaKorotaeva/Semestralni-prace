@@ -1,0 +1,4 @@
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolnaJidelna_MarkupCompile.cache
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolnaJidelna_MarkupCompile.lref

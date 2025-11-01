@@ -12,9 +12,9 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("SkolnaJidelna")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3808cc19724f91c2512d997bb0f001bd83b8fcee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ab299d66600a36074dc9b12836d488578b906b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("SkolnaJidelna")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SkolnaJidelna")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
