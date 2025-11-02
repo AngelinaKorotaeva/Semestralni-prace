@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="jidelny_listek" id="292DE864-2927-788E-5995-9C3B05546A42" version="3.5">
-<createdBy>Ангелина</createdBy>
-<createdTime>2024-12-09 13:45:09 UTC</createdTime>
-<ownerDesignName>jidelny_listek</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>292DE864-2927-788E-5995-9C3B05546A42</designId>
-</OSDM_Design>
