@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oracle.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
 using SkolnaJidelna.Models;
 
 namespace SkolnaJidelna.Data
@@ -32,7 +33,7 @@ namespace SkolnaJidelna.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseOracle("User Id=ST69617;Password=ank11200;Data Source=YOUR_ORACLE_DB");
+            optionsBuilder.UseOracle("User Id=ST69617;Password=ank11200;Data Source=fei-sql3.upcecebny.cz:1521/BDAS");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

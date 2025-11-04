@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkolnaJidelna"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
+        <Grid x:Name="Background">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFEDE2AC"/>
+                    <GradientStop Color="#FFE2AC57" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <TextBlock x:Name="HeadText" HorizontalAlignment="Center" Margin="0,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="79" Width="290" FontSize="48" FontFamily="Bahnschrift SemiBold" Foreground="#FF9D4A23"><Run Language="cs-cz" Text="Školní jídelna"/></TextBlock>
+            <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="110" Margin="0,127,0,0" Stroke="#FF9D4A23" VerticalAlignment="Top" Width="110" StrokeThickness="7"/>
+            <TextBlock x:Name="Obrazek" HorizontalAlignment="Center" Margin="0,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="68" Width="85" FontSize="60" Foreground="#FF5E311D" FontFamily="Bahnschrift Light"><Run Text="🍽️"/><LineBreak/><Run/></TextBlock>
+            <StackPanel x:Name="StackPanel" Margin="188,274,189,79"/>
+            <TextBox x:Name="textBoxLogin" HorizontalAlignment="Center" Margin="0,291,0,0" TextWrapping="Wrap" Text="Uživatelské jméno" VerticalAlignment="Top" Width="184" Height="47" BorderBrush="{x:Null}" TextChanged="TextBox_TextChanged" Background="#FFEDE2AC" Foreground="#FF9D4A23" FontSize="18" TextAlignment="Center"/>
+            <PasswordBox x:Name="textBoxHeslo" HorizontalAlignment="Center" Margin="0,353,0,0" VerticalAlignment="Top" Width="184" Height="47" RenderTransformOrigin="0.495,0.317" BorderBrush="{x:Null}" Background="#FFEDE2AC" Foreground="#FF9D4A23" FontSize="18"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,530,0,0" TextWrapping="Wrap" Text="© 2025 Školní jídelna" VerticalAlignment="Top" Foreground="#FF5E311D" FontSize="15"/>
+        </Grid>
 
     </Grid>
 </Window>
