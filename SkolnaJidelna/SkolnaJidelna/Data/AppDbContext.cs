@@ -33,7 +33,6 @@ namespace SkolnaJidelna.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseOracle("User Id=ST69617;Password=ank11200;Data Source=fei-sql3.upcecebny.cz:1521/BDAS");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
