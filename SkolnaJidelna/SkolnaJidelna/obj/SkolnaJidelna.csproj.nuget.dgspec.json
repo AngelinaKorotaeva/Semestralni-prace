@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj": {}
+    "C:\\Users\\Polina Odintsova\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj": {
+    "C:\\Users\\Polina Odintsova\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj",
+        "projectUniqueName": "C:\\Users\\Polina Odintsova\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj",
         "projectName": "SkolnaJidelna",
-        "projectPath": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj",
-        "packagesPath": "C:\\Users\\Ангелина\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\obj\\",
+        "projectPath": "C:\\Users\\Polina Odintsova\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolnaJidelna.csproj",
+        "packagesPath": "C:\\Users\\Polina Odintsova\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Polina Odintsova\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Ангелина\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Polina Odintsova\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

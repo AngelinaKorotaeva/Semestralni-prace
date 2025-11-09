@@ -1,27 +1,240 @@
-﻿<Window x:Class="SkolnaJidelna.MainWindow"
+﻿<Window x:Class="SkolniJidelna.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SkolnaJidelna"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="Přihlášení - Školní jídelna" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
     <Grid>
-        <Grid x:Name="Background">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая сторона: лого + общая информация -->
+        <Grid Grid.Column="0">
             <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFEDE2AC"/>
-                    <GradientStop Color="#FFE2AC57" Offset="1"/>
-                </LinearGradientBrush>
+                <StaticResource ResourceKey="BackgroundGradient"/>
             </Grid.Background>
-            <TextBlock x:Name="HeadText" HorizontalAlignment="Center" Margin="0,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="79" Width="290" FontSize="48" FontFamily="Bahnschrift SemiBold" Foreground="#FF9D4A23"><Run Language="cs-cz" Text="Školní jídelna"/></TextBlock>
-            <Ellipse x:Name="Circle" HorizontalAlignment="Center" Height="110" Margin="0,127,0,0" Stroke="#FF9D4A23" VerticalAlignment="Top" Width="110" StrokeThickness="7"/>
-            <TextBlock x:Name="Obrazek" HorizontalAlignment="Center" Margin="0,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="68" Width="85" FontSize="60" Foreground="#FF5E311D" FontFamily="Bahnschrift Light"><Run Text="🍽️"/><LineBreak/><Run/></TextBlock>
-            <StackPanel x:Name="StackPanel" Margin="188,274,189,79"/>
-            <TextBox x:Name="textBoxLogin" HorizontalAlignment="Center" Margin="0,291,0,0" TextWrapping="Wrap" Text="Uživatelské jméno" VerticalAlignment="Top" Width="184" Height="47" BorderBrush="{x:Null}" TextChanged="TextBox_TextChanged" Background="#FFEDE2AC" Foreground="#FF9D4A23" FontSize="18" TextAlignment="Center"/>
-            <PasswordBox x:Name="textBoxHeslo" HorizontalAlignment="Center" Margin="0,353,0,0" VerticalAlignment="Top" Width="184" Height="47" RenderTransformOrigin="0.495,0.317" BorderBrush="{x:Null}" Background="#FFEDE2AC" Foreground="#FF9D4A23" FontSize="18"/>
-            <TextBlock HorizontalAlignment="Center" Margin="0,530,0,0" TextWrapping="Wrap" Text="© 2025 Školní jídelna" VerticalAlignment="Top" Foreground="#FF5E311D" FontSize="15"/>
+            
+            <Canvas>
+                <Ellipse Width="150" Height="150" Fill="#30FFFFFF" Canvas.Left="-50" Canvas.Top="100"/>
+                <Ellipse Width="200" Height="200" Fill="#20FFFFFF" Canvas.Left="200" Canvas.Top="400"/>
+                <Ellipse Width="100" Height="100" Fill="#40FFFFFF" Canvas.Left="50" Canvas.Top="500"/>
+                <Ellipse Width="80" Height="80" Fill="#35FFFFFF" Canvas.Left="280" Canvas.Top="50"/>
+            </Canvas>
+
+            <StackPanel VerticalAlignment="Center" Margin="40" Panel.ZIndex="1">
+
+
+                <!-- Лого -->
+                <Border Background="White" 
+                        CornerRadius="35" 
+                        Width="140" 
+                        Height="140"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,30">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="25" ShadowDepth="8" Opacity="0.4" Color="Black"/>
+                    </Border.Effect>
+                    <Viewbox Width="85" Height="85">
+                        <TextBlock Text="🍽️" FontSize="80"/>
+                    </Viewbox>
+                </Border>
+
+
+                <!-- Название приложения и просьба о входе -->
+                <TextBlock Text="Školní jídelna" 
+                         FontSize="38" 
+                         FontWeight="Bold" 
+                         Foreground="White"
+                         HorizontalAlignment="Center"
+                         Margin="0,0,0,40"/>
+
+                <TextBlock Text="Přihlaste se pro přístup k menu a objednávkám" 
+                         FontSize="18" 
+                         Foreground="White"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap"
+                         Opacity="0.95"
+                         Margin="0,0,0,50"
+                         FontWeight="SemiBold"
+                         LineHeight="28"/>
+
+
+                <!-- Время работы -->
+                <Border Style="{StaticResource InfoCard}" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="Otevírací doba:" 
+                                 Foreground="CadetBlue" 
+                                 FontSize="18" 
+                                 FontWeight="Bold"
+                                 Margin="0,0,0,5"/>
+                        <TextBlock Foreground="CadetBlue" 
+                                 FontSize="15" 
+                                 Opacity="0.95"
+                                 LineHeight="20">
+                            <Run Text="Po - Pá: 7:00 - 14:00"/>
+                            <LineBreak/>
+                            <Run Text="Víkend: Zavřeno"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+
+                <!-- Адрес -->
+                <Border Style="{StaticResource InfoCard}" Margin="0,0,0,5">
+                    <StackPanel>
+                        <TextBlock Text="Adresa:" 
+                                 Foreground="CadetBlue" 
+                                 FontSize="18" 
+                                 FontWeight="Bold"
+                                 Margin="0,0,0,5"/>
+                        <TextBlock Foreground="CadetBlue" 
+                                 FontSize="15" 
+                                 Opacity="0.95"
+                                 LineHeight="22"
+                                 TextWrapping="Wrap">
+                            <Run Text="Masarykovo náměstí 12"/>
+                            <LineBreak/>
+                            <Run Text="530 02 Pardubice"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Grid>
 
+        <!-- Правая часть: вход в систему/регистрация -->
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <StaticResource ResourceKey="LightBackgroundGradient"/>
+            </Grid.Background>
+
+            <Canvas>
+                <Ellipse Width="120" Height="120" Fill="#FFE5B430" Canvas.Right="50" Canvas.Top="80"/>
+                <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="200" Canvas.Top="500"/>
+                <Ellipse Width="100" Height="100" Fill="#B4E7FF30" Canvas.Right="100" Canvas.Bottom="100"/>
+            </Canvas>
+
+            <StackPanel VerticalAlignment="Center" Margin="70,40" Panel.ZIndex="1">
+
+                <!-- Заголовок -->
+                <TextBlock Text="Přihlášení" 
+                         FontSize="36" 
+                         FontWeight="Bold" 
+                         HorizontalAlignment="Center"
+                         Margin="0,40,0,10">
+                    <TextBlock.Foreground>
+                        <StaticResource ResourceKey="PrimaryGradient"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <TextBlock Text="Zadejte své přihlašovací údaje" 
+                         FontSize="16" 
+                         Foreground="#757575"
+                         TextAlignment="Center"
+                         Margin="0,0,0,50"
+                         FontWeight="SemiBold"/>
+
+                <!-- Логин -->
+                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBox Grid.Column="1" 
+                                x:Name="textBoxLogin" 
+                                Style="{StaticResource TextBoxStyle}"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                VerticalAlignment="Center"
+                                Margin="5,0,10,0"
+                                Text=""
+                                GotFocus="TextBoxLogin_GotFocus" TextChanged="textBoxLogin_TextChanged"/>
+                    </Grid>
+                </Border>
+
+                <TextBlock Text="Uživatelské jméno" 
+                         FontSize="13" 
+                         Foreground="#999999"
+                         Margin="20,5,0,25"/>
+
+
+                <!-- Пароль -->
+                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#B4E7FF" Offset="0"/>
+                                    <GradientStop Color="#6B9EFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="🔒" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <PasswordBox Grid.Column="1" 
+                                   x:Name="passwordBox" 
+                                   Style="{StaticResource PasswordBoxStyle}"
+                                   BorderThickness="0"
+                                   Background="Transparent"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0,10,0"/>
+                    </Grid>
+                </Border>
+
+                <TextBlock Text="Heslo" 
+                         FontSize="13" 
+                         Foreground="#999999"
+                         Margin="20,5,0,15"/>
+
+
+                <!-- Забыли пароль (если добавим - нужно заменить на кнопку) -->
+                <TextBlock Text="Zapomněli jste heslo?" 
+                         FontSize="14" 
+                         FontWeight="SemiBold"
+                         Cursor="Hand"
+                         HorizontalAlignment="Right"
+                         Margin="0,0,0,35">
+                    <TextBlock.Foreground>
+                        <StaticResource ResourceKey="PrimaryGradient"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+
+                <!-- Кнопки -->
+                <Button Content="Přihlásit se" 
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,0,15"
+                        Click="LoginButton_Click"/>
+
+                <Button Content="Vytvořit nový účet" 
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,0,40"
+                        Click="RegisterButton_Click"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

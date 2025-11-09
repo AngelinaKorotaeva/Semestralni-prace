@@ -1,0 +1,250 @@
+﻿<Window x:Class="SkolniJidelna.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registrace - Školní jídelna" Height="900" Width="1100"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая панель с полями формы -->
+        <Grid Grid.Column="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF6B9E" Offset="0"/>
+                    <GradientStop Color="#FF8B5E" Offset="0.5"/>
+                    <GradientStop Color="#FFB66E" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Canvas>
+                <Ellipse Width="150" Height="150" Fill="#30FFFFFF" Canvas.Left="-50" Canvas.Top="100"/>
+                <Ellipse Width="200" Height="200" Fill="#20FFFFFF" Canvas.Left="200" Canvas.Top="400"/>
+                <Ellipse Width="100" Height="100" Fill="#40FFFFFF" Canvas.Left="50" Canvas.Top="500"/>
+                <Ellipse Width="80" Height="80" Fill="#35FFFFFF" Canvas.Left="280" Canvas.Top="50"/>
+            </Canvas>
+
+            <StackPanel VerticalAlignment="Center" Margin="40" Panel.ZIndex="1">
+                <!-- Лого -->
+                <Border Background="White" CornerRadius="35" Width="140" Height="140" HorizontalAlignment="Center" Margin="0,0,0,30">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="25" ShadowDepth="8" Opacity="0.4" Color="Black"/>
+                    </Border.Effect>
+                    <Viewbox Width="85" Height="85">
+                        <TextBlock Text="📝" FontSize="80"/>
+                    </Viewbox>
+                </Border>
+
+                <TextBlock Text="Školní jídelna" FontSize="38" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+
+                <TextBlock Text="Vyplňte základní údaje" FontSize="18" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Opacity="0.95" Margin="0,0,0,30" FontWeight="SemiBold" LineHeight="28"/>
+
+                <!-- Имя -->
+                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBox Grid.Column="1" x:Name="textBoxFirstName" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                    </Grid>
+                </Border>
+                <TextBlock Text="Jméno" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
+
+                <!-- Фамилия -->
+                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBox Grid.Column="1" x:Name="textBoxLastName" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                    </Grid>
+                </Border>
+                <TextBlock Text="Příjmení" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
+
+                <!-- Статус (pracovník/student) -->
+                <TextBlock Text="Status" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <StackPanel Margin="0,0,0,20">
+                    <RadioButton x:Name="radioWorker" Content="Pracovník" GroupName="Status" FontSize="16" Foreground="White" Margin="0,0,0,10" Checked="RadioStatus_Checked"/>
+                    <RadioButton x:Name="radioStudent" Content="Student" GroupName="Status" FontSize="16" Foreground="White" Checked="RadioStatus_Checked"/>
+                </StackPanel>
+
+                <!-- Email -->
+                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="📧" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBox Grid.Column="1" x:Name="textBoxEmail" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                    </Grid>
+                </Border>
+                <TextBlock Text="Email (bude použit jako login)" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Правая панель с остальными полями -->
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FFF5F8" Offset="0"/>
+                    <GradientStop Color="#FFF9F0" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Canvas>
+                <Ellipse Width="120" Height="120" Fill="#FFE5B430" Canvas.Right="50" Canvas.Top="80"/>
+                <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="200" Canvas.Top="500"/>
+                <Ellipse Width="100" Height="100" Fill="#B4E7FF30" Canvas.Right="100" Canvas.Bottom="100"/>
+            </Canvas>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
+                <StackPanel VerticalAlignment="Center" Margin="70,40" Panel.ZIndex="1">
+                    <TextBlock Text="Registrace" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#FF6B9E" Offset="0"/>
+                                <GradientStop Color="#FF8B5E" Offset="1"/>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+
+                    <TextBlock Text="Vyplňte zbývající údaje" FontSize="16" Foreground="#757575" TextAlignment="Center" Margin="0,0,0,30" FontWeight="SemiBold"/>
+
+                    <!-- Поля только для работника (телефон и выбор позиции) -->
+                    <StackPanel x:Name="workerFields" Visibility="Collapsed">
+                        <TextBlock Text="Pozice" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <ComboBox x:Name="comboPosition" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,15"/>
+                        <TextBlock Text="Telefon" FontSize="13" Foreground="#999999" Margin="20,5,0,5"/>
+                        <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#B4E7FF" Offset="0"/>
+                                            <GradientStop Color="#6B9EFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="📞" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBox Grid.Column="1" x:Name="textBoxPhone" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Поля только для студента (выбор класса) -->
+                    <StackPanel x:Name="studentFields" Visibility="Collapsed">
+                        <TextBlock Text="Třída" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <ComboBox x:Name="comboClass" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,15"/>
+                    </StackPanel>
+
+                    <!-- Фото -->
+                    <TextBlock Text="Fotografie" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <Button x:Name="btnSelectPhoto" Content="Vybrat fotografii" Style="{StaticResource SecondaryButton}" Padding="20,10" Click="BtnSelectPhoto_Click"/>
+                        <Image x:Name="imagePhoto" Width="80" Height="80" Margin="20,0,0,0" Stretch="UniformToFill"/>
+                    </StackPanel>
+
+                    <!-- Пароль -->
+                    <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#B4E7FF" Offset="0"/>
+                                        <GradientStop Color="#6B9EFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="🔒" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <PasswordBox Grid.Column="1" x:Name="passwordBox" Style="{StaticResource PasswordBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="Heslo" FontSize="13" Foreground="#999999" Margin="20,5,0,15"/>
+
+                    <!-- Подтверждение пароля -->
+                    <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#B4E7FF" Offset="0"/>
+                                        <GradientStop Color="#6B9EFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="🔒" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <PasswordBox Grid.Column="1" x:Name="passwordBoxConfirm" Style="{StaticResource PasswordBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="Potvrzení hesla" FontSize="13" Foreground="#999999" Margin="20,5,0,15"/>
+
+                    <!-- Кнопки -->
+                    <Button Content="Registrovat" Style="{StaticResource PrimaryButton}" Margin="0,20,0,15" Click="RegisterButton_Click"/>
+                    <Button Content="Zpět na přihlášení" Style="{StaticResource SecondaryButton}" Margin="0,0,0,20" Click="BackButton_Click"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
