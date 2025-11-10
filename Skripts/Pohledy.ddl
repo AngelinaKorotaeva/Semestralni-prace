@@ -7,13 +7,13 @@ zobrazuje objednávky se jménem zákazníka, stavem a cenou.
 CREATE OR REPLACE VIEW v_obj_prehled AS
 SELECT 
     o.id_objednavka,
-    s.jmeno || ' ' || s.primeni AS zakaznik,
+    s.jmeno || ' ' || s.prijmeni AS zakaznik,
     st.nazev AS stav_objednavky,
     o.datum,
     o.celkova_cena
 FROM objednavky o
-JOIN stravnik s ON o.id_stravnik = s.id_stravnik
-JOIN stav st ON o.id_stav = st.id_stav;
+JOIN stravnici s ON o.id_stravnik = s.id_stravnik
+JOIN stavy st ON o.id_stav = st.id_stav;
 
 
 Co dělá:
@@ -57,11 +57,9 @@ SELECT
     j.nazev AS jidlo,
     j.kategorie,
     j.cena,
-    m.nazev AS menu_nazev,
-    m.typ_menu
-FROM jidlo j
-LEFT JOIN menu m ON j.menu_id_menu = m.id_menu;
-
+    m.nazev AS menu_nazev
+FROM jidla j
+LEFT JOIN menu m ON j.id_menu = m.id_menu;
 
 Co dělá:
 
@@ -72,21 +70,21 @@ Lze použít v DA pro „výpis jídel podle menu“.
 
 4. Tabulka strvavniky a jejich dietni omezeni nebo/a alergie
 
-CREATE OR REPLACE VIEW v_stravnici_omezeni_alergie AS
+CREATE OR REPLACE VIEW v_str_omezeni_alergie AS
 SELECT 
     s.id_stravnik,
     s.jmeno,
-    s.primeni,
+    s.prijmeni,
     s.email,
     LISTAGG(DISTINCT a.nazev, ', ') WITHIN GROUP (ORDER BY a.nazev) AS alergie,
     LISTAGG(DISTINCT d.nazev, ', ') WITHIN GROUP (ORDER BY d.nazev) AS dietni_omezeni
-FROM stravnik s
-LEFT JOIN alergie_stravnici asr ON s.id_stravnik = asr.id_stravnik
+FROM stravnici s
+LEFT JOIN stravnici_alergie asr ON s.id_stravnik = asr.id_stravnik
 LEFT JOIN alergie a ON a.id_alergie = asr.id_alergie
-LEFT JOIN omezeni_stravnici osr ON s.id_stravnik = osr.id_stravnik
+LEFT JOIN stravnici_omezeni osr ON s.id_stravnik = osr.id_stravnik
 LEFT JOIN dietni_omezeni d ON d.id_omezeni = osr.id_omezeni
 WHERE a.id_alergie IS NOT NULL OR d.id_omezeni IS NOT NULL
-GROUP BY s.id_stravnik, s.jmeno, s.primeni, s.email;
+GROUP BY s.id_stravnik, s.jmeno, s.prijmeni, s.email;
 
 
 5. Jídla и jejich složení

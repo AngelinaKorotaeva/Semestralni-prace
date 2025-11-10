@@ -1,76 +1,20 @@
-1 Funkce: f_balance_check
+1 Cena objednavky
 
-Typ: vrací číslo/textovou hodnotu
-Co dělá: kontroluje, zda má uživatel dostatek prostředků pro objednávku
-
-CREATE OR REPLACE FUNCTION f_balance_check(
-    p_id_stravnik IN INTEGER,
-    p_cena IN FLOAT
-) RETURN VARCHAR2
-IS
-    v_balance FLOAT;
+CREATE OR REPLACE FUNCTION get_celkova_cena(p_id_objednavka IN INTEGER)
+RETURN FLOAT IS
+    v_sum FLOAT := 0;
 BEGIN
-    SELECT zustatek INTO v_balance
-    FROM stravnik
-    WHERE id_stravnik = p_id_stravnik;
+    SELECT SUM(cena_polozky * mnozstvi)
+    INTO v_sum
+    FROM polozky
+    WHERE id_objednavka = p_id_objednavka;
 
-    IF v_balance >= p_cena THEN
-        RETURN 'Dostatek prostředků';
-    ELSE
-        RETURN 'Nedostatek prostředků';
-    END IF;
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RETURN 'Uživatel nenalezen';
+    RETURN NVL(v_sum, 0);
 END;
-/
 
 
-Příklad volání:
 
-SELECT f_balance_check(1, 150) FROM dual;
-
-
-Účel:
-
-Kontrola, zda je možné vytvořit objednávku
-
-Pracuje s obchodní logikou
-
-2 Funkce: f_total_spent
-
-Typ: vrací číslo (FLOAT)
-Co dělá: počítá součet všech plateb uživatele
-
-CREATE OR REPLACE FUNCTION f_total_spent(
-    p_id_stravnik IN INTEGER
-) RETURN FLOAT
-IS
-    v_sum FLOAT;
-BEGIN
-    SELECT NVL(SUM(castka),0) INTO v_sum
-    FROM platba
-    WHERE id_stravnik = p_id_stravnik;
-
-    RETURN v_sum;
-END;
-/
-
-
-Příklad volání:
-
-SELECT f_total_spent(1) FROM dual;
-
-
-Účel:
-
-Vypočítá, kolik peněz uživatel celkem utratil
-
-Používá se v přehledech / DA
-
-Liší se od funkce č. 1 typem návratové hodnoty (vrací číslo, nikoli text)
-
-3 Funkce: f_orders_status_count
+2 Funkce: f_orders_status_count
 
 Typ: vrací VARCHAR2 s agregovanými informacemi
 Co dělá: počítá počet objednávek uživatele v různých stavech a vrací textové shrnutí
@@ -105,3 +49,32 @@ SELECT f_orders_status_count(1) FROM dual;
 Poskytuje přehled o počtu objednávek uživatele podle stavu
 
 Umožňuje rychle zobrazit souhrn v DA
+
+
+3 Funkce pro určení stavu menu podle času
+
+
+CREATE OR REPLACE FUNCTION stav_menu(p_id_menu IN INTEGER)
+RETURN VARCHAR2 IS
+    v_od DATE;
+    v_do DATE;
+    v_stav VARCHAR2(20);
+BEGIN
+    SELECT time_od, time_do
+    INTO v_od, v_do
+    FROM menu
+    WHERE id_menu = p_id_menu;
+
+    IF SYSDATE < v_od THEN
+        v_stav := 'ČEKÁ NA START';
+    ELSIF SYSDATE BETWEEN v_od AND v_do THEN
+        v_stav := 'AKTIVNÍ';
+    ELSE
+        v_stav := 'UKONČENO';
+    END IF;
+
+    RETURN v_stav;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'MENU NEEXISTUJE';
+END;

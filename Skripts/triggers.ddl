@@ -1,8 +1,8 @@
 triggery pro id: 
 
-CREATE OR REPLACE TRIGGER t_str_id 
+CREATE OR REPLACE TRIGGER trg_str_id 
 BEFORE INSERT ON stravnici 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_stravnik is null) then 
     SELECT s_str.nextval 
@@ -14,7 +14,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_plat_id
 BEFORE INSERT ON platby 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_platba is null) then 
     SELECT s_plat.nextval 
@@ -26,7 +26,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_obj_id 
 BEFORE INSERT ON objednavky 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_objednavka is null) then 
     SELECT s_obj.nextval 
@@ -38,7 +38,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_jid_id 
 BEFORE INSERT ON jidla 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_jidlo is null) then 
     SELECT s_jid.nextval 
@@ -50,7 +50,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_menu_id 
 BEFORE INSERT ON menu 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_menu is null) then 
     SELECT s_menu.nextval 
@@ -62,7 +62,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_adr_id 
 BEFORE INSERT ON adresy 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_adresa is null) then 
     SELECT s_adr.nextval 
@@ -74,7 +74,7 @@ END;
 
 CREATE OR REPLACE TRIGGER t_aler_id 
 BEFORE INSERT ON alergie 
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_alergie is null) then 
     SELECT s_aler.nextval 
@@ -86,9 +86,9 @@ END;
 
 CREATE OR REPLACE TRIGGER t_omez_id 
 BEFORE INSERT ON dietni_omezeni
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
-    if(:new.id_omez is null) then 
+    if(:new.id_omezeni is null) then 
     SELECT s_omez.nextval 
     INTO :new.id_omezeni
     FROM dual; 
@@ -98,11 +98,35 @@ END;
 
 CREATE OR REPLACE TRIGGER t_sloz_id 
 BEFORE INSERT ON slozky
-REFERENCING NEW AS NEW FOR EACH ROW 
+FOR EACH ROW 
 BEGIN  
     if(:new.id_slozka is null) then 
     SELECT s_sloz.nextval 
     INTO :new.id_slozka
+    FROM dual; 
+  end if; 
+END; 
+
+
+CREATE OR REPLACE TRIGGER t_soub_id 
+BEFORE INSERT ON soubory
+FOR EACH ROW 
+BEGIN  
+    if(:new.id_soubor is null) then 
+    SELECT s_soub.nextval 
+    INTO :new.id_soubor
+    FROM dual; 
+  end if; 
+END; 
+
+
+CREATE OR REPLACE TRIGGER t_log_id 
+BEFORE INSERT ON logy
+FOR EACH ROW 
+BEGIN  
+    if(:new.id_log is null) then 
+    SELECT s_log.nextval 
+    INTO :new.id_log
     FROM dual; 
   end if; 
 END; 
