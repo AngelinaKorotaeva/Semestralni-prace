@@ -247,3 +247,18 @@ BEGIN
 END;
 
 6 - Automatické mazání starých neuhrazených objednávek ??
+
+
+
+ Идея: Триггер на таблицу platby
+
+Если ты хочешь, чтобы обновление баланса происходило автоматически, можно вообще добавить триггер:
+
+CREATE OR REPLACE TRIGGER trg_update_zustatek
+AFTER INSERT ON platby
+FOR EACH ROW
+BEGIN
+    UPDATE stravnici
+    SET zustatek = zustatek + :NEW.castka
+    WHERE id_stravnik = :NEW.id_stravnik;
+END;
