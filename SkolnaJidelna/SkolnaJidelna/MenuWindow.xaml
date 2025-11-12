@@ -1,0 +1,130 @@
+﻿<Window x:Class="SkolniJidelna.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Menu - Školní jídelna" Height="800" Width="1200"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая панель: фильтры -->
+        <Grid Grid.Column="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF6B9E" Offset="0"/>
+                    <GradientStop Color="#FF8B5E" Offset="0.5"/>
+                    <GradientStop Color="#FFB66E" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Canvas>
+                <Ellipse Width="150" Height="150" Fill="#30FFFFFF" Canvas.Left="-50" Canvas.Top="100"/>
+                <Ellipse Width="200" Height="200" Fill="#20FFFFFF" Canvas.Left="200" Canvas.Top="400"/>
+            </Canvas>
+
+            <StackPanel VerticalAlignment="Center" Margin="40" Panel.ZIndex="1">
+                <!-- Лого -->
+                <Border Background="White" CornerRadius="35" Width="100" Height="100" HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="25" ShadowDepth="8" Opacity="0.4" Color="Black"/>
+                    </Border.Effect>
+                    <Viewbox Width="60" Height="60">
+                        <TextBlock Text="🍽️" FontSize="50"/>
+                    </Viewbox>
+                </Border>
+
+                <TextBlock Text="Filtry menu" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+
+                <!-- Фильтр по типу меню -->
+                <TextBlock Text="Typ menu" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <ComboBox x:Name="comboTypMenu" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20">
+                    <ComboBoxItem Content="Vše"/>
+                    <ComboBoxItem Content="SNIDANE"/>
+                    <ComboBoxItem Content="OBED"/>
+                </ComboBox>
+
+                <!-- Фильтр по неделе -->
+                <TextBlock Text="Týden" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <ComboBox x:Name="comboTyden" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,30">
+                    <ComboBoxItem Content="Vše"/>
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                </ComboBox>
+
+                <!-- Кнопки -->
+                <Button Content="Filtrovat" Style="{StaticResource LightButton}" Margin="0,0,0,20" Click="FilterButton_Click"/>
+                <Button Content="Zpět do profilu" Style="{StaticResource LightButton}" Click="BackButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Правая панель: список блюд -->
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FFF5F8" Offset="0"/>
+                    <GradientStop Color="#FFF9F0" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Canvas>
+                <Ellipse Width="120" Height="120" Fill="#FFE5B430" Canvas.Right="50" Canvas.Top="80"/>
+                <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="200" Canvas.Top="500"/>
+            </Canvas>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
+                <StackPanel VerticalAlignment="Top" Margin="70,40" Panel.ZIndex="1">
+                    <TextBlock Text="Aktuální menu" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#FF6B9E" Offset="0"/>
+                                <GradientStop Color="#FF8B5E" Offset="1"/>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+
+                    <!-- Список блюд -->
+                    <ItemsControl x:Name="itemsControlJidla" Margin="0,0,0,20">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="15" Background="White" Padding="20" Margin="0,0,0,15">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                                    </Border.Effect>
+                                    <!-- Триггер для подсветки блюд с ограничениями -->
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                                    <Setter Property="Background">
+                                                        <Setter.Value>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                <GradientStop Color="#FFF5A623" Offset="0"/>
+                                                                <GradientStop Color="#FFFFD700" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Nazev}" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Popis}" FontSize="14" Foreground="#757575" Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Kategorie}" FontSize="14" Foreground="#999999" Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Cena, StringFormat='Cena: {0} Kč'}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                        <TextBlock Text="Složky:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                        <TextBlock Text="{Binding SlozkyText}" FontSize="12" Foreground="#666666"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
