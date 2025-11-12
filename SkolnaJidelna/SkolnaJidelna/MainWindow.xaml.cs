@@ -46,21 +46,21 @@ namespace SkolniJidelna
             }
         }
 
-        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        private  void LoginButton_Click(object sender, RoutedEventArgs e) // async
         {
-            string username = textBoxLogin.Text.Trim();
-            string password = passwordBox.Password;
+            //string username = textBoxLogin.Text.Trim();
+            //string password = passwordBox.Password;
 
-            if (string.IsNullOrEmpty(username) || username == "Uživatelské jméno" || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Prosím vyplňte všechny údaje", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            //if (string.IsNullOrEmpty(username) || username == "Uživatelské jméno" || string.IsNullOrEmpty(password))
+            //{
+            //    MessageBox.Show("Prosím vyplňte všechny údaje", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    return;
+            //}
 
-            using (var context = new AppDbContext())
-            {
-                try
-                {
+            //using (var context = new AppDbContext())
+            //{
+            //    try
+            //    {
                     // Проверка для работников
                     //var worker = await context.Pracovnik.FirstOrDefaultAsync(p => p.Login == username);
                     //if (worker != null && BCrypt.Verify(password, worker.Heslo))
@@ -86,13 +86,13 @@ namespace SkolniJidelna
                     //}
 
                     // Если не найдено
-                    MessageBox.Show("Nesprávné uživatelské jméno nebo heslo", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Chyba při přihlašování: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            //        MessageBox.Show("Nesprávné uživatelské jméno nebo heslo", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show($"Chyba při přihlašování: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
+            //}
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)

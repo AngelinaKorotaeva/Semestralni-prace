@@ -23,5 +23,15 @@ namespace SkolniJidelna
         {
             InitializeComponent();
         }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

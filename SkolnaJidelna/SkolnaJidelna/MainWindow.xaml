@@ -15,7 +15,7 @@
             <Grid.Background>
                 <StaticResource ResourceKey="BackgroundGradient"/>
             </Grid.Background>
-            
+
             <Canvas>
                 <Ellipse Width="150" Height="150" Fill="#30FFFFFF" Canvas.Left="-50" Canvas.Top="100"/>
                 <Ellipse Width="200" Height="200" Fill="#20FFFFFF" Canvas.Left="200" Canvas.Top="400"/>
@@ -65,18 +65,14 @@
                 <Border Style="{StaticResource InfoCard}" Margin="0,0,0,15">
                     <StackPanel>
                         <TextBlock Text="Otevírací doba:" 
-                                 Foreground="CadetBlue" 
+                                 Foreground="White" 
                                  FontSize="18" 
                                  FontWeight="Bold"
-                                 Margin="0,0,0,5"/>
-                        <TextBlock Foreground="CadetBlue" 
+                                 />
+                        <TextBlock Foreground="White" 
                                  FontSize="15" 
                                  Opacity="0.95"
-                                 LineHeight="20">
-                            <Run Text="Po - Pá: 7:00 - 14:00"/>
-                            <LineBreak/>
-                            <Run Text="Víkend: Zavřeno"/>
-                        </TextBlock>
+                                 LineHeight="20"><Run Text="Po - Pá: 7:00 - 14:00"/><LineBreak/><Run Text="Víkend: Zavřeno"/></TextBlock>
                     </StackPanel>
                 </Border>
 
@@ -85,11 +81,11 @@
                 <Border Style="{StaticResource InfoCard}" Margin="0,0,0,5">
                     <StackPanel>
                         <TextBlock Text="Adresa:" 
-                                 Foreground="CadetBlue" 
+                                 Foreground="White" 
                                  FontSize="18" 
                                  FontWeight="Bold"
                                  Margin="0,0,0,5"/>
-                        <TextBlock Foreground="CadetBlue" 
+                        <TextBlock Foreground="White" 
                                  FontSize="15" 
                                  Opacity="0.95"
                                  LineHeight="22"
@@ -175,7 +171,7 @@
 
 
                 <!-- Пароль -->
-                <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                <Border CornerRadius="15" Background="AntiqueWhite" Padding="5" Margin="0,0,0,8">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
                     </Border.Effect>

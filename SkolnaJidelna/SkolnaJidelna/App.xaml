@@ -10,6 +10,8 @@
         <SolidColorBrush x:Key="DarkTextColor" Color="#4A4A4A"/>
         <SolidColorBrush x:Key="GrayTextColor" Color="#757575"/>
         <SolidColorBrush x:Key="LightGrayColor" Color="#999999"/>
+        <SolidColorBrush x:Key="VividOchraColor" Color="#FFE5B430"/>
+        <SolidColorBrush x:Key="VividYellowColor" Color="#FFB6D930"/>
 
         <!-- Градиенты -->
         <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,0">
@@ -26,6 +28,11 @@
         <LinearGradientBrush x:Key="LightBackgroundGradient" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#FFF5F8" Offset="0"/>
             <GradientStop Color="#FFF9F0" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="LeftSideGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFF5A623" Offset="0"/>
+            <GradientStop Color="#FFB6D930" Offset="1"/>
         </LinearGradientBrush>
 
         <!-- Текстфилды -->
@@ -264,8 +271,8 @@
                     <Setter Property="Background">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#FFD6E9" Offset="0"/>
-                                <GradientStop Color="#D4F7FF" Offset="1"/>
+                                <GradientStop Color="#FFE5B430" Offset="0"/>
+                                <GradientStop Color="#FFB6D930" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -274,8 +281,8 @@
                     <Setter Property="Background">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#FF96B9" Offset="0"/>
-                                <GradientStop Color="#94C7EF" Offset="1"/>
+                                <GradientStop Color="#FFE5B430" Offset="0"/>
+                                <GradientStop Color="#FFB6D930" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -283,11 +290,49 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="SecondaryLightButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Padding" Value="30,16"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryGradient}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryGradient}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="25" 
+                        Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFF0F5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- Поля с информацией -->
         <Style x:Key="InfoCard" TargetType="Border">
-            <Setter Property="Background" Value="#FFFF40"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.5">
+                        <GradientStop Color="#FFF5A623" Offset="0"/>
+                        <GradientStop Color="#FFB6D930" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="Padding" Value="20,15"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#FFFFFF80"/>
         </Style>
     </Application.Resources>
 </Application>

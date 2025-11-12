@@ -23,5 +23,20 @@ namespace SkolniJidelna
         {
             InitializeComponent();
         }
+
+        private void FilterChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void OrderSelected(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

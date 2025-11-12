@@ -23,5 +23,35 @@ namespace SkolniJidelna
         {
             InitializeComponent();
         }
+
+        private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ViewMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OrderHistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+            
     }
 }

@@ -23,5 +23,40 @@ namespace SkolniJidelna
         {
             InitializeComponent();
         }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void comboTypMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void textBoxPoznamka_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddToOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveFromOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
