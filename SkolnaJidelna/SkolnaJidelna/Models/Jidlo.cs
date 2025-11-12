@@ -8,17 +8,17 @@ namespace SkolnaJidelna.Models
 {
     public class Jidlo
     {
-        private int IdJidlo { get; set; }
-        public string Nazev {  get; set; }
-        public string Popis {  get; set; }
-        public string Kategorie { get; set; }
-        public int Cena { get; set; }
-        public string Poznamka { get; set; } = null;
+        public int IdJidlo { get; set; }
+        public string Nazev { get; set; } = null!;
+        public string Popis { get; set; } = null!;
+        public string Kategorie { get; set; } = null!;
+        public double Cena { get; set; }
+        public string? Poznamka { get; set; }
 
-        public int IdMenu {  get; set; }
-        public Menu Menu { get; set; }
+        public int? IdMenu { get; set; }
+        public Menu? Menu { get; set; }
 
-        public ICollection<Polozka> Polozky { get; set; }
-        public ICollection<SlozkaJidlo> SlozkaJidlo { get; set; }
+        public ICollection<Polozka>? Polozky { get; set; }
+        public ICollection<SlozkaJidlo>? SlozkyJidla { get; set; }
     }
 }

@@ -8,8 +8,9 @@ namespace SkolnaJidelna.Models
 {
     public class Trida
     {
-        private int IdTrida {  get; set; }
+        public int IdTrida { get; set; }
         public int CisloTridy { get; set; }
+
         public ICollection<Student>? Studenti { get; set; }
     }
 }

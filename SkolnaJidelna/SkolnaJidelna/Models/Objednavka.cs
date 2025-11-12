@@ -8,11 +8,17 @@ namespace SkolnaJidelna.Models
 {
     public class Objednavka
     {
-        private int IdObjednavka {  get; set; }
+        public int IdObjednavka { get; set; }
         public DateTime Datum { get; set; }
-        public int CelkovaCena { get; set; }
+        public double CelkovaCena { get; set; }
         public string? Poznamka { get; set; }
 
-        public ICollection<Polozka> Polozky { get; set; }
+        public int IdStav { get; set; }
+        public Stav Stav { get; set; } = null!;
+
+        public int IdStravnik { get; set; }
+        public Stravnik Stravnik { get; set; } = null!;
+
+        public ICollection<Polozka>? Polozky { get; set; }
     }
 }

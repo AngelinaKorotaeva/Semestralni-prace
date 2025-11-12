@@ -8,10 +8,11 @@ namespace SkolnaJidelna.Models
 {
     public class Adresa
     {
-        private int IdAdresa {  get; set; }
-        public int PSC {  get; set; }
-        public string Obec {  get; set; }
-        public string Ulice { get; set; }
+        public int IdAdresa { get; set; }
+        public int Psc { get; set; }
+        public string Obec { get; set; } = null!;
+        public string Ulice { get; set; } = null!;
+
         public ICollection<Stravnik>? Stravnici { get; set; }
     }
 }

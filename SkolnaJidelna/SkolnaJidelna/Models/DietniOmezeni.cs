@@ -8,10 +8,10 @@ namespace SkolnaJidelna.Models
 {
     public class DietniOmezeni
     {
-        private int IdOmezeni {  get; set; }
-        public string Nazev {  get; set; }
-        public string Popsani {  get; set; }
+        public int IdOmezeni { get; set; }
+        public string Nazev { get; set; } = null!;
+        public string Popis { get; set; } = null!;
 
-        public ICollection<OmezeniStravnik> OmezeniStravniky { get; set; }
+        public ICollection<StravnikOmezeni>? StravniciOmezeni { get; set; }
     }
 }

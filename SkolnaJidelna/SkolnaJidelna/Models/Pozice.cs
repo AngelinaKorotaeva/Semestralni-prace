@@ -8,8 +8,9 @@ namespace SkolnaJidelna.Models
 {
     public class Pozice
     {
-        private int IdPozice {  get; set; }
-        public string Nazev {  get; set; }
-        public ICollection<Pracovnik> Pracovnici { get; set; }
+        public int IdPozice { get; set; }
+        public string Nazev { get; set; } = null!;
+
+        public ICollection<Pracovnik>? Pracovnici { get; set; }
     }
 }

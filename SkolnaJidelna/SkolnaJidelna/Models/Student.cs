@@ -8,8 +8,11 @@ namespace SkolnaJidelna.Models
 {
     public class Student : Stravnik
     {
-        public DateOnly datum_narozeniny {  get; set; }
+        //public int IdStravnik { get; set; }
+        public DateTime DatumNarozeni { get; set; }
+
         public int IdTrida { get; set; }
-        public Trida Trida { get; set; }
+        public Trida Trida { get; set; } = null!;
+        public Stravnik Stravnik { get; set; } = null!;
     }
 }

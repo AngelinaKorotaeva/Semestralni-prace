@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using SkolnaJidelna.Models;
 
@@ -11,15 +13,28 @@ namespace SkolnaJidelna.Data
 {
     public class AppDbContext : DbContext
     {
+
+        private readonly IConfiguration _configuration;
+
+        public AppDbContext()
+        {
+        }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
+            : base(options)
+        {
+            _configuration = configuration;
+        }
+
         public DbSet<Adresa> Adresa { get; set; }
         public DbSet<Alergie> Alergie { get; set; }
-        public DbSet<AlergieStravnik> AlergieStravnik { get; set; }
+        public DbSet<StravnikAlergie> StravnikAlergie { get; set; }
         public DbSet<DietniOmezeni> DietniOmezeni { get; set; }
         public DbSet<Jidlo> Jidlo { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Objednavka> Objednavka { get; set; }
-        public DbSet<OmezeniStravnik> OmezeniStravnik { get; set; }
+        public DbSet<StravnikOmezeni> StravnikOmezeni { get; set; }
         public DbSet<Platba> Platba { get; set; }
         public DbSet<Polozka> Polozka { get; set; }
         public DbSet<Pozice> Pozice { get; set; }
@@ -33,6 +48,16 @@ namespace SkolnaJidelna.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
+
+                var connectionString = configuration.GetConnectionString("OracleDb");
+                optionsBuilder.UseOracle(connectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,11 +65,11 @@ namespace SkolnaJidelna.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Adresa>().ToTable("ADRESY");
-            modelBuilder.Entity<AlergieStravnik>().ToTable("ALERGIE_STRAVNICI");
+            modelBuilder.Entity<StravnikAlergie>().ToTable("ALERGIE_STRAVNICI");
             modelBuilder.Entity<Jidlo>().ToTable("JIDLA");
             modelBuilder.Entity<Log>().ToTable("LOGY");
             modelBuilder.Entity<Objednavka>().ToTable("OBJEDNAVKY");
-            modelBuilder.Entity<OmezeniStravnik>().ToTable("OMEZENI_STRAVNICI");
+            modelBuilder.Entity<StravnikOmezeni>().ToTable("OMEZENI_STRAVNICI");
             modelBuilder.Entity<Platba>().ToTable("PLATBY");
             modelBuilder.Entity<Polozka>().ToTable("POLOZKY");
             modelBuilder.Entity<Pracovnik>().ToTable("PRACOVNICI");

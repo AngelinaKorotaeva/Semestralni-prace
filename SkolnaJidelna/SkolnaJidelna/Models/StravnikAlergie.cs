@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SkolnaJidelna.Models
 {
-    public class AlergieStravnik
+    public class StravnikAlergie
     {
         public int IdStravnik { get; set; }
-        public int IdAlergie {  get; set; }
+        public int IdAlergie { get; set; }
 
-        public Stravnik Stravnik { get; set; }
-        public Alergie Alergie { get; set; }
+        public Stravnik Stravnik { get; set; } = null!;
+        public Alergie Alergie { get; set; } = null!;
     }
 }

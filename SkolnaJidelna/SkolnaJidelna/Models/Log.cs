@@ -8,11 +8,11 @@ namespace SkolnaJidelna.Models
 {
     public class Log
     {
-        private int IdLog {  get; set; }
-        private string Tabulka { get; set; }
-        private int IdZaznam { get; set; }
-        private string Akce { get; set; }
-        private DateOnly DatumCas {  get; set; }
-        private string? Detail {  get; set; }
+        public int IdLog { get; set; }
+        public string Tabulka { get; set; } = null!;
+        public int IdZaznam { get; set; }
+        public string Akce { get; set; } = null!;
+        public DateTime DatumCas { get; set; }
+        public string? Detail { get; set; }
     }
 }

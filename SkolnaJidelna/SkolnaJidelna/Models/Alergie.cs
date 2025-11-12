@@ -9,10 +9,10 @@ namespace SkolnaJidelna.Models
 {
     public class Alergie
     {
-        private int IdAlergie {  get; set; }
-        public string Nazev {  get; set; }
-        public string product { get; set; }
+        public int IdAlergie { get; set; }
+        public string Nazev { get; set; } = null!;
+        public string Produkt { get; set; } = null!;
 
-        public ICollection<AlergieStravnik> AlergieStravniky { get; set; }
+        public ICollection<StravnikAlergie>? StravniciAlergie { get; set; }
     }
 }

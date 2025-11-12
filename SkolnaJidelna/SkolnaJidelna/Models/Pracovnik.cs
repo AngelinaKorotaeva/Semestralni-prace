@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace SkolnaJidelna.Models
 {
-    public class Pracovnik
+    public class Pracovnik : Stravnik
     {
-        public int Telefon {  get; set; }
+        //public int IdStravnik { get; set; }
+        public int Telefon { get; set; }
+
         public int IdPozice { get; set; }
-        public Pozice Pozice { get; set; }
+        public Pozice Pozice { get; set; } = null!;
+        public Stravnik Stravnik { get; set; } = null!;
     }
 }

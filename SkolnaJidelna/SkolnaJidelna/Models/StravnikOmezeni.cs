@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SkolnaJidelna.Models
 {
-    public class OmezeniStravnik
+    public class StravnikOmezeni
     {
         public int IdStravnik { get; set; }
-        public int IdOmezeni {  get; set; }
+        public int IdOmezeni { get; set; }
 
-        public Stravnik Stravnik { get; set; }
-        public DietniOmezeni DietniOmezeni { get; set; }
+        public Stravnik Stravnik { get; set; } = null!;
+        public DietniOmezeni DietniOmezeni { get; set; } = null!;
     }
 }

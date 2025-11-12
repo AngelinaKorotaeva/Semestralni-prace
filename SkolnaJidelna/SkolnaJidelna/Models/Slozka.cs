@@ -8,11 +8,11 @@ namespace SkolnaJidelna.Models
 {
     public class Slozka
     {
-        private int IdSlozka {  get; set; }
-        public string Nazev {  get; set; }
-        public string MernaJednotka { get; set; }
+        public int IdSlozka { get; set; }
+        public string Nazev { get; set; } = null!;
+        public string MernaJednotka { get; set; } = null!;
         public DateTime DatumPlatnosti { get; set; }
 
-        public ICollection<SlozkaJidlo> SlozkaJidlos { get; set; }
+        public ICollection<SlozkaJidlo>? SlozkyJidla { get; set; }
     }
 }

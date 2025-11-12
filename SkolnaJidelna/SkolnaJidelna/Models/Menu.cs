@@ -8,11 +8,12 @@ namespace SkolnaJidelna.Models
 {
     public class Menu
     {
-        private int IdMenu {  get; set; }
-        public string Nazev {  get; set; }
-        public string TypMenu { get; set; }
-        public TimeOnly TimeOd { get; set; }
-        public TimeOnly TimeDo { get; set; }
-        public ICollection<Jidlo> Jidla { get; set; }
+        public int IdMenu { get; set; }
+        public string Nazev { get; set; } = null!;
+        public string TypMenu { get; set; } = null!;
+        public DateTime TimeOd { get; set; }
+        public DateTime TimeDo { get; set; }
+
+        public ICollection<Jidlo>? Jidla { get; set; }
     }
 }

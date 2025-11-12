@@ -10,11 +10,10 @@ namespace SkolnaJidelna.Models
     {
         public int IdJidlo { get; set; }
         public int IdSlozka { get; set; }
+        public int Mnozstvi { get; set; }
+        public string? Poznamka { get; set; }
 
-        public int Mnozstvi {  get; set; }
-        public string Poznamka { get; set; } = null;
-
-        public Jidlo Jidlo { get; set; }
-        public Slozka Slozka { get; set; }
+        public Jidlo Jidlo { get; set; } = null!;
+        public Slozka Slozka { get; set; } = null!;
     }
 }

@@ -9,9 +9,12 @@ namespace SkolnaJidelna.Models
 {
     public class Platba
     {
-        private int IdPlatba {  get; set; }
+        public int IdPlatba { get; set; }
         public DateTime Datum { get; set; }
-        public int Castka { get; set; }
-        public string Metoda { get; set; }
+        public double Castka { get; set; }
+        public string Metoda { get; set; } = null!;
+
+        public int IdStravnik { get; set; }
+        public Stravnik Stravnik { get; set; } = null!;
     }
 }
