@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkolnaJidelna.Models;
-
+using SkolniJidelna.Models;
 namespace SkolniJidelna.Models
 {
     public class Soubor

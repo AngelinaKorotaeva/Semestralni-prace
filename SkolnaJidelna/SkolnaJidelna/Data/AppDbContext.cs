@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
-using SkolnaJidelna.Models;
+using SkolniJidelna.Models;
 
-namespace SkolnaJidelna.Data
+namespace SkolniJidelna.Data
 {
     public class AppDbContext : DbContext
     {

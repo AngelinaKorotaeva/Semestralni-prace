@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "rO931Y+EjBg=",
+  "dgSpecHash": "7WVIqNGShcI=",
   "success": true,
   "projectFilePath": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolniJidelna.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Ангелина\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Ангелина\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\Ангелина\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Ангелина\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.0\\microsoft.entityframeworkcore.analyzers.9.0.0.nupkg.sha512",
