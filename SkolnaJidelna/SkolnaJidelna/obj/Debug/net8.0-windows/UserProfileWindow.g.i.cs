@@ -132,7 +132,7 @@ namespace SkolniJidelna {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;component/userprofilewindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;V1.0.0.0;component/userprofilewindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\UserProfileWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

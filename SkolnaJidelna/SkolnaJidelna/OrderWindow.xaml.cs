@@ -19,9 +19,12 @@ namespace SkolniJidelna
     /// </summary>
     public partial class OrderWindow : Window
     {
-        public OrderWindow()
+        private string Email;
+        public OrderWindow(string email)
         {
             InitializeComponent();
+
+            this.Email = email;
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)

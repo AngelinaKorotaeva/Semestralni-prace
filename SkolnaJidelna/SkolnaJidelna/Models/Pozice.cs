@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkolnaJidelna.Models
+namespace SkolniJidelna.Models
 {
     public class Pozice
     {

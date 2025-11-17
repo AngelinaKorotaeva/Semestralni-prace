@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkolnaJidelna.Models
+namespace SkolniJidelna.Models
 {
-    public class Pracovnik : Stravnik
+    public class Pracovnik
     {
-        //public int IdStravnik { get; set; }
+        public int IdStravnik { get; set; }
         public int Telefon { get; set; }
 
         public int IdPozice { get; set; }

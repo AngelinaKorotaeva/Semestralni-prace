@@ -76,7 +76,7 @@ namespace SkolniJidelna {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;component/menuwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;V1.0.0.0;component/menuwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\MenuWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

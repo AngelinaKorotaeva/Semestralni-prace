@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\App.xaml
-6-1712933964
+81141828227
 
-321112973579
-220-383076489
-LoginWindow.xaml;MainWindow.xaml;MenuWindow.xaml;OrderHistoryWindow.xaml;OrderWindow.xaml;UserProfileWindow.xaml;
+331669205887
+221-497139404
+AdminPanel.xaml;AdminProfileWindow.xaml;LoginWindow.xaml;MainWindow.xaml;MenuWindow.xaml;OrderHistoryWindow.xaml;OrderWindow.xaml;UserProfileWindow.xaml;
 
 False
 

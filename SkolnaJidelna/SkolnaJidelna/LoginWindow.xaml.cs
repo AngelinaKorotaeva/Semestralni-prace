@@ -1,8 +1,8 @@
 ﻿//using BCrypt.Net; // Добавь NuGet-пакет BCrypt.Net-Next для хэширования паролей
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
-using SkolnaJidelna.Data;
-using SkolnaJidelna.Models;
+using SkolniJidelna.Data;
+using SkolniJidelna.Models;
 using System;
 using System.IO;
 using System.Linq;

@@ -19,9 +19,12 @@ namespace SkolniJidelna
     /// </summary>
     public partial class OrderHistoryWindow : Window
     {
-        public OrderHistoryWindow()
+        private string Email;
+        public OrderHistoryWindow(string email)
         {
             InitializeComponent();
+
+            this.Email = email;
         }
 
         private void FilterChanged(object sender, SelectionChangedEventArgs e)
