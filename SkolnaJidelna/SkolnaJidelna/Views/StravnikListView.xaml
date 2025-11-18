@@ -1,0 +1,14 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SkolniJidelna.ViewModels"
+             x:Class="SkolniJidelna.Views.StravnikListView">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Stravnici}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding IdStravnik}" />
+                <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

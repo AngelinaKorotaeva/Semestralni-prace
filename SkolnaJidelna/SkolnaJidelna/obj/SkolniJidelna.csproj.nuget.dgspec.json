@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[10.0.0, )"
             },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
             "Oracle.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.23.26000, )"

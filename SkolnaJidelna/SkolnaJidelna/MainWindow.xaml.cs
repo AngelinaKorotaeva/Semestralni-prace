@@ -1,13 +1,12 @@
-﻿//using BCrypt.Net; // Надо добавить NuGet-пакет BCrypt.Net-Next для проверки хэшированных паролей (?)
+﻿using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using SkolniJidelna.Data;
 using System;
 using System.Linq;
 using System.Security.Policy;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using SkolniJidelna.Data;
 using SkolniJidelna.Models;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -63,7 +62,7 @@ namespace SkolniJidelna
             {
                 try
                 {
-                    // 🔹 Вход — pracovník
+                    // 🔹 Вход — рабочий / pracovník
                     var stravnikPR = await context.Stravnik
                         .FirstOrDefaultAsync(s => s.Email == username);
 
@@ -103,6 +102,15 @@ namespace SkolniJidelna
                                     "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        // Přidáno: obslužná metoda pro tlačítko registrace, aby XAML kompiloval.
+        // Zde můžete otevřít vlastní registrační okno (pokud existuje), např.:
+        // var reg = new RegisterWindow(); reg.Show();
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Registrace není zatím implementována. Přidejte okno registrace nebo odkomentujte otevření existujícího registračního okna.",
+                            "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

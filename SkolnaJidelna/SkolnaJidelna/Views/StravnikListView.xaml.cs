@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SkolniJidelna
+namespace SkolniJidelna.Views
 {
     /// <summary>
-    /// Interakční logika pro AdminPanel.xaml
+    /// Interakční logika pro StravnikListView.xaml
     /// </summary>
-    public partial class AdminPanel : Window
+    public partial class StravnikListView : UserControl
     {
-        public AdminPanel()
+        public StravnikListView()
         {
             InitializeComponent();
         }
