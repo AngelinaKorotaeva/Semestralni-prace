@@ -79,6 +79,18 @@ namespace SkolniJidelna.Data
             modelBuilder.Entity<Stravnik>().ToTable("STRAVNICI");
             modelBuilder.Entity<Student>().ToTable("STUDENTI");
             modelBuilder.Entity<Trida>().ToTable("TRIDY");
+
+            modelBuilder.Entity<Polozka>()
+                .HasKey(p => new { p.IdJidlo, p.IdObjednavka });
+
+            modelBuilder.Entity<SlozkaJidlo>()
+                .HasKey(sj => new { sj.IdJidlo, sj.IdSlozka });
+
+            modelBuilder.Entity<StravnikAlergie>()
+                .HasKey(sa => new { sa.IdStravnik, sa.IdAlergie });
+
+            modelBuilder.Entity<StravnikOmezeni>()
+                .HasKey(so => new { so.IdStravnik, so.IdOmezeni });
         }
     }
 }
