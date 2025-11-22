@@ -5,6 +5,13 @@
         Title="Registrace - Školní jídelna" Height="900" Width="1100"
         WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <!-- Registrace konvertoru lokálně pro toto okno -->
+        <helpers:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <helpers:PathToImageConverter x:Key="PathToImageConverter" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -43,7 +50,7 @@
 
                 <TextBlock Text="Vyplňte základní údaje" FontSize="18" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" Opacity="0.95" Margin="0,0,0,20" FontWeight="SemiBold" LineHeight="28"/>
 
-                <!-- Имя -->
+                <!-- Jméno -->
                 <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,5">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
@@ -62,7 +69,9 @@
                             </Border.Background>
                             <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBox Grid.Column="1" x:Name="textBoxFirstName" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxFirstName" Style="{StaticResource TextBoxStyle}" 
+                                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                     </Grid>
                 </Border>
                 <TextBlock Text="Jméno" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
@@ -86,18 +95,20 @@
                             </Border.Background>
                             <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBox Grid.Column="1" x:Name="textBoxLastName" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxLastName" Style="{StaticResource TextBoxStyle}" 
+                                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                     </Grid>
                 </Border>
                 <TextBlock Text="Příjmení" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
 
-                <!-- Статус (pracovník/student) -->
+                <!-- Status (pracovník/student) -->
                 <TextBlock Text="Status" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,8"/>
                 <StackPanel Margin="0,0,0,20">
                     <RadioButton x:Name="radioWorker" Content="Pracovník" GroupName="Status" FontSize="16" 
-                                 Foreground="White" Margin="0,0,0,8" />
+                                 Foreground="White" Margin="0,0,0,8" IsChecked="{Binding IsWorker, Mode=TwoWay}" />
                     <RadioButton x:Name="radioStudent" Content="Student" GroupName="Status" FontSize="16" 
-                                 Foreground="White" />
+                                 Foreground="White" IsChecked="{Binding IsWorker, Converter={StaticResource InverseBoolConverter}, Mode=TwoWay}" />
                 </StackPanel>
 
                 <!-- Email -->
@@ -119,7 +130,9 @@
                             </Border.Background>
                             <TextBlock Text="📧" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBox Grid.Column="1" x:Name="textBoxEmail" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxEmail" Style="{StaticResource TextBoxStyle}" 
+                                 Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                     </Grid>
                 </Border>
                 <TextBlock Text="Email (bude použit jako login)" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
@@ -143,7 +156,9 @@
                             </Border.Background>
                             <TextBlock Text="🏠" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBox Grid.Column="1" x:Name="textBoxAdresa" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxAdresa" Style="{StaticResource TextBoxStyle}" 
+                                 
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                     </Grid>
                 </Border>
                 <TextBlock Text="Adresa (00000, Ulice 0, Město)" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
@@ -167,7 +182,7 @@
             </Canvas>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
-                <StackPanel VerticalAlignment="Center" Margin="70,40" Panel.ZIndex="1">
+                <StackPanel VerticalAlignment="Center" Margin="50,20" Panel.ZIndex="1">
                     <TextBlock Text="Registrace" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -177,14 +192,19 @@
                         </TextBlock.Foreground>
                     </TextBlock>
 
-                    <TextBlock Text="Vyplňte zbývající údaje" FontSize="16" Foreground="#757575" TextAlignment="Center" Margin="0,0,0,30" FontWeight="SemiBold"/>
+                    <TextBlock Text="Vyplňte zbývající údaje" FontSize="16" Foreground="#757575" 
+                               TextAlignment="Center" Margin="0,0,0,30" FontWeight="SemiBold"/>
 
                     <!-- Поля только для работника (телефон и выбор позиции) -->
-                    <StackPanel x:Name="workerFields" Visibility="Collapsed">
-                        <TextBlock Text="Pozice" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                        <ComboBox x:Name="comboPosition" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,15"/>
-                        <TextBlock Text="Telefon" FontSize="13" Foreground="#999999" Margin="20,5,0,5"/>
-                        <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,8">
+                    <StackPanel x:Name="workerFields" Visibility="{Binding IsWorker, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="Pozice" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <ComboBox x:Name="comboPosition" Style="{StaticResource ComboBoxStyle}"
+                            Margin="0,0,0,15" ItemsSource="{Binding Positions}"
+                            SelectedValue="{Binding PositionId, Mode=TwoWay}"
+                            SelectedValuePath="IdPozice" DisplayMemberPath="Nazev" IsEditable="False" />
+                        
+                        <TextBlock Text="Telefon" FontSize="13" Foreground="#999999" Margin="10,5,0,5"/>
+                        <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,5">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
                             </Border.Effect>
@@ -193,7 +213,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="12" Margin="5">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="#B4E7FF" Offset="0"/>
@@ -202,22 +222,50 @@
                                     </Border.Background>
                                     <TextBlock Text="📞" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBox Grid.Column="1" x:Name="textBoxPhone" Style="{StaticResource TextBoxStyle}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                <TextBox Grid.Column="1" x:Name="textBoxPhone" Style="{StaticResource TextBoxStyle}" 
+                                         Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
+                                         BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                             </Grid>
                         </Border>
                     </StackPanel>
 
-                    <!-- Поля только для студента (выбор класса) -->
-                    <StackPanel x:Name="studentFields" Visibility="Collapsed">
-                        <TextBlock Text="Třída" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <!-- Student fields (výběr třídy + rok narození) -->
+                    <StackPanel x:Name="studentFields" 
+                                Visibility="{Binding IsStudent, Converter={StaticResource BoolToVis}}" >
+                        <TextBlock Text="Třída" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,8"/>
                         <ComboBox x:Name="comboClass" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Rok narození" FontSize="13" Foreground="#4A4A4A" Margin="0,0,0,6"/>
+                        <Border CornerRadius="12" Background="White" Padding="4" Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="8" Margin="4">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#B4E7FF" Offset="0"/>
+                                            <GradientStop Color="#6B9EFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="📅" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBox Grid.Column="1" x:Name="textBoxBirthYear"
+                                        Text="{Binding BirthYear, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource TextBoxStyle}" BorderThickness="0" 
+                                        Background="Transparent" VerticalAlignment="Center" Margin="6,0,10,0"/>
+                            </Grid>
+                        </Border>
                     </StackPanel>
 
                     <!-- Фото -->
-                    <TextBlock Text="Fotografie" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock Text="Fotografie" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,8"/>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <Button x:Name="btnSelectPhoto" Content="Vybrat fotografii" Style="{StaticResource SecondaryButton}" Padding="20,10" />
-                        <Image x:Name="imagePhoto" Width="80" Height="80" Margin="20,0,0,0" Stretch="UniformToFill"/>
+                        <Button x:Name="btnSelectPhoto" Content="Vybrat fotografii" 
+                                Command="{Binding SelectPhotoCommand}" Style="{StaticResource SecondaryButton}" Padding="15,10" />
+                        <Image x:Name="imagePhoto" Width="80" Height="80" Margin="20,0,0,0" Stretch="UniformToFill"
+                               Source="{Binding PhotoPath, Converter={StaticResource PathToImageConverter}}" />
                     </StackPanel>
 
                     <!-- Пароль -->
@@ -230,7 +278,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="12" Margin="5">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#B4E7FF" Offset="0"/>
@@ -257,7 +305,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="12" Margin="5">
+                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="12" Margin="5">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#B4E7FF" Offset="0"/>
@@ -272,11 +320,11 @@
                                          helpers:PasswordBoxAssistant.BoundPassword="{Binding ConfirmPassword, Mode=TwoWay}"/>
                         </Grid>
                     </Border>
-                    <TextBlock Text="Potvrzení hesla" FontSize="13" Foreground="#999999" Margin="20,5,0,15"/>
+                    <TextBlock Text="Potvrzení hesla" FontSize="13" Foreground="#999999" Margin="20,5,0,8"/>
 
                     <!-- Кнопки -->
-                    <Button Content="Registrovat" Style="{StaticResource PrimaryButton}" Margin="0,20,0,15" Command="{Binding RegisterCommand}"/>
-                    <Button Content="Zpět na přihlášení" Style="{StaticResource SecondaryButton}" Margin="0,0,0,20" Command="{Binding CancelCommand}"/>
+                    <Button Content="Registrovat" Style="{StaticResource PrimaryButton}" Margin="0,10,0,15" Command="{Binding RegisterCommand}"/>
+                    <Button Content="Zpět na přihlášení" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10" Command="{Binding CancelCommand}"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

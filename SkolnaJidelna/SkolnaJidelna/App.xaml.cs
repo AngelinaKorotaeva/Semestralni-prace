@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using SkolniJidelna.Data;
 using Microsoft.EntityFrameworkCore;
+using SkolniJidelna.Services;
 
 namespace SkolniJidelna;
 public partial class App : Application
@@ -29,6 +30,9 @@ public partial class App : Application
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseOracle(cfg.GetConnectionString("OracleDb")));
 
+                // Window/navigation service (register BEFORE LoginViewModel)
+                services.AddSingleton<IWindowService, WindowService>();
+
                 // ViewModels / Views
                 services.AddTransient<StravnikListViewModel>();
                 services.AddTransient<AdminViewModel>();
@@ -40,8 +44,8 @@ public partial class App : Application
 
                 // Views (okna) přes DI
                 services.AddSingleton<MainWindow>();
-                services.AddTransient<LoginWindow>(); // toto je registrační okno
-                // services.AddTransient<RegisterWindow>(); // <- ODSTRANĚNO protože takové okno není
+                services.AddTransient<LoginWindow>(); // registration window (accepts RegisterViewModel)
+                // services.AddTransient<RegisterWindow>(); // not present
             })
             .Build();
 
