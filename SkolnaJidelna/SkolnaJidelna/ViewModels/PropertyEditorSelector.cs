@@ -10,10 +10,6 @@ public class PropertyEditorSelector : DataTemplateSelector
     public DataTemplate? NumberTemplate { get; set; }
     public DataTemplate? DateTemplate { get; set; }
 
-    public PropertyEditorSelector()
-    {
-    }
-
     public override DataTemplate? SelectTemplate(object item, DependencyObject container)
     {
         if (item is not PropertyViewModel p) return base.SelectTemplate(item, container);
