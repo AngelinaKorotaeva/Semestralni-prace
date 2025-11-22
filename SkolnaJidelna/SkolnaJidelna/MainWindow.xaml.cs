@@ -14,39 +14,43 @@ public partial class MainWindow : Window
     {
         if (DataContext is LoginViewModel vm)
         {
-            vm.LoginFailed += msg => Dispatcher.Invoke(() => MessageBox.Show(this, msg, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error));
-            vm.LoginSucceeded += (email, isPracovnik) => Dispatcher.Invoke(() =>
+            // Показ ошибок в окне
+            vm.LoginFailed += msg => Dispatcher.Invoke(() =>
+                MessageBox.Show(this, msg, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error));
+
+            // На успешный вход VM навигирует через IWindowService; view просто закрывается/скрывается
+            vm.LoginSucceeded += (email, isPracovnik, isAdmin) => Dispatcher.Invoke(() =>
             {
-                var profile = App.Services.GetService(typeof(UserProfileWindow)) as Window;
-                if (profile != null)
-                {
-                    profile.Show();
-                }
-                else
-                {
-                    var p = new UserProfileWindow(email, isPracovnik);
-                    p.Show();
-                }
+                // VM уже открыл соответствующее окно через сервис, здесь просто закрываем главное (login) окно
                 this.Close();
             });
+
             vm.RegisterRequested += () => Dispatcher.Invoke(() =>
             {
-                var reg = App.Services.GetService(typeof(LoginWindow)) as Window;
-                if (reg == null)
+                // показать окно registrace (логика уже была в приложении; оставляем существующее поведение)
+                this.Hide();
+                try
                 {
-                    // fallback: vytvořit přes DI ViewModel
-                    var vmReg = App.Services.GetService(typeof(RegisterViewModel)) as RegisterViewModel;
-                    if (vmReg != null)
+                    var reg = App.Services.GetService(typeof(LoginWindow)) as Window;
+                    if (reg == null)
                     {
-                        var wnd = new LoginWindow(vmReg);
-                        wnd.Owner = this;
-                        wnd.ShowDialog();
+                        var vmReg = App.Services.GetService(typeof(RegisterViewModel)) as RegisterViewModel;
+                        if (vmReg != null)
+                        {
+                            var wnd = new LoginWindow(vmReg); // регистрационное окно используется как диалог в этом проекте
+                            wnd.Owner = this;
+                            wnd.ShowDialog();
+                        }
+                    }
+                    else
+                    {
+                        reg.Owner = this;
+                        reg.ShowDialog();
                     }
                 }
-                else
+                finally
                 {
-                    reg.Owner = this;
-                    reg.ShowDialog();
+                    this.Show();
                 }
             });
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using SkolniJidelna.Models;
@@ -56,12 +57,33 @@ namespace SkolniJidelna.Data
                     .Build();
 
                 var connectionString = configuration.GetConnectionString("OracleDb");
-                optionsBuilder.UseOracle(connectionString);
+
+                optionsBuilder
+                    .UseOracle(connectionString)
+                    .EnableSensitiveDataLogging()
+                    .LogTo(msg =>
+                    {
+                        var p = Path.Combine(AppContext.BaseDirectory, "ef-sql.log");
+                        File.AppendAllText(p, msg + Environment.NewLine);
+                        System.Diagnostics.Debug.WriteLine(msg);
+                    }, new[] { Microsoft.EntityFrameworkCore.DbLoggerCategory.Database.Command.Name });
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var boolToInt = new ValueConverter<bool, int>(
+               v => v ? 1 : 0,
+               v => v == 1);
+
+            foreach (var property in modelBuilder.Model
+                         .GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(bool)))
+            {
+                property.SetValueConverter(boolToInt);
+            }
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Adresa>().ToTable("ADRESY");
@@ -91,6 +113,11 @@ namespace SkolniJidelna.Data
 
             modelBuilder.Entity<StravnikOmezeni>()
                 .HasKey(so => new { so.IdStravnik, so.IdOmezeni });
+            modelBuilder.Entity<Stravnik>()
+                .Property(s => s.IdStravnik)
+                .HasColumnName("ID_STRAVNIK")
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("S_STR.NEXTVAL");
         }
     }
 }

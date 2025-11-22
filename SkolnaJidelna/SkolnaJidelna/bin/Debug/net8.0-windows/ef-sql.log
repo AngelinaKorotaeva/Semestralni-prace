@@ -1,0 +1,986 @@
+dbug: 22.11.2025 20:35:57.709 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:35:57.716 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).dbug: 22.11.2025 20:35:57.720 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:35:57.780 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (59ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:36:01.677 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:36:01.678 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:36:01.679 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:36:01.720 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (41ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:45:51.131 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:45:51.138 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).dbug: 22.11.2025 20:45:51.145 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:45:51.215 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (71ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:45:54.040 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:45:54.040 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:45:54.041 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:45:54.065 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (24ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:45:56.468 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:45:56.469 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:45:56.470 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:45:56.507 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:47:04.244 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:47:04.250 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).dbug: 22.11.2025 20:47:04.254 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:47:04.318 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (62ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:52:23.370 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:52:23.377 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (12ms).dbug: 22.11.2025 20:52:23.381 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:52:23.452 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (70ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:52:25.375 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:52:25.376 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:52:25.376 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:52:25.398 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:52:26.678 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:52:26.678 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:52:26.679 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:52:26.705 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:52:30.736 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:52:30.737 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:52:30.737 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:52:30.759 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:54:49.004 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:54:49.011 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).dbug: 22.11.2025 20:54:49.015 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:54:49.079 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (64ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:54:51.323 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:54:51.324 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:54:51.324 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:54:51.360 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:56:04.557 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:56:04.563 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).dbug: 22.11.2025 20:56:04.568 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:56:04.632 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (64ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 20:56:06.604 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.dbug: 22.11.2025 20:56:06.605 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).dbug: 22.11.2025 20:56:06.605 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALfail: 22.11.2025 20:56:06.639 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUALdbug: 22.11.2025 21:21:24.681 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:21:24.690 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (13ms).
+dbug: 22.11.2025 21:21:24.697 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:21:24.760 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (62ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:21:28.755 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:21:28.758 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:21:28.761 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:21:28.784 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "ADRESY" "a") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:26:09.559 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:09.570 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (14ms).
+dbug: 22.11.2025 21:26:09.577 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+info: 22.11.2025 21:26:09.640 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (62ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+dbug: 22.11.2025 21:26:09.653 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:09.661 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 14ms reading results.
+dbug: 22.11.2025 21:26:09.698 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:09.702 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:26:09.712 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+info: 22.11.2025 21:26:09.736 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (27ms) [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+dbug: 22.11.2025 21:26:09.740 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:09.742 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:26:09.747 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:09.749 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:26:09.755 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+info: 22.11.2025 21:26:09.767 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+dbug: 22.11.2025 21:26:09.770 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:09.772 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 1ms reading results.
+dbug: 22.11.2025 21:26:10.008 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:10.012 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 22.11.2025 21:26:10.015 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 21:26:10.029 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 21:26:10.033 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:10.035 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:26:13.149 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:13.151 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:26:13.154 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+info: 22.11.2025 21:26:13.166 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+dbug: 22.11.2025 21:26:13.168 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:13.170 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 1ms reading results.
+dbug: 22.11.2025 21:26:13.174 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:13.176 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:26:13.178 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+info: 22.11.2025 21:26:13.192 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (15ms) [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+dbug: 22.11.2025 21:26:13.195 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:13.197 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:26:13.199 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:13.201 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (1ms).
+dbug: 22.11.2025 21:26:13.203 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+info: 22.11.2025 21:26:13.215 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+dbug: 22.11.2025 21:26:13.218 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:13.220 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 1ms reading results.
+dbug: 22.11.2025 21:26:13.423 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:26:13.427 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:26:13.430 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 21:26:13.445 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 21:26:13.449 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:26:13.452 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:31:25.121 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.131 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (13ms).
+dbug: 22.11.2025 21:31:25.139 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+info: 22.11.2025 21:31:25.198 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (59ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+dbug: 22.11.2025 21:31:25.210 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.217 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 13ms reading results.
+dbug: 22.11.2025 21:31:25.328 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.332 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:31:25.342 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p0='Nezadáno' (Nullable = false) (Size = 2000), :p1='0', :p2='Nezadáno' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rADRESY_0" IS RECORD
+      (
+      "ID_ADRESA" NUMBER(10)
+      );
+      TYPE "tADRESY_0" IS TABLE OF "rADRESY_0";
+      "lADRESY_0" "tADRESY_0";
+      
+      BEGIN
+      
+      "lADRESY_0" := "tADRESY_0"();
+      "lADRESY_0".extend(1);
+      INSERT INTO "ADRESY" ("OBEC", "PSC", "ULICE")
+      VALUES (:p0, :p1, :p2)
+      RETURNING "ID_ADRESA" INTO "lADRESY_0"(1)."ID_ADRESA";
+      OPEN :cur0 FOR SELECT "lADRESY_0"(1)."ID_ADRESA" FROM DUAL;
+      
+      END;
+info: 22.11.2025 21:31:25.381 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (40ms) [Parameters=[:p0='Nezadáno' (Nullable = false) (Size = 2000), :p1='0', :p2='Nezadáno' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rADRESY_0" IS RECORD
+      (
+      "ID_ADRESA" NUMBER(10)
+      );
+      TYPE "tADRESY_0" IS TABLE OF "rADRESY_0";
+      "lADRESY_0" "tADRESY_0";
+      
+      BEGIN
+      
+      "lADRESY_0" := "tADRESY_0"();
+      "lADRESY_0".extend(1);
+      INSERT INTO "ADRESY" ("OBEC", "PSC", "ULICE")
+      VALUES (:p0, :p1, :p2)
+      RETURNING "ID_ADRESA" INTO "lADRESY_0"(1)."ID_ADRESA";
+      OPEN :cur0 FOR SELECT "lADRESY_0"(1)."ID_ADRESA" FROM DUAL;
+      
+      END;
+dbug: 22.11.2025 21:31:25.411 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.414 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 29ms reading results.
+dbug: 22.11.2025 21:31:25.469 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.472 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:31:25.475 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 21:31:25.488 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 21:31:25.492 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.494 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 22.11.2025 21:31:25.517 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.521 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:31:25.524 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+info: 22.11.2025 21:31:25.537 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (13ms) [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+dbug: 22.11.2025 21:31:25.539 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.541 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:31:25.545 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.548 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:31:25.549 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+info: 22.11.2025 21:31:25.561 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+dbug: 22.11.2025 21:31:25.563 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.565 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 1ms reading results.
+dbug: 22.11.2025 21:31:25.774 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.778 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:31:25.781 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 21:31:25.793 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 21:31:25.796 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.798 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 21:31:25.837 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.840 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:31:25.843 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p0='1' (Nullable = false) (Size = 2000), :p1='janNovak@gmail.com' (Nullable = false) (Size = 2000), :p2='$2a$11$QevQ01noCgxMNiMlCY8rHuqQ2gDfDb2u.rJtbu272oYWqBodQ88V2' (Size = 2000), :p3='2', :p4='Jan' (Nullable = false) (Size = 2000), :p5='Novak' (Nullable = false) (Size = 2000), :p6='ADMIN' (Nullable = false) (Size = 2000), :p7='pr' (Nullable = false) (Size = 2000), :p8='0', :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rSTRAVNICI_0" IS RECORD
+      (
+      "ID_STRAVNIK" NUMBER(10)
+      );
+      TYPE "tSTRAVNICI_0" IS TABLE OF "rSTRAVNICI_0";
+      "lSTRAVNICI_0" "tSTRAVNICI_0";
+      
+      BEGIN
+      
+      "lSTRAVNICI_0" := "tSTRAVNICI_0"();
+      "lSTRAVNICI_0".extend(1);
+      INSERT INTO "STRAVNICI" ("AKTIVITA", "EMAIL", "HESLO", "ID_ADRESA", "JMENO", "PRIJMENI", "ROLE", "TYP_STRAVNIK", "ZUSTATEK")
+      VALUES (:p0, :p1, :p2, :p3, :p4, :p5, :p6, :p7, :p8)
+      RETURNING "ID_STRAVNIK" INTO "lSTRAVNICI_0"(1)."ID_STRAVNIK";
+      OPEN :cur0 FOR SELECT "lSTRAVNICI_0"(1)."ID_STRAVNIK" FROM DUAL;
+      
+      END;
+info: 22.11.2025 21:31:25.876 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (33ms) [Parameters=[:p0='1' (Nullable = false) (Size = 2000), :p1='janNovak@gmail.com' (Nullable = false) (Size = 2000), :p2='$2a$11$QevQ01noCgxMNiMlCY8rHuqQ2gDfDb2u.rJtbu272oYWqBodQ88V2' (Size = 2000), :p3='2', :p4='Jan' (Nullable = false) (Size = 2000), :p5='Novak' (Nullable = false) (Size = 2000), :p6='ADMIN' (Nullable = false) (Size = 2000), :p7='pr' (Nullable = false) (Size = 2000), :p8='0', :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rSTRAVNICI_0" IS RECORD
+      (
+      "ID_STRAVNIK" NUMBER(10)
+      );
+      TYPE "tSTRAVNICI_0" IS TABLE OF "rSTRAVNICI_0";
+      "lSTRAVNICI_0" "tSTRAVNICI_0";
+      
+      BEGIN
+      
+      "lSTRAVNICI_0" := "tSTRAVNICI_0"();
+      "lSTRAVNICI_0".extend(1);
+      INSERT INTO "STRAVNICI" ("AKTIVITA", "EMAIL", "HESLO", "ID_ADRESA", "JMENO", "PRIJMENI", "ROLE", "TYP_STRAVNIK", "ZUSTATEK")
+      VALUES (:p0, :p1, :p2, :p3, :p4, :p5, :p6, :p7, :p8)
+      RETURNING "ID_STRAVNIK" INTO "lSTRAVNICI_0"(1)."ID_STRAVNIK";
+      OPEN :cur0 FOR SELECT "lSTRAVNICI_0"(1)."ID_STRAVNIK" FROM DUAL;
+      
+      END;
+dbug: 22.11.2025 21:31:25.891 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:31:25.895 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 15ms reading results.
+dbug: 22.11.2025 21:31:25.914 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:31:25.917 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:31:25.919 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p0='2', :p1='1', :p2='774564884'], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      
+      BEGIN
+      
+      INSERT INTO "PRACOVNICI" ("ID_STRAVNIK", "ID_POZICE", "TELEFON")
+      VALUES (:p0, :p1, :p2);
+      
+      END;
+fail: 22.11.2025 21:31:25.970 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (50ms) [Parameters=[:p0='2', :p1='1', :p2='774564884'], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      
+      BEGIN
+      
+      INSERT INTO "PRACOVNICI" ("ID_STRAVNIK", "ID_POZICE", "TELEFON")
+      VALUES (:p0, :p1, :p2);
+      
+      END;
+dbug: 22.11.2025 21:47:47.342 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:47:47.352 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (14ms).
+dbug: 22.11.2025 21:47:47.360 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:47:47.468 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (108ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:47:52.128 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:47:52.131 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 21:47:52.134 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:47:52.162 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (28ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:51:32.254 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:51:32.264 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (14ms).
+dbug: 22.11.2025 21:51:32.272 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:51:32.338 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (64ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:51:54.757 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:51:54.769 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (14ms).
+dbug: 22.11.2025 21:51:54.778 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 21:51:54.840 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (63ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 21:58:52.991 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:58:53.001 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (15ms).
+dbug: 22.11.2025 21:58:53.008 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+info: 22.11.2025 21:58:53.067 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (58ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+dbug: 22.11.2025 21:58:53.082 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 21:58:53.089 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 15ms reading results.
+dbug: 22.11.2025 21:58:53.207 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 21:58:53.210 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 21:58:53.219 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p0='Systémový administrátor' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rPOZICE_0" IS RECORD
+      (
+      "ID_POZICE" NUMBER(10)
+      );
+      TYPE "tPOZICE_0" IS TABLE OF "rPOZICE_0";
+      "lPOZICE_0" "tPOZICE_0";
+      
+      BEGIN
+      
+      "lPOZICE_0" := "tPOZICE_0"();
+      "lPOZICE_0".extend(1);
+      INSERT INTO "POZICE" ("NAZEV")
+      VALUES (:p0)
+      RETURNING "ID_POZICE" INTO "lPOZICE_0"(1)."ID_POZICE";
+      OPEN :cur0 FOR SELECT "lPOZICE_0"(1)."ID_POZICE" FROM DUAL;
+      
+      END;
+fail: 22.11.2025 21:58:53.265 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (46ms) [Parameters=[:p0='Systémový administrátor' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rPOZICE_0" IS RECORD
+      (
+      "ID_POZICE" NUMBER(10)
+      );
+      TYPE "tPOZICE_0" IS TABLE OF "rPOZICE_0";
+      "lPOZICE_0" "tPOZICE_0";
+      
+      BEGIN
+      
+      "lPOZICE_0" := "tPOZICE_0"();
+      "lPOZICE_0".extend(1);
+      INSERT INTO "POZICE" ("NAZEV")
+      VALUES (:p0)
+      RETURNING "ID_POZICE" INTO "lPOZICE_0"(1)."ID_POZICE";
+      OPEN :cur0 FOR SELECT "lPOZICE_0"(1)."ID_POZICE" FROM DUAL;
+      
+      END;
+dbug: 22.11.2025 22:01:33.421 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:01:33.432 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (15ms).
+dbug: 22.11.2025 22:01:33.441 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+info: 22.11.2025 22:01:33.500 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (59ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+dbug: 22.11.2025 22:01:33.512 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:01:33.519 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 13ms reading results.
+dbug: 22.11.2025 22:01:33.544 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:01:33.548 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:01:33.550 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+fail: 22.11.2025 22:01:33.607 RelationalEventId.CommandError[20102] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Failed executing DbCommand (56ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "POZICE" "p") THEN True
+          ELSE False
+      END FROM DUAL
+dbug: 22.11.2025 22:04:56.666 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:04:56.677 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (14ms).
+dbug: 22.11.2025 22:04:56.685 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+info: 22.11.2025 22:04:56.745 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (59ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+dbug: 22.11.2025 22:04:56.760 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:04:56.768 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 17ms reading results.
+dbug: 22.11.2025 22:04:56.785 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:04:56.788 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:04:56.791 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+info: 22.11.2025 22:04:56.804 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "POZICE" "p"
+dbug: 22.11.2025 22:04:56.807 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:04:56.810 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 22:04:56.907 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:04:56.911 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:04:56.919 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p0='1', :p1='Systémový administrátor' (Nullable = false) (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      
+      BEGIN
+      
+      INSERT INTO "POZICE" ("ID_POZICE", "NAZEV")
+      VALUES (:p0, :p1);
+      
+      END;
+info: 22.11.2025 22:04:56.965 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (47ms) [Parameters=[:p0='1', :p1='Systémový administrátor' (Nullable = false) (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      
+      BEGIN
+      
+      INSERT INTO "POZICE" ("ID_POZICE", "NAZEV")
+      VALUES (:p0, :p1);
+      
+      END;
+dbug: 22.11.2025 22:04:56.969 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:04:56.972 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 22.11.2025 22:04:57.029 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:04:57.033 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:04:57.036 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      ORDER BY "p"."ID_POZICE"
+info: 22.11.2025 22:04:57.050 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      ORDER BY "p"."ID_POZICE"
+dbug: 22.11.2025 22:04:57.054 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:04:57.057 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 22.11.2025 22:05:47.875 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:47.877 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 22:05:47.879 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+info: 22.11.2025 22:05:47.893 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+dbug: 22.11.2025 22:05:47.896 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:47.898 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 22:05:47.905 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:47.907 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 22:05:47.909 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 22:05:47.923 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 22:05:47.934 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:47.937 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 11ms reading results.
+dbug: 22.11.2025 22:05:47.957 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:47.961 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:05:47.964 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+info: 22.11.2025 22:05:47.977 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (13ms) [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+dbug: 22.11.2025 22:05:47.980 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:47.982 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 22:05:53.999 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:54.003 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 22.11.2025 22:05:54.006 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+info: 22.11.2025 22:05:54.024 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "ADRESY" "a"
+dbug: 22.11.2025 22:05:54.027 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:54.030 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 22:05:54.033 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:54.035 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 22:05:54.037 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+info: 22.11.2025 22:05:54.049 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ADRESA", "a"."OBEC", "a"."PSC", "a"."ULICE"
+      FROM "ADRESY" "a"
+      ORDER BY "a"."ID_ADRESA"
+      FETCH FIRST 1 ROWS ONLY
+dbug: 22.11.2025 22:05:54.051 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:54.053 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 22.11.2025 22:05:54.056 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 22.11.2025 22:05:54.058 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 22.11.2025 22:05:54.060 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+info: 22.11.2025 22:05:54.072 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (12ms) [Parameters=[:Email_0='janNovak@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT COUNT(*)
+      FROM "STRAVNICI" "s"
+      WHERE "s"."EMAIL" = :Email_0
+dbug: 22.11.2025 22:05:54.074 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 22.11.2025 22:05:54.076 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 1ms reading results.

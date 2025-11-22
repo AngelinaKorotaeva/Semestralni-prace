@@ -160,7 +160,6 @@ C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJid
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderHistoryWindow.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderWindow.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\UserProfileWindow.baml
-C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminPanel.g.cs
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminProfileWindow.g.cs
@@ -174,6 +173,7 @@ C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJid
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.cache
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.lref
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminPanel.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminProfileWindow.baml

@@ -36,7 +36,7 @@ namespace SkolniJidelna.Models
         public string Role { get; set; } = null!;
 
         [Column("AKTIVITA")]
-        public string Aktivita { get; set; } = null!;
+        public char Aktivita { get; set; }
 
         [Column("TYP_STRAVNIK")]
         public string TypStravnik { get; set; } = null!;

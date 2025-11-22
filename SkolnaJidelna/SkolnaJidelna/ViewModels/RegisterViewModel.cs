@@ -1,236 +1,365 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
+using BCrypt.Net;
 using SkolniJidelna.Data;
 using SkolniJidelna.Models;
-using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
+using SkolniJidelna.Services;
 
-namespace SkolniJidelna.ViewModels;
-public class RegisterViewModel : INotifyPropertyChanged
+namespace SkolniJidelna.ViewModels
 {
-    private readonly AppDbContext _db;
-    public event PropertyChangedEventHandler? PropertyChanged;
-    void Raise(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-    public string Jmeno { get => _jmeno; set { _jmeno = value; Raise(nameof(Jmeno)); } }
-    private string _jmeno = "";
-
-    public string Prijmeni { get => _prijmeni; set { _prijmeni = value; Raise(nameof(Prijmeni)); } }
-    private string _prijmeni = "";
-
-    public string Email { get => _email; set { _email = value; Raise(nameof(Email)); } }
-    private string _email = "";
-
-    public string Password { get => _password; set { _password = value; Raise(nameof(Password)); } }
-    private string _password = "";
-
-    public string ConfirmPassword { get => _confirmPassword; set { _confirmPassword = value; Raise(nameof(ConfirmPassword)); } }
-    private string _confirmPassword = "";
-
-    // Adresa
-    public string Ulice { get => _ulice; set { _ulice = value; Raise(nameof(Ulice)); } }
-    private string _ulice = "";
-
-    public string Obec { get => _obec; set { _obec = value; Raise(nameof(Obec)); } }
-    private string _obec = "";
-
-    public string Psc { get => _psc; set { _psc = value; Raise(nameof(Psc)); } }
-    private string _psc = "";
-
-    // Pracovník vs student
-    public bool IsWorker { get => _isWorker; set { _isWorker = value; Raise(nameof(IsWorker)); } }
-    private bool _isWorker;
-
-    public int? SelectedPositionId { get; set; }
-    public int? SelectedClassId { get; set; }
-    public string Phone { get => _phone; set { _phone = value; Raise(nameof(Phone)); } }
-    private string _phone = "";
-
-    // Foto (může být nastaveno z view)
-    public byte[]? PhotoBytes { get; set; }
-
-    public ICommand RegisterCommand { get; }
-    public ICommand CancelCommand { get; }
-
-    public event Action<string>? RequestMessage;
-    public event Action? RequestClose;
-
-    public RegisterViewModel(AppDbContext db)
+    public class RegisterViewModel : INotifyPropertyChanged
     {
-        _db = db ?? throw new ArgumentNullException(nameof(db));
-        RegisterCommand = new RelayCommand(async _ => await ExecuteRegisterAsync());
-        CancelCommand = new RelayCommand(_ => RequestClose?.Invoke());
-    }
+        private string _firstName = string.Empty;
+        private string _lastName = string.Empty;
+        private string _email = string.Empty;
+        private string _password = string.Empty;
+        private string _confirmPassword = string.Empty;
+        private string _status = "st"; // interní reprezentace: "st" nebo "pr"
+        private string _phone = string.Empty;
+        private int? _positionId;
+        private int? _classId;
+        private string? _photoPath;
+        private string _birthYear = string.Empty;
 
-    private bool ValidateInputs(out string error)
-    {
-        if (string.IsNullOrWhiteSpace(Jmeno) ||
-            string.IsNullOrWhiteSpace(Prijmeni) ||
-            string.IsNullOrWhiteSpace(Email) ||
-            string.IsNullOrWhiteSpace(Password))
+        private readonly IFileDialogService _fileDialogService;
+
+        // Commands
+        public ICommand RegisterCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand SelectPhotoCommand { get; }
+
+        // Positions for UI
+        public ObservableCollection<Pozice> Positions { get; private set; } = new ObservableCollection<Pozice>();
+
+        // Selected position id (bind to ComboBox.SelectedValue)
+        public int? PositionId { get => _positionId; set { if (_positionId == value) return; _positionId = value; OnPropertyChanged(nameof(PositionId)); } }
+
+        // Events pro host okna / UI
+        public event Action<string>? RequestMessage;   // zobrazit zprávu v UI
+        public event Action? RequestClose;             // zavřít okno
+
+        // Callbacky pro další použití
+        public event Action<string, bool, bool>? RegistrationSucceeded; // email, isPracovnik, isAdmin
+        public event Action<string>? RegistrationFailed;
+        public event Action? CancelRequested;
+
+        public RegisterViewModel() : this(new FileDialogService()) { }
+
+        // DI-friendly konstruktor
+        public RegisterViewModel(IFileDialogService fileDialogService)
         {
-            error = "Vyplňte všechna povinná pole.";
-            return false;
+            _fileDialogService = fileDialogService ?? throw new ArgumentNullException(nameof(fileDialogService));
+            RegisterCommand = new RelayCommand(_ => Register());
+            CancelCommand = new RelayCommand(_ => Cancel());
+            SelectPhotoCommand = new RelayCommand(_ => SelectPhoto());
+
+            IsWorker = true;
+
+            LoadPositions();
         }
 
-        if (Password != ConfirmPassword)
+        private void LoadPositions()
         {
-            error = "Hesla se neshodují.";
-            return false;
-        }
+            using var ctx = new AppDbContext();
+            if (ctx.Pozice == null)
+                return;
 
-        if (!Email.Contains("@"))
-        {
-            error = "Neplatný e-mail.";
-            return false;
-        }
-
-        if (IsWorker)
-        {
-            if (!SelectedPositionId.HasValue)
+            if (ctx.Pozice.Count() == 0)
             {
-                error = "Vyberte pozici pro pracovníka.";
-                return false;
+                var nextId = ctx.Pozice.Count() >0 ? ctx.Pozice.Max(p => p.IdPozice) +1 :1;
+                var adminPoz = new Pozice { IdPozice = nextId, Nazev = "Systémový administrátor" };
+                ctx.Pozice.Add(adminPoz);
+                ctx.SaveChanges();
+
+                PositionId = adminPoz.IdPozice;
             }
 
-            if (string.IsNullOrWhiteSpace(Phone))
+            var list = ctx.Pozice.OrderBy(p => p.IdPozice).ToList();
+            Positions = new ObservableCollection<Pozice>(list);
+            OnPropertyChanged(nameof(Positions));
+
+            if (PositionId == null)
             {
-                error = "Zadejte telefon pro pracovníka.";
-                return false;
-            }
-        }
-        else
-        {
-            if (!SelectedClassId.HasValue)
-            {
-                error = "Vyberte třídu pro studenta.";
-                return false;
+                var first = list.FirstOrDefault();
+                if (first != null) PositionId = first.IdPozice;
             }
         }
 
-        error = "";
-        return true;
-    }
+        // Vlastnosti pro binding
+        public string FirstName { get => _firstName; set { if (_firstName == value) return; _firstName = value; OnPropertyChanged(nameof(FirstName)); } }
+        public string LastName { get => _lastName; set { if (_lastName == value) return; _lastName = value; OnPropertyChanged(nameof(LastName)); } }
+        public string Email { get => _email; set { if (_email == value) return; _email = value; OnPropertyChanged(nameof(Email)); } }
 
-    private async Task ExecuteRegisterAsync()
-    {
-        if (!ValidateInputs(out var err))
+        // Hesla jsou vázána přes PasswordBoxAssistant
+        public string Password { get => _password; set { if (_password == value) return; _password = value; OnPropertyChanged(nameof(Password)); } }
+        public string ConfirmPassword { get => _confirmPassword; set { if (_confirmPassword == value) return; _confirmPassword = value; OnPropertyChanged(nameof(ConfirmPassword)); } }
+
+        // Status string pro DB
+        public string Status
         {
-            RequestMessage?.Invoke(err);
-            return;
+            get => _status;
+            set
+            {
+                var newVal = string.IsNullOrWhiteSpace(value) ? "st" : value;
+                if (_status == newVal) return;
+                _status = newVal;
+                OnPropertyChanged(nameof(Status));
+                OnPropertyChanged(nameof(IsWorker));
+                OnPropertyChanged(nameof(IsStudent));
+            }
         }
 
-        try
+        // TwoWay vazba vyžaduje setter - synchronizuje Status
+        public bool IsWorker
         {
-            // kontrola duplicity e-mailu
-            if (await _db.Stravnik.AnyAsync(s => s.Email == Email.Trim()))
+            get => string.Equals(_status, "pr", StringComparison.OrdinalIgnoreCase);
+            set
             {
-                RequestMessage?.Invoke("Uživatel s tímto e-mailem již existuje.");
+                var newStatus = value ? "pr" : "st";
+                if (_status == newStatus) return;
+                _status = newStatus;
+                OnPropertyChanged(nameof(IsWorker));
+                OnPropertyChanged(nameof(IsStudent));
+                OnPropertyChanged(nameof(Status));
+            }
+        }
+
+        public bool IsStudent => !IsWorker;
+
+        public string Phone { get => _phone; set { if (_phone == value) return; _phone = value; OnPropertyChanged(nameof(Phone)); } }
+        public int? ClassId { get => _classId; set { if (_classId == value) return; _classId = value; OnPropertyChanged(nameof(ClassId)); } }
+
+        // Photo
+        public string? PhotoPath { get => _photoPath; set { if (_photoPath == value) return; _photoPath = value; OnPropertyChanged(nameof(PhotoPath)); } }
+
+        // Birth year jako string (snadnější vazba do TextBoxu)
+        public string BirthYear { get => _birthYear; set { if (_birthYear == value) return; _birthYear = value; OnPropertyChanged(nameof(BirthYear)); } }
+
+        // Výběr fotky (přes službu)
+        private void SelectPhoto()
+        {
+            try
+            {
+                var path = _fileDialogService.OpenFileDialog();
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    PhotoPath = path;
+                }
+            }
+            catch (Exception ex)
+            {
+                RequestMessage?.Invoke("Chyba při výběru fotky: " + ex.Message);
+            }
+        }
+
+        // Zrušení registrace
+        public void Cancel()
+        {
+            CancelRequested?.Invoke();
+            RequestClose?.Invoke();
+        }
+
+        // Registrace uživatele
+        public void Register()
+        {
+            try
+            {
+                // základní validace
+                if (string.IsNullOrWhiteSpace(FirstName) ||
+                string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(Email) ||
+                string.IsNullOrEmpty(Password))
+            {
+                var err = "Vyplňte jméno, příjmení, e-mail a heslo.";
+                RegistrationFailed?.Invoke(err);
+                RequestMessage?.Invoke(err);
                 return;
             }
 
-            var isFirst = !await _db.Stravnik.AnyAsync();
-
-            // začneme transakci, abychom získali IdAdresa a IdStravnik
-            await using var tx = await _db.Database.BeginTransactionAsync();
-
-            // vytvoření adresy
-            var adresa = new Adresa
+            // pokud jde o studenta, ověřit rok narození
+            if (IsStudent)
             {
-                Ulice = Ulice?.Trim() ?? "",
-                Obec = Obec?.Trim() ?? "",
-                Psc = int.TryParse(Psc, out var p) ? p : 0
-            };
-            _db.Adresa.Add(adresa);
-            await _db.SaveChangesAsync();
-
-            // vytvoření stravníka
-            var hashed = BCrypt.Net.BCrypt.HashPassword(Password);
-            var stravnik = new Stravnik
-            {
-                Jmeno = Jmeno.Trim(),
-                Prijmeni = Prijmeni.Trim(),
-                Email = Email.Trim(),
-                Heslo = hashed,
-                Zustatek = 0,
-                Role = isFirst ? "Admin" : "User",
-                Aktivita = "A",
-                TypStravnik = IsWorker ? "pr" : "st",
-                IdAdresa = adresa.IdAdresa
-            };
-
-            _db.Stravnik.Add(stravnik);
-            await _db.SaveChangesAsync();
-
-            // pokud je to první registrace a uživatel je pracovník, zajistíme pozici "Systémový administrátor"
-            if (isFirst && IsWorker)
-            {
-                const string adminPoziceName = "Systémový administrátor";
-
-                var adminPozice = await _db.Pozice
-                    .FirstOrDefaultAsync(poz => poz.Nazev == adminPoziceName);
-
-                if (adminPozice == null)
+                if (string.IsNullOrWhiteSpace(BirthYear) || !int.TryParse(BirthYear, out var by))
                 {
-                    adminPozice = new Pozice { Nazev = adminPoziceName };
-                    _db.Pozice.Add(adminPozice);
-                    await _db.SaveChangesAsync();
+                    var err = "U studenta zadejte platný rok narození.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
                 }
 
-                // Pokud uživatel nezvolil pozici, přiřadíme systémovou administrátorskou
-                if (!SelectedPositionId.HasValue)
-                    SelectedPositionId = adminPozice.IdPozice;
+                var thisYear = DateTime.Now.Year;
+                if (by < 1900 || by > thisYear)
+                {
+                    var err = "Rok narození musí být mezi 1900 a " + thisYear;
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
             }
 
-            // podle role vytvoříme pracovnika nebo studenta
-            if (IsWorker)
+            if (Password != ConfirmPassword)
             {
-                // vytvoříme Pracovnik
-                var prac = new Pracovnik
-                {
-                    IdStravnik = stravnik.IdStravnik,
-                    Telefon = int.TryParse(Phone, out var t) ? t : 0,
-                    IdPozice = SelectedPositionId ?? 0
-                };
-                _db.Pracovnik.Add(prac);
-                await _db.SaveChangesAsync();
+                var err = "Hesla se neshodují.";
+                RegistrationFailed?.Invoke(err);
+                RequestMessage?.Invoke(err);
+                return;
             }
-            else
+
+            try
             {
-                // pokud existuje entita Student v modelu s IdTrida, vytvořit ji
-                try
-                {
-                    var studentType = typeof(Student);
-                    if (studentType != null)
+                using var ctx = new AppDbContext();
+
+                    // zajistit defaultní adresu pokud není žádná
+                    if (ctx.Adresa.Count() == 0)
                     {
-                        // předpoklad: Student má vlastnost IdStravnik a IdTrida
-                        var stud = new Student();
-                        // reflexí nastavíme properties pokud existují
-                        var propIdStr = studentType.GetProperty("IdStravnik");
-                        var propIdTr = studentType.GetProperty("IdTrida");
-                        if (propIdStr != null) propIdStr.SetValue(stud, stravnik.IdStravnik);
-                        if (propIdTr != null && SelectedClassId.HasValue) propIdTr.SetValue(stud, SelectedClassId.Value);
+                        var defaultAddr = new Adresa
+                        {
+                            // не указывайте IdAdresa, если БД генерирует его
+                            Obec = "Nezadáno",
+                            Ulice = "Nezadáno",
+                            Psc = 0
+                        };
+                        ctx.Adresa.Add(defaultAddr);
+                        ctx.SaveChanges();
+                    }
 
-                        _db.Add(stud);
-                        await _db.SaveChangesAsync();
+                    // получить id адресы безопасно
+                    var firstAddr = ctx.Adresa
+                        .OrderBy(a => a.IdAdresa)
+                        .FirstOrDefault();
+
+                    if (firstAddr == null)
+                    {
+                        // на всякий случай — если всё ещё нет адресy, создаём и сохраняем
+                        var fallback = new Adresa { Obec = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
+                        ctx.Adresa.Add(fallback);
+                        ctx.SaveChanges();
+                        firstAddr = fallback;
+                    }
+
+                    var addrId = firstAddr.IdAdresa;
+
+                    // kontrola existence uživatele se stejným emailem
+                    if (ctx.Stravnik.Count(s => s.Email == Email) > 0)
+                {
+                    var err = "Uživatel s tímto e-mailem již existuje.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
+
+                    // zjistit zda je to první uživatel (před vytvořením)
+                    var isFirst = ctx.Stravnik.Count() == 0;
+
+                    // spočítat IdStravnik (v produkci použijte DB sekvenci)
+                    // var nextId = ctx.Stravnik.Any() ? ctx.Stravnik.Max(s => s.IdStravnik) + 1 : 1;
+
+                    var hashed = BCrypt.Net.BCrypt.HashPassword(Password);
+
+                var typ = IsWorker ? "pr" : "st";
+                var role = isFirst ? "ADMIN" : "USER";
+
+                // pokud je to první uživatel, zajistit existenci pozice systémového administrátora
+                int? adminPoziceId = null;
+                if (isFirst)
+                {
+                    var adminPoz = ctx.Pozice.FirstOrDefault(p => p.Nazev == "Systémový administrátor");
+                    if (adminPoz == null)
+                    {
+                        adminPoz = new Pozice { Nazev = "Systémový administrátor" };
+                        ctx.Pozice.Add(adminPoz);
+                        ctx.SaveChanges();
+                    }
+                    adminPoziceId = adminPoz.IdPozice;
+
+                    // pokud první uživatel je pracovník, zajistit že bude mít tuto pozici
+                    if (IsWorker)
+                    {
+                        PositionId = adminPoziceId;
                     }
                 }
-                catch
+
+                var stravnik = new Stravnik
                 {
-                    // pokud Student entita má jinou strukturu, ignorujeme a pokračujeme
+                    Jmeno = FirstName,
+                    Prijmeni = LastName,
+                    Email = Email,
+                    Heslo = hashed,
+                    Zustatek = 0,
+                    Role = role,
+                    Aktivita = '1',
+                    TypStravnik = typ,
+                    IdAdresa = addrId
+                };
+
+                ctx.Stravnik.Add(stravnik);
+                ctx.SaveChanges();
+
+                // uložit typ-specifické záznamy
+                if (IsWorker)
+                {
+                    var telefon = int.TryParse(Phone, out var tel) ? tel : 0;
+                    var poziceIdToUse = PositionId ?? adminPoziceId ?? 1;
+
+                    var prac = new Pracovnik
+                    {
+                        IdStravnik = stravnik.IdStravnik,
+                        Telefon = telefon,
+                        IdPozice = poziceIdToUse
+                    };
+                    ctx.Pracovnik.Add(prac);
                 }
+                else
+                {
+                    // nastavit datum narození z roku (1.1.<rok>)
+                    DateTime datum;
+                    if (int.TryParse(BirthYear, out var by))
+                        datum = new DateTime(by, 1, 1);
+                    else
+                        datum = DateTime.Now;
+
+                    var stud = new Student
+                    {
+                        IdStravnik = stravnik.IdStravnik,
+                        IdTrida = ClassId ?? 1,
+                        DatumNarozeni = datum
+                    };
+                    ctx.Student.Add(stud);
+                }
+
+                // pokud chcete ukládat fotku do DB, doplňte zde logiku (např. create Soubor/byte[])
+                ctx.SaveChanges();
+
+                var msg = isFirst
+                    ? "Registrace úspěšná. První uživatel byl vytvořen jako administrátor."
+                    : "Registrace byla úspěšná.";
+
+                RegistrationSucceeded?.Invoke(stravnik.Email, IsWorker, isFirst);
+                RequestMessage?.Invoke(msg);
+                RequestClose?.Invoke();
             }
-
-            await tx.CommitAsync();
-
-            RequestMessage?.Invoke(isFirst ? "Registrace dokončena. Jste administrátor." : "Registrace dokončena.");
-            RequestClose?.Invoke();
+            catch (Exception ex)
+            {
+                var err = "Chyba při registraci: " + ex.Message;
+                RegistrationFailed?.Invoke(err);
+                RequestMessage?.Invoke(err);
+            }
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), ex.ToString() + Environment.NewLine);
+                var err = "Chyba při registraci: " + ex.Message;
+                RegistrationFailed?.Invoke(err);
+                RequestMessage?.Invoke(err);
+            }
         }
-        catch (Exception ex)
-        {
-            RequestMessage?.Invoke($"Chyba při registraci: {ex.Message}");
-        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

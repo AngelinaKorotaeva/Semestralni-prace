@@ -156,11 +156,11 @@
                         <TextBox Grid.Column="1" 
                                 x:Name="textBoxLogin" 
                                 Style="{StaticResource TextBoxStyle}"
+                                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                                 BorderThickness="0"
                                 Background="Transparent"
                                 VerticalAlignment="Center"
                                 Margin="5,0,10,0"
-                                Text=""
                                  />
                     </Grid>
                 </Border>
