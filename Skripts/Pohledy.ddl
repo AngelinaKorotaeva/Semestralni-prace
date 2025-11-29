@@ -102,3 +102,18 @@ FROM jidla j
 JOIN slozky_jidla sj ON j.id_jidlo = sj.id_jidlo
 JOIN slozky slo ON sj.id_slozka = slo.id_slozka
 GROUP BY j.id_jidlo, j.nazev, j.popis, j.kategorie, j.cena;
+
+
+6. Email, hash hesla, role, typ a aktivita pro prihlaseni
+
+
+CREATE OR REPLACE VIEW v_stravnici_login AS
+SELECT
+    id_stravnik,
+    email,
+    heslo,
+    role,
+    typ_stravnik,
+    aktivita
+FROM stravnici
+WHERE aktivita = '1';

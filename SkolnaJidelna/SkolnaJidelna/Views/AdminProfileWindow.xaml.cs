@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna
 {
@@ -23,6 +13,23 @@ namespace SkolniJidelna
         {
             InitializeComponent();
         }
+
+        public AdminProfileWindow(string adminEmail) : this()
+        {
+            if (!string.IsNullOrWhiteSpace(adminEmail))
+            {
+                var vm = new AdminProfileViewModel(adminEmail);
+                DataContext = vm;
+
+                // DEBUG: potvrdit, že VM obsahuje jméno (okno se otevře a ukáže message)
+                Loaded += (s, e) =>
+                {
+                    MessageBox.Show($"DataContext set: {DataContext != null}\nFullName: '{vm.FullName}'\nEmail: '{vm.Email}'",
+                                    "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
+                };
+            }
+        }
+
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
         {
 

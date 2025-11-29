@@ -18,8 +18,8 @@ namespace SkolniJidelna.Models
         [Column("PSC")]
         public int Psc { get; set; }
 
-        [Column("OBEC")]
-        public string Obec { get; set; } = null!;
+        [Column("MESTO")]
+        public string Mesto { get; set; } = null!;
 
         [Column("ULICE")]
         public string Ulice { get; set; } = null!;

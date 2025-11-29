@@ -10,7 +10,7 @@ using SkolniJidelna.Services;
 
 namespace SkolniJidelna.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly AppDbContext _db;
         private readonly IWindowService _windowService;
@@ -32,7 +32,7 @@ namespace SkolniJidelna.ViewModels
         public event Action<string>? LoginFailed;
         public event Action? RegisterRequested;
 
-        public LoginViewModel(AppDbContext db, IWindowService windowService)
+        public MainWindowViewModel(AppDbContext db, IWindowService windowService)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
             _windowService = windowService ?? throw new ArgumentNullException(nameof(windowService));
@@ -63,7 +63,9 @@ namespace SkolniJidelna.ViewModels
 
             try
             {
-                var user = await _db.Stravnik.FirstOrDefaultAsync(s => s.Email == Username);
+                using var ctx = new AppDbContext();
+                var user = await ctx.VStravnikLogin.FirstOrDefaultAsync(x => x.Email == Username);
+
                 if (user == null)
                 {
                     LoginFailed?.Invoke("Uživatel neexistuje.");

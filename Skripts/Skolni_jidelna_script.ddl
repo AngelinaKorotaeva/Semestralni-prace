@@ -12,7 +12,7 @@
 CREATE TABLE adresy (
     id_adresa INTEGER NOT NULL,
     psc       INTEGER NOT NULL,
-    obec      VARCHAR2(50) NOT NULL,
+    mesto     VARCHAR2(50) NOT NULL,
     ulice     VARCHAR2(50) NOT NULL
 );
 
