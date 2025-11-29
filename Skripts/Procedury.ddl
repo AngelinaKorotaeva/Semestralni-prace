@@ -150,3 +150,29 @@ END;
 
 EXEC pridat_platbu(5, 150.00, 'online');
 EXEC pridat_platbu(3, 320.00, 'hotovost');
+
+
+6) Procedura pro registrace
+
+CREATE OR REPLACE PROCEDURE register_stravnik(
+    p_jmeno     IN VARCHAR2,
+    p_prijmeni  IN VARCHAR2,
+    p_email     IN VARCHAR2,
+    p_heslo     IN VARCHAR2,
+    p_typ       IN VARCHAR2,
+    p_adresa    IN INTEGER
+) AS
+    v_count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM stravnici WHERE email = p_email;
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Email již existuje');
+    END IF;
+
+    INSERT INTO stravnici(
+        id_stravnik, jmeno, prijmeni, email, heslo, zustatek, role, aktivita, typ_stravnik, id_adresa
+    ) VALUES (
+        stravnik_seq.NEXTVAL, p_jmeno, p_prijmeni, p_email, p_heslo, 0, 'USER', 'A', p_typ, p_adresa
+    );
+END;
+/

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace SkolniJidelna.ViewModels
         private int? _classId;
         private string? _photoPath;
         private string _birthYear = string.Empty;
+        private string _ulice = string.Empty; // input that contains PSC, street+number, city
 
         private readonly IFileDialogService _fileDialogService;
 
@@ -71,8 +73,7 @@ namespace SkolniJidelna.ViewModels
 
             if (ctx.Pozice.Count() == 0)
             {
-                var nextId = ctx.Pozice.Count() >0 ? ctx.Pozice.Max(p => p.IdPozice) +1 :1;
-                var adminPoz = new Pozice { IdPozice = nextId, Nazev = "Systémový administrátor" };
+                var adminPoz = new Pozice { IdPozice = 1, Nazev = "Systémový administrátor" };
                 ctx.Pozice.Add(adminPoz);
                 ctx.SaveChanges();
 
@@ -98,6 +99,10 @@ namespace SkolniJidelna.ViewModels
         // Hesla jsou vázána přes PasswordBoxAssistant
         public string Password { get => _password; set { if (_password == value) return; _password = value; OnPropertyChanged(nameof(Password)); } }
         public string ConfirmPassword { get => _confirmPassword; set { if (_confirmPassword == value) return; _confirmPassword = value; OnPropertyChanged(nameof(ConfirmPassword)); } }
+
+        // Address input: expected format (recommended): "<PSC>, <Ulice a číslo>, <Město (může mít více slov)>"
+        // Also supports two-part input like "<PSC a ulice>, <Mesto>" or space-separated fallback.
+        public string Ulice { get => _ulice; set { if (_ulice == value) return; _ulice = value; OnPropertyChanged(nameof(Ulice)); } }
 
         // Status string pro DB
         public string Status
@@ -174,84 +179,129 @@ namespace SkolniJidelna.ViewModels
                 string.IsNullOrWhiteSpace(LastName) ||
                 string.IsNullOrWhiteSpace(Email) ||
                 string.IsNullOrEmpty(Password))
-            {
-                var err = "Vyplňte jméno, příjmení, e-mail a heslo.";
-                RegistrationFailed?.Invoke(err);
-                RequestMessage?.Invoke(err);
-                return;
-            }
-
-            // pokud jde o studenta, ověřit rok narození
-            if (IsStudent)
-            {
-                if (string.IsNullOrWhiteSpace(BirthYear) || !int.TryParse(BirthYear, out var by))
                 {
-                    var err = "U studenta zadejte platný rok narození.";
+                    var err = "Vyplňte jméno, příjmení, e-mail a heslo.";
                     RegistrationFailed?.Invoke(err);
                     RequestMessage?.Invoke(err);
                     return;
                 }
 
-                var thisYear = DateTime.Now.Year;
-                if (by < 1900 || by > thisYear)
+                // pokud jde o studenta, ověřit rok narození
+                if (IsStudent)
                 {
-                    var err = "Rok narození musí být mezi 1900 a " + thisYear;
-                    RegistrationFailed?.Invoke(err);
-                    RequestMessage?.Invoke(err);
-                    return;
-                }
-            }
-
-            if (Password != ConfirmPassword)
-            {
-                var err = "Hesla se neshodují.";
-                RegistrationFailed?.Invoke(err);
-                RequestMessage?.Invoke(err);
-                return;
-            }
-
-            try
-            {
-                using var ctx = new AppDbContext();
-
-                    // zajistit defaultní adresu pokud není žádná
-                    if (ctx.Adresa.Count() == 0)
+                    if (string.IsNullOrWhiteSpace(BirthYear) || !int.TryParse(BirthYear, out var by))
                     {
-                        var defaultAddr = new Adresa
+                        var err = "U studenta zadejte platný rok narození.";
+                        RegistrationFailed?.Invoke(err);
+                        RequestMessage?.Invoke(err);
+                        return;
+                    }
+
+                    var thisYear = DateTime.Now.Year;
+                    if (by < 1900 || by > thisYear)
+                    {
+                        var err = "Rok narození musí být mezi 1900 a " + thisYear;
+                        RegistrationFailed?.Invoke(err);
+                        RequestMessage?.Invoke(err);
+                        return;
+                    }
+                }
+
+                if (Password != ConfirmPassword)
+                {
+                    var err = "Hesla se neshodují.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
+
+                try
+                {
+                    using var ctx = new AppDbContext();
+
+                    // parse address input
+                    int addrId;
+                    if (!string.IsNullOrWhiteSpace(Ulice))
+                    {
+                        var input = Ulice.Trim();
+
+                        // If input contains commas, prefer comma-separated parsing
+                        if (input.Contains(','))
                         {
-                            // не указывайте IdAdresa, если БД генерирует его
-                            Obec = "Nezadáno",
-                            Ulice = "Nezadáno",
-                            Psc = 0
-                        };
-                        ctx.Adresa.Add(defaultAddr);
-                        ctx.SaveChanges();
+                            var parts = input.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                .Select(p => p.Trim()).ToArray();
+
+                            // Case: "PSC, Ulice a cislo, Mesto (může mít více slov)"
+                            if (parts.Length >= 3 && int.TryParse(parts[0], out var pscVal1))
+                            {
+                                var street = parts[1];
+                                var city = string.Join(", ", parts.Skip(2));
+
+                                var newAddr = new Adresa { Psc = pscVal1, Ulice = street, Mesto = city };
+                                ctx.Adresa.Add(newAddr);
+                                ctx.SaveChanges();
+                                addrId = newAddr.IdAdresa;
+                            }
+                            // Case: "<PSC a ulice>, <Mesto víceslovné>" e.g. "10000 Na Příkopě12, Praha1"
+                            else if (parts.Length == 2)
+                            {
+                                // try extract PSC at start of first part
+                                var m = Regex.Match(parts[0], "^\\s*(\\d{3,6})\\s+(.*)$");
+                                if (m.Success)
+                                {
+                                    var pscVal2 = int.Parse(m.Groups[1].Value);
+                                    var street = m.Groups[2].Value.Trim();
+                                    var city = parts[1];
+
+                                    var newAddr = new Adresa { Psc = pscVal2, Ulice = street, Mesto = city };
+                                    ctx.Adresa.Add(newAddr);
+                                    ctx.SaveChanges();
+                                    addrId = newAddr.IdAdresa;
+                                }
+                                else
+                                {
+                                    // fallback to default address
+                                    addrId = EnsureDefaultAddressAndGetId(ctx);
+                                }
+                            }
+                            else
+                            {
+                                addrId = EnsureDefaultAddressAndGetId(ctx);
+                            }
+                        }
+                        else
+                        {
+                            // No comma: fallback to space-separated parsing (old behavior)
+                            var parts = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (parts.Length >= 3 && int.TryParse(parts[0], out var pscVal3))
+                            {
+                                var city = parts[^1];
+                                var street = string.Join(' ', parts.Skip(1).Take(parts.Length - 2));
+
+                                var newAddr = new Adresa { Psc = pscVal3, Ulice = street, Mesto = city };
+                                ctx.Adresa.Add(newAddr);
+                                ctx.SaveChanges();
+                                addrId = newAddr.IdAdresa;
+                            }
+                            else
+                            {
+                                addrId = EnsureDefaultAddressAndGetId(ctx);
+                            }
+                        }
                     }
-
-                    // получить id адресы безопасно
-                    var firstAddr = ctx.Adresa
-                        .OrderBy(a => a.IdAdresa)
-                        .FirstOrDefault();
-
-                    if (firstAddr == null)
+                    else
                     {
-                        // на всякий случай — если всё ещё нет адресy, создаём и сохраняем
-                        var fallback = new Adresa { Obec = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
-                        ctx.Adresa.Add(fallback);
-                        ctx.SaveChanges();
-                        firstAddr = fallback;
+                        addrId = EnsureDefaultAddressAndGetId(ctx);
                     }
-
-                    var addrId = firstAddr.IdAdresa;
 
                     // kontrola existence uživatele se stejným emailem
                     if (ctx.Stravnik.Count(s => s.Email == Email) > 0)
-                {
-                    var err = "Uživatel s tímto e-mailem již existuje.";
-                    RegistrationFailed?.Invoke(err);
-                    RequestMessage?.Invoke(err);
-                    return;
-                }
+                    {
+                        var err = "Uživatel s tímto e-mailem již existuje.";
+                        RegistrationFailed?.Invoke(err);
+                        RequestMessage?.Invoke(err);
+                        return;
+                    }
 
                     // zjistit zda je to první uživatel (před vytvořením)
                     var isFirst = ctx.Stravnik.Count() == 0;
@@ -261,94 +311,94 @@ namespace SkolniJidelna.ViewModels
 
                     var hashed = BCrypt.Net.BCrypt.HashPassword(Password);
 
-                var typ = IsWorker ? "pr" : "st";
-                var role = isFirst ? "ADMIN" : "USER";
+                    var typ = IsWorker ? "pr" : "st";
+                    var role = isFirst ? "ADMIN" : "USER";
 
-                // pokud je to první uživatel, zajistit existenci pozice systémového administrátora
-                int? adminPoziceId = null;
-                if (isFirst)
-                {
-                    var adminPoz = ctx.Pozice.FirstOrDefault(p => p.Nazev == "Systémový administrátor");
-                    if (adminPoz == null)
+                    // pokud je to první uživatel, zajistit existenci pozice systémového administrátora
+                    int? adminPoziceId = null;
+                    if (isFirst)
                     {
-                        adminPoz = new Pozice { Nazev = "Systémový administrátor" };
-                        ctx.Pozice.Add(adminPoz);
-                        ctx.SaveChanges();
-                    }
-                    adminPoziceId = adminPoz.IdPozice;
+                        var adminPoz = ctx.Pozice.FirstOrDefault(p => p.Nazev == "Systémový administrátor");
+                        if (adminPoz == null)
+                        {
+                            adminPoz = new Pozice { Nazev = "Systémový administrátor" };
+                            ctx.Pozice.Add(adminPoz);
+                            ctx.SaveChanges();
+                        }
+                        adminPoziceId = adminPoz.IdPozice;
 
-                    // pokud první uživatel je pracovník, zajistit že bude mít tuto pozici
+                        // pokud první uživatel je pracovník, zajistit že bude mít tuto pozici
+                        if (IsWorker)
+                        {
+                            PositionId = adminPoziceId;
+                        }
+                    }
+
+                    var stravnik = new Stravnik
+                    {
+                        Jmeno = FirstName,
+                        Prijmeni = LastName,
+                        Email = Email,
+                        Heslo = hashed,
+                        Zustatek = 0,
+                        Role = role,
+                        Aktivita = '1',
+                        TypStravnik = typ,
+                        IdAdresa = addrId
+                    };
+
+                    ctx.Stravnik.Add(stravnik);
+                    ctx.SaveChanges();
+
+                    // uložit typ-specifické záznamy
                     if (IsWorker)
                     {
-                        PositionId = adminPoziceId;
+                        var telefon = int.TryParse(Phone, out var tel) ? tel : 0;
+                        var poziceIdToUse = PositionId ?? adminPoziceId ?? 1;
+
+                        var prac = new Pracovnik
+                        {
+                            IdStravnik = stravnik.IdStravnik,
+                            Telefon = telefon,
+                            IdPozice = poziceIdToUse
+                        };
+                        ctx.Pracovnik.Add(prac);
                     }
-                }
-
-                var stravnik = new Stravnik
-                {
-                    Jmeno = FirstName,
-                    Prijmeni = LastName,
-                    Email = Email,
-                    Heslo = hashed,
-                    Zustatek = 0,
-                    Role = role,
-                    Aktivita = '1',
-                    TypStravnik = typ,
-                    IdAdresa = addrId
-                };
-
-                ctx.Stravnik.Add(stravnik);
-                ctx.SaveChanges();
-
-                // uložit typ-specifické záznamy
-                if (IsWorker)
-                {
-                    var telefon = int.TryParse(Phone, out var tel) ? tel : 0;
-                    var poziceIdToUse = PositionId ?? adminPoziceId ?? 1;
-
-                    var prac = new Pracovnik
-                    {
-                        IdStravnik = stravnik.IdStravnik,
-                        Telefon = telefon,
-                        IdPozice = poziceIdToUse
-                    };
-                    ctx.Pracovnik.Add(prac);
-                }
-                else
-                {
-                    // nastavit datum narození z roku (1.1.<rok>)
-                    DateTime datum;
-                    if (int.TryParse(BirthYear, out var by))
-                        datum = new DateTime(by, 1, 1);
                     else
-                        datum = DateTime.Now;
-
-                    var stud = new Student
                     {
-                        IdStravnik = stravnik.IdStravnik,
-                        IdTrida = ClassId ?? 1,
-                        DatumNarozeni = datum
-                    };
-                    ctx.Student.Add(stud);
+                        // nastavit datum narození z roku (1.1.<rok>)
+                        DateTime datum;
+                        if (int.TryParse(BirthYear, out var by))
+                            datum = new DateTime(by, 1, 1);
+                        else
+                            datum = DateTime.Now;
+
+                        var stud = new Student
+                        {
+                            IdStravnik = stravnik.IdStravnik,
+                            IdTrida = ClassId ?? 1,
+                            DatumNarozeni = datum
+                        };
+                        ctx.Student.Add(stud);
+                    }
+
+                    // pokud chcete ukládat fotku do DB, doplňte zde logiku (např. create Soubor/byte[])
+                    ctx.SaveChanges();
+
+                    var msg = isFirst
+                        ? "Registrace úspěšná. První uživatel byl vytvořen jako administrátor."
+                        : "Registrace byla úspěšná.";
+
+                    RegistrationSucceeded?.Invoke(stravnik.Email, IsWorker, isFirst);
+                    RequestMessage?.Invoke(msg);
+                    RequestClose?.Invoke();
                 }
-
-                // pokud chcete ukládat fotku do DB, doplňte zde logiku (např. create Soubor/byte[])
-                ctx.SaveChanges();
-
-                var msg = isFirst
-                    ? "Registrace úspěšná. První uživatel byl vytvořen jako administrátor."
-                    : "Registrace byla úspěšná.";
-
-                RegistrationSucceeded?.Invoke(stravnik.Email, IsWorker, isFirst);
-                RequestMessage?.Invoke(msg);
-                RequestClose?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                var err = "Chyba při registraci: " + ex.Message;
-                RegistrationFailed?.Invoke(err);
-                RequestMessage?.Invoke(err);
-            }
+                catch (Exception ex)
+                {
+                    var err = "Chyba při registraci: " + ex.Message;
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                }
             }
             catch (Exception ex)
             {
@@ -357,6 +407,27 @@ namespace SkolniJidelna.ViewModels
                 RegistrationFailed?.Invoke(err);
                 RequestMessage?.Invoke(err);
             }
+        }
+
+        private int EnsureDefaultAddressAndGetId(AppDbContext ctx)
+        {
+            if (ctx.Adresa.Count() == 0)
+            {
+                var defaultAddr = new Adresa { Mesto = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
+                ctx.Adresa.Add(defaultAddr);
+                ctx.SaveChanges();
+            }
+
+            var firstAddr = ctx.Adresa.OrderBy(a => a.IdAdresa).FirstOrDefault();
+            if (firstAddr == null)
+            {
+                var fallback = new Adresa { Mesto = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
+                ctx.Adresa.Add(fallback);
+                ctx.SaveChanges();
+                firstAddr = fallback;
+            }
+
+            return firstAddr.IdAdresa;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

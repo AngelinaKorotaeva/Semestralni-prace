@@ -47,6 +47,8 @@ namespace SkolniJidelna.Data
         public DbSet<Student> Student { get; set; }
         public DbSet<Trida> Trida { get; set; }
 
+        public DbSet<VStravnikLogin> VStravnikLogin { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -118,6 +120,10 @@ namespace SkolniJidelna.Data
                 .HasColumnName("ID_STRAVNIK")
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("S_STR.NEXTVAL");
+
+            modelBuilder.Entity<VStravnikLogin>()
+                .ToView("V_STRAVNICI_LOGIN")
+                .HasNoKey();
         }
     }
 }

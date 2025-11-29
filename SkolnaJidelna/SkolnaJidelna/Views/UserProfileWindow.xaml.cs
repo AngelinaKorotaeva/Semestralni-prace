@@ -24,11 +24,11 @@ namespace SkolniJidelna
     {
         private bool TypStavnik = true;
         private string Email = "";
-        public UserProfileWindow(string email, bool stravnik)
+        public UserProfileWindow(string email)
         {
             InitializeComponent();
             this.Email = email;
-            if (!stravnik) TypStavnik = false;
+            
 
             LoadUserData(Email);
         }

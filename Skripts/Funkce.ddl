@@ -78,3 +78,38 @@ EXCEPTION
     WHEN NO_DATA_FOUND THEN
         RETURN 'MENU NEEXISTUJE';
 END;
+
+
+4 Funkce overeni hesla 
+
+CREATE OR REPLACE FUNCTION check_heslo(
+    p_email IN VARCHAR2,
+    p_password IN VARCHAR2
+) RETURN NUMBER
+AS
+    v_stored_hash VARCHAR2(200);
+    v_input_hash  VARCHAR2(200);
+BEGIN
+    SELECT heslo INTO v_stored_hash
+    FROM stravnici
+    WHERE email = p_email
+    AND aktivita = 'A';
+
+    v_input_hash := LOWER(
+        RAWTOHEX(DBMS_CRYPTO.HASH(
+            UTL_I18N.STRING_TO_RAW(p_password, 'AL32UTF8'),
+            DBMS_CRYPTO.HASH_SH256
+        ))
+    );
+
+    IF v_input_hash = v_stored_hash THEN
+        RETURN 1;
+    END IF;
+
+    RETURN 0;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 0;
+END;
+

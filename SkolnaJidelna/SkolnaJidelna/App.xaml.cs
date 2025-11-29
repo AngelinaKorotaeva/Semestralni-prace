@@ -39,7 +39,7 @@ public partial class App : Application
                 services.AddTransient<AdminPanel>();
 
                 // Login / Register viewmodels
-                services.AddTransient<LoginViewModel>();
+                services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<RegisterViewModel>();
 
                 // Views (okna) přes DI
@@ -59,7 +59,7 @@ public partial class App : Application
         var main = Services.GetRequiredService<MainWindow>();
 
         // Nastavíme DataContext na LoginViewModel (MainWindow = přihlášení)
-        main.DataContext = Services.GetRequiredService<LoginViewModel>();
+        main.DataContext = Services.GetRequiredService<MainWindowViewModel>();
 
         main.Show();
         base.OnStartup(e);

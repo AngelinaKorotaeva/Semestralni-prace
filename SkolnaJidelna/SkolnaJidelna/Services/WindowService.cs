@@ -22,7 +22,7 @@ namespace SkolniJidelna.Services
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var w = new UserProfileWindow(email, isPracovnik);
+                var w = new UserProfileWindow(email);
                 w.Show();
             });
         }
