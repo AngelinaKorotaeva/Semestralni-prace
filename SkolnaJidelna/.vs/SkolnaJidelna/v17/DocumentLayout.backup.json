@@ -3,28 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\adminprofilewindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\adminprofilewindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\adminpanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\adminpanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\adminpanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\adminpanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\userprofilewindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\userprofilewindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\orderwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\orderwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\viewmodels\\adminprofileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\viewmodels\\adminprofileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\models\\vstravniklogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\models\\vstravniklogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|c:\\users\\\u0430\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\semestralni-prace\\skolnajidelna\\skolnajidelna\\viewmodels\\editableproperty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56EF3619-640B-48E5-A627-951139F82791}|SkolnaJidelna\\SkolniJidelna.csproj|solutionrelative:skolnajidelna\\viewmodels\\editableproperty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,8 +38,12 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:130:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
@@ -62,84 +70,89 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\App.xaml.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\App.xaml.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\App.xaml.cs",
-              "RelativeToolTip": "SkolnaJidelna\\App.xaml.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwCkAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T18:19:30.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "SkolnaJidelna\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAwwH0AAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T18:00:53.732Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "VStravnikLogin.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Models\\VStravnikLogin.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\Models\\VStravnikLogin.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Models\\VStravnikLogin.cs",
-              "RelativeToolTip": "SkolnaJidelna\\Models\\VStravnikLogin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T18:00:22.274Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UserProfileWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\UserProfileWindow.xaml.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\UserProfileWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\UserProfileWindow.xaml.cs",
-              "RelativeToolTip": "SkolnaJidelna\\Views\\UserProfileWindow.xaml.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAuwGkAAAAZAAAAAAAAAA==",
+              "Title": "OrderWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\OrderWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\OrderWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\OrderWindow.xaml.cs",
+              "RelativeToolTip": "SkolnaJidelna\\Views\\OrderWindow.xaml.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAgwDsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T17:57:51.841Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainWindowViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\MainWindowViewModel.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\ViewModels\\MainWindowViewModel.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\MainWindowViewModel.cs",
-              "RelativeToolTip": "SkolnaJidelna\\ViewModels\\MainWindowViewModel.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAkwCgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-26T15:22:22.673Z",
+              "WhenOpened": "2025-12-06T10:34:29.323Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "SkolnaJidelna\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\MainWindow.xaml.cs",
-              "RelativeToolTip": "SkolnaJidelna\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAlAAAAAAAAAA==",
+              "Title": "AdminProfileWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminProfileWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\AdminProfileWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminProfileWindow.xaml.cs",
+              "RelativeToolTip": "SkolnaJidelna\\Views\\AdminProfileWindow.xaml.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABQAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T20:36:33.31Z",
+              "WhenOpened": "2025-12-06T10:34:12.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminPanel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminPanel.xaml.cs",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\AdminPanel.xaml.cs",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminPanel.xaml.cs",
+              "RelativeToolTip": "SkolnaJidelna\\Views\\AdminPanel.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T21:17:35.793Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EditableProperty.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\EditableProperty.cs",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\ViewModels\\EditableProperty.cs",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\EditableProperty.cs",
+              "RelativeToolTip": "SkolnaJidelna\\ViewModels\\EditableProperty.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAA1wDUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T21:09:47.395Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AdminProfileViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\AdminProfileViewModel.cs",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\ViewModels\\AdminProfileViewModel.cs",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\ViewModels\\AdminProfileViewModel.cs",
+              "RelativeToolTip": "SkolnaJidelna\\ViewModels\\AdminProfileViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T21:00:23.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\LoginWindow.xaml",
+              "RelativeToolTip": "SkolnaJidelna\\Views\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-05T20:38:24.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminPanel.xaml",
+              "DocumentMoniker": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminPanel.xaml",
+              "RelativeDocumentMoniker": "SkolnaJidelna\\Views\\AdminPanel.xaml",
+              "ToolTip": "C:\\Users\\\u0410\u043D\u0433\u0435\u043B\u0438\u043D\u0430\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\Views\\AdminPanel.xaml",
+              "RelativeToolTip": "SkolnaJidelna\\Views\\AdminPanel.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-05T20:29:32.986Z",
               "EditorCaption": ""
             }
           ]

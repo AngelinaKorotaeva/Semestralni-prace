@@ -8,7 +8,7 @@ namespace SkolniJidelna.Services
 {
     public interface IWindowService
     {
-        void ShowAdminProfile();
+        void ShowAdminProfile(string adminEmail);
         void ShowUserProfile(string email, bool isPracovnik);
     }
 }

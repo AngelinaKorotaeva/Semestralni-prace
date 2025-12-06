@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Data;
 using SkolniJidelna.Models;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using SkolniJidelna.ViewModels;
+using SkolniJidelna.ViewModels.SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna.ViewModels
 {
     public class AdminProfileViewModel : INotifyPropertyChanged
     {
     private string _fullName = string.Empty;
+    private string _role = string.Empty;
     private string _balanceFormatted = "0 Kč";
     private string _email = string.Empty;
     private string _phone = string.Empty;
@@ -21,6 +26,7 @@ namespace SkolniJidelna.ViewModels
     private ImageSource? _profileImage;
 
     public string FullName { get => _fullName; private set { if (_fullName == value) return; _fullName = value; OnPropertyChanged(nameof(FullName)); } }
+    public string Role { get => _role; private set { if (_role == value) return; _role = value; OnPropertyChanged(nameof(Role)); } }
     public string BalanceFormatted { get => _balanceFormatted; private set { if (_balanceFormatted == value) return; _balanceFormatted = value; OnPropertyChanged(nameof(BalanceFormatted)); } }
     public string Email { get => _email; private set { if (_email == value) return; _email = value; OnPropertyChanged(nameof(Email)); } }
     public string Phone { get => _phone; private set { if (_phone == value) return; _phone = value; OnPropertyChanged(nameof(Phone)); } }
@@ -35,7 +41,133 @@ namespace SkolniJidelna.ViewModels
     private set { if (_profileImage == value) return; _profileImage = value; OnPropertyChanged(nameof(ProfileImage)); }
     }
 
-    public AdminProfileViewModel() { }
+        public ObservableCollection<EditableProperty> Properties { get; } = new();
+
+        private object? _selectedItem;
+        public object? SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (_selectedItem == value) return;
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+                LoadPropertiesForSelectedItem();
+            }
+        }
+
+        private void LoadPropertiesForSelectedItem()
+        {
+            Properties.Clear();
+            var obj = SelectedItem;
+            if (obj == null) return;
+            var props = obj.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                           .Where(p => p.CanRead && p.GetMethod != null)
+                           .Where(p => IsScalarType(p.PropertyType));
+            foreach (var p in props)
+            {
+                var val = p.GetValue(obj);
+                Properties.Add(new EditableProperty(p.Name, p.PropertyType, val));
+            }
+        }
+
+        public void PopulateEmptyPropertiesForType(Type entityClrType)
+        {
+            if (entityClrType == null) return;
+            Properties.Clear();
+            var props = entityClrType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                .Where(p => p.CanRead && p.CanWrite)
+                .Where(p => IsScalarType(p.PropertyType));
+            foreach (var p in props)
+            {
+                Properties.Add(new EditableProperty(p.Name, p.PropertyType, null));
+            }
+        }
+
+        public bool SaveNewEntity(Type entityClrType)
+        {
+            if (entityClrType == null) return false;
+            try
+            {
+                var entity = Activator.CreateInstance(entityClrType);
+                if (entity == null) return false;
+
+                // assign values from Properties
+                foreach (var ep in Properties)
+                {
+                    var prop = entityClrType.GetProperty(ep.Name);
+                    if (prop == null || !prop.CanWrite) continue;
+                    var valueToSet = ep.Value;
+                    if (valueToSet != null && !prop.PropertyType.IsAssignableFrom(valueToSet.GetType()))
+                    {
+                        valueToSet = Convert.ChangeType(valueToSet, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType, CultureInfo.InvariantCulture);
+                    }
+                    prop.SetValue(entity, valueToSet);
+                }
+
+                using var ctx = new AppDbContext();
+                ctx.Add(entity); // use non-generic Add(object) to avoid type inference issues
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsScalarType(Type t)
+        {
+            if (t == typeof(string)) return true;
+            if (t.IsPrimitive || t.IsEnum) return true;
+            if (t == typeof(DateTime) || t == typeof(decimal) || t == typeof(double) || t == typeof(float)) return true;
+            var nt = Nullable.GetUnderlyingType(t);
+            if (nt != null) return IsScalarType(nt);
+            // exclude collections and complex types
+            if (typeof(System.Collections.IEnumerable).IsAssignableFrom(t) && t != typeof(string)) return false;
+            return false;
+        }
+
+        private void SaveSelectedItem()
+        {
+            if (SelectedItem == null) return;
+            var obj = SelectedItem;
+            var type = obj.GetType();
+            foreach (var ep in Properties)
+            {
+                var prop = type.GetProperty(ep.Name);
+                if (prop == null || !prop.CanWrite) continue;
+                try
+                {
+                    // убедиться, что Value имеет корректный тип
+                    var valueToSet = ep.Value;
+                    if (valueToSet != null && !prop.PropertyType.IsAssignableFrom(valueToSet.GetType()))
+                    {
+                        valueToSet = Convert.ChangeType(valueToSet, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType, System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    prop.SetValue(obj, valueToSet);
+                }
+                catch
+                {
+                    // обработка ошибок парсинга — можно показать сообщение
+                }
+            }
+
+            // сохранить в БД (если объект — сущность EF)
+            try
+            {
+                using var ctx = new AppDbContext();
+                ctx.Attach(obj);
+                ctx.Entry(obj).State = EntityState.Modified;
+                ctx.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // лог/сообщение
+            }
+        }
+
+        public AdminProfileViewModel() { }
 
     // Create and load by email (email should be unique)
     public AdminProfileViewModel(string email)
@@ -63,8 +195,13 @@ namespace SkolniJidelna.ViewModels
 
     Email = stravnik.Email;
     FullName = $"{stravnik.Jmeno} {stravnik.Prijmeni}";
+    Role = stravnik.Role?.Trim() ?? string.Empty;
     BalanceFormatted = string.Format("{0:0.##} Kč", stravnik.Zustatek);
-    Status = stravnik.TypStravnik;
+    // Map typ_stravnik to localized status (keep original when unknown)
+    var t = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();
+    if (t == "pr") Status = "pracovnik";
+    else if (t == "st") Status = "student";
+    else Status = stravnik.TypStravnik ?? string.Empty;
 
     // Address
     if (stravnik.Adresa != null)
@@ -77,7 +214,8 @@ namespace SkolniJidelna.ViewModels
 
     if (prac != null)
     {
-    Phone = prac.Telefon !=0 ? prac.Telefon.ToString() : string.Empty;
+    // Prefix phone digits with country code +420 when present
+    Phone = prac.Telefon != 0 ? $"+420{prac.Telefon}" : string.Empty;
     var poz = ctx.Pozice.Find(prac.IdPozice);
     PositionClass = poz != null ? poz.Nazev : prac.IdPozice.ToString();
     }

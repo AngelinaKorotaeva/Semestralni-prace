@@ -17,19 +17,12 @@ public partial class MainWindow : Window
             vm.LoginFailed += msg => Dispatcher.Invoke(() =>
                 MessageBox.Show(this, msg, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error));
 
+            // WindowService already shows the correct profile window.
+            // Do not create windows here to avoid opening two windows.
             vm.LoginSucceeded += (email, isPracovnik, isAdmin) => Dispatcher.Invoke(() =>
             {
-                if (isAdmin)
-                {
-                    var wnd = new AdminProfileWindow(email);
-                    wnd.Show();
-                }
-                else
-                {
-                    var wnd = new UserProfileWindow(email);
-                    wnd.Show();
-                }
-
+                // Navigation handled by IWindowService from the ViewModel.
+                // Just hide the login window so the opened profile window is visible.
                 this.Hide();
             });
 

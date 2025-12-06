@@ -1,0 +1,14 @@
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 341
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 341

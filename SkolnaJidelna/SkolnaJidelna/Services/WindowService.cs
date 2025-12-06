@@ -9,11 +9,11 @@ namespace SkolniJidelna.Services
 {
     public class WindowService : IWindowService
     {
-        public void ShowAdminProfile()
+        public void ShowAdminProfile(string adminEmail)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var w = new AdminProfileWindow();
+                var w = new AdminProfileWindow(adminEmail);
                 w.Show();
             });
         }

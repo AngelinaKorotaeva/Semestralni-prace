@@ -84,7 +84,7 @@
                     </TextBlock>
 
                     <!-- Фото -->
-                    <Border CornerRadius="15" Background="White" Padding="10" Margin="0,0,0,20" HorizontalAlignment="Center">
+                    <Border CornerRadius="15" Background="White" Padding="10" Margin="0,0,0,20" HorizontalAlignment="Center" Height="120" Width="120">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
                         </Border.Effect>
@@ -133,6 +133,7 @@
                     <Button x:Name="saveButton" Content="Uložit změny" Style="{StaticResource PrimaryButton}" Margin="0,0,0,20" Visibility="Collapsed" Click="SaveChangesButton_Click"/>
                 </StackPanel>
             </ScrollViewer>
+            
         </Grid>
     </Grid>
 </Window>

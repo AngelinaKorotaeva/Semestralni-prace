@@ -9,26 +9,30 @@ namespace SkolniJidelna
     /// </summary>
     public partial class AdminProfileWindow : Window
     {
-        public AdminProfileWindow()
+        private string Email;
+        public AdminProfileWindow(string email)
         {
             InitializeComponent();
-        }
 
-        public AdminProfileWindow(string adminEmail) : this()
-        {
-            if (!string.IsNullOrWhiteSpace(adminEmail))
+            this.Email = email;
+
+            if (!string.IsNullOrWhiteSpace(email))
             {
-                var vm = new AdminProfileViewModel(adminEmail);
-                DataContext = vm;
-
-                // DEBUG: potvrdit, že VM obsahuje jméno (okno se otevře a ukáže message)
-                Loaded += (s, e) =>
-                {
-                    MessageBox.Show($"DataContext set: {DataContext != null}\nFullName: '{vm.FullName}'\nEmail: '{vm.Email}'",
-                                    "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
-                };
+                var vm = new AdminProfileViewModel(email);
+                this.DataContext = vm;
             }
         }
+
+        //public AdminProfileWindow(string adminEmail) : this()
+        //{
+        //    if (!string.IsNullOrWhiteSpace(adminEmail))
+        //    {
+        //        var vm = new AdminProfileViewModel(adminEmail);
+        //        DataContext = vm;
+        //
+        //        // No debug popup on load
+        //    }
+        //}
 
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
         {
@@ -37,7 +41,9 @@ namespace SkolniJidelna
 
         private void ViewMenuButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var menu = new MenuWindow(Email);
+            menu.Show();
+            this.Close();
         }
 
         private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
@@ -52,7 +58,9 @@ namespace SkolniJidelna
 
         private void AdminPanelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var adminPanel = new AdminPanel(Email);
+            adminPanel.Show();
+            this.Close();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

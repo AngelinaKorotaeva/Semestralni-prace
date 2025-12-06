@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 using SkolniJidelna.Data;
 using SkolniJidelna.Services;
+using System.IO;
+using System.Windows.Xps.Serialization;
+using System.Diagnostics;
 
 namespace SkolniJidelna.ViewModels
 {
@@ -80,14 +83,41 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                bool isPracovnik = string.Equals(user.TypStravnik, "pr", StringComparison.OrdinalIgnoreCase);
-                bool isAdmin = string.Equals(user.Role, "ADMIN", StringComparison.OrdinalIgnoreCase);
+                // Log role/type for debugging. Use Debug output and file logging because WPF apps may not have a console.
+                Debug.WriteLine($"Login attempt - Email={user.Email}, RoleRaw='{user.Role}', TypStravnik='{user.TypStravnik}'");
+                try
+                {
+                    File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "login-debug.log"),
+                        $"Login attempt - Email={user.Email}, RoleRaw='{user.Role}', TypStravnik='{user.TypStravnik}', Time={DateTime.Now:o}{Environment.NewLine}");
+                }
+                catch { /* ignore logging failures */ }
+
+                var roleNorm = user.Role?.Trim();
+                var typeNorm = user.TypStravnik?.Trim();
+
+                bool isPracovnik = string.Equals(typeNorm, "pr", StringComparison.OrdinalIgnoreCase);
+                bool isAdmin = string.Equals(roleNorm, "ADMIN", StringComparison.OrdinalIgnoreCase);
+
+                // If role looks unexpected, log it for troubleshooting
+                if (!isAdmin && !string.IsNullOrEmpty(roleNorm) && !string.Equals(roleNorm, "USER", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "login-role-debug.log"),
+                            $"User={user.Email}, RoleRaw='{user.Role}', RoleNorm='{roleNorm}', Time={DateTime.Now:o}{Environment.NewLine}");
+                    }
+                    catch { /* ignore logging failures */ }
+                }
 
                 // Навигация через сервис (MVVM-friendly)
                 if (isAdmin)
-                    _windowService.ShowAdminProfile();
+                {
+                    _windowService.ShowAdminProfile(user.Email);
+                }
                 else
+                {
                     _windowService.ShowUserProfile(user.Email, isPracovnik);
+                }
 
                 // уведомление view, чтобы оно могло закрыть окно
                 LoginSucceeded?.Invoke(user.Email, isPracovnik, isAdmin);
