@@ -167,7 +167,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
-        public AdminProfileViewModel() { }
+    public AdminProfileViewModel() { }
 
     // Create and load by email (email should be unique)
     public AdminProfileViewModel(string email)
