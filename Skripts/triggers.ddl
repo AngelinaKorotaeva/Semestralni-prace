@@ -220,3 +220,63 @@ BEGIN
         :NEW.id_stav := 3; -- "V procesu"
     END IF;
 END;
+
+
+с) ARC triggery:
+
+17. ARC trigger pro tabulku PRACOVNICI (Zajišťuje, že do tabulky PRACOVNICI lze vložit pouze strávníka typu „pr“)
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_pracovnici BEFORE
+    INSERT OR UPDATE OF id_stravnik ON pracovnici
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(4);
+BEGIN
+    SELECT
+        a.typ_stravnik
+    INTO d
+    FROM
+        stravnici a
+    WHERE
+        a.id_stravnik = :new.id_stravnik;
+
+    IF ( d IS NULL OR d <> 'pr' ) THEN
+        raise_application_error(-20223, 'FK PRACOVNIK_STRAVNIK_FK in Table PRACOVNICI violates Arc constraint on Table STRAVNICI - discriminator column typ_stravnik doesn''t have value ''pr'''
+        );
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+
+
+18. ARC trigger pro tabulku STUDENTI (Zajišťuje, že do tabulky STUDENTI lze vložit pouze strávníka typu „st“)
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_studenti BEFORE
+    INSERT OR UPDATE OF id_stravnik ON studenti
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(4);
+BEGIN
+    SELECT
+        a.typ_stravnik
+    INTO d
+    FROM
+        stravnici a
+    WHERE
+        a.id_stravnik = :new.id_stravnik;
+
+    IF ( d IS NULL OR d <> 'st' ) THEN
+        raise_application_error(-20223, 'FK STUDENT_STRAVNIK_PK in Table STUDENTI violates Arc constraint on Table STRAVNICI - discriminator column typ_stravnik doesn''t have value ''st'''
+        );
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
