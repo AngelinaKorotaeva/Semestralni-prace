@@ -1,4 +1,6 @@
-triggery pro id: 
+a) Triggery pro id: 
+
+1. Automatické doplnění id strávníka při vložení
 
 CREATE OR REPLACE TRIGGER trg_str_id 
 BEFORE INSERT ON stravnici 
@@ -12,6 +14,8 @@ BEGIN
 END; 
 
 
+2. Automatické doplnění id platby
+
 CREATE OR REPLACE TRIGGER t_plat_id
 BEFORE INSERT ON platby 
 FOR EACH ROW 
@@ -23,6 +27,8 @@ BEGIN
   end if; 
 END; 
 
+
+3. Automatické doplnění id objednávky
 
 CREATE OR REPLACE TRIGGER t_obj_id 
 BEFORE INSERT ON objednavky 
@@ -36,6 +42,8 @@ BEGIN
 END; 
 
 
+4.
+Automatické doplnění id jídla
 CREATE OR REPLACE TRIGGER t_jid_id 
 BEFORE INSERT ON jidla 
 FOR EACH ROW 
@@ -47,6 +55,8 @@ BEGIN
   end if; 
 END; 
 
+
+5. Automatické doplnění id menu
 
 CREATE OR REPLACE TRIGGER t_menu_id 
 BEFORE INSERT ON menu 
@@ -60,6 +70,8 @@ BEGIN
 END; 
 
 
+6. Automatické doplnění id adresy
+
 CREATE OR REPLACE TRIGGER t_adr_id 
 BEFORE INSERT ON adresy 
 FOR EACH ROW 
@@ -71,6 +83,8 @@ BEGIN
   end if; 
 END; 
 
+
+7. Automatické doplnění id alergie
 
 CREATE OR REPLACE TRIGGER t_aler_id 
 BEFORE INSERT ON alergie 
@@ -84,6 +98,8 @@ BEGIN
 END; 
 
 
+8. Automatické doplnění id omezení
+
 CREATE OR REPLACE TRIGGER t_omez_id 
 BEFORE INSERT ON dietni_omezeni
 FOR EACH ROW 
@@ -95,6 +111,8 @@ BEGIN
   end if; 
 END; 
 
+
+9. Automatické doplnění id složky
 
 CREATE OR REPLACE TRIGGER t_sloz_id 
 BEFORE INSERT ON slozky
@@ -108,6 +126,8 @@ BEGIN
 END; 
 
 
+10. Automatické doplnění id souboru
+
 CREATE OR REPLACE TRIGGER t_soub_id 
 BEFORE INSERT ON soubory
 FOR EACH ROW 
@@ -119,6 +139,8 @@ BEGIN
   end if; 
 END; 
 
+
+11. Automatické doplnění id logu
 
 CREATE OR REPLACE TRIGGER t_log_id 
 BEFORE INSERT ON logy
@@ -132,13 +154,11 @@ BEGIN
 END; 
 
 
-6 a 14 zadaní triggery:
+b) Triggery splňující požadavky:
 
-14 - Kontrola zůstatku při objednávce
+12. Zákaz vytvoření objednávky bez dostatečného kreditu (bod 14 – kontrola zůstatku)
 
-Neumožňuje vytvořit objednávku, pokud klient nemá dostatek peněz
-
-CREATE OR REPLACE TRIGGER objednavky_check_balance
+CREATE OR REPLACE TRIGGER t_obj_zustatek
 BEFORE INSERT ON objednavky
 FOR EACH ROW
 DECLARE
@@ -153,9 +173,10 @@ BEGIN
     END IF;
 END;
 
-Automatické stržení peněz při objednávce
 
-CREATE OR REPLACE TRIGGER objednavky_deduct_balance
+13. Automatické stržení peněz při objednávce (bod 14 – práce s transakcemi)
+
+CREATE OR REPLACE TRIGGER t_obj_platba
 AFTER INSERT ON objednavky
 FOR EACH ROW
 BEGIN
@@ -164,9 +185,10 @@ BEGIN
     WHERE id_stravnik = :NEW.id_stravnik;
 END;
 
-14 - Automatické přičtení peněz při platbě
 
-CREATE OR REPLACE TRIGGER platby_add_balance
+14. Automatické přičtení peněz při platbě (bod 14 – práce s transakcemi)
+
+CREATE OR REPLACE TRIGGER t_platba_zustatek
 AFTER INSERT ON platby
 FOR EACH ROW
 BEGIN
@@ -176,26 +198,9 @@ BEGIN
 END;
 
 
-Kontrola přítomnosti ingrediencí před přidáním jídla
+15. Automatické nastavení datumu objednávky (bod 6 – automatické doplnění hodnot)
 
-CREATE OR REPLACE TRIGGER jidlo_check_ingredients
-BEFORE INSERT ON jidla
-FOR EACH ROW
-DECLARE
-    v_count INTEGER;
-BEGIN
-    SELECT COUNT(*) INTO v_count
-    FROM slozky_jidla
-    WHERE id_jidlo = :NEW.id_jidlo;
-
-    IF v_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Jídlo musí mít alespoň jednu složku.');
-    END IF;
-END;
-
-Automatické nastavení datumu objednávky
-
-CREATE OR REPLACE TRIGGER obj_auto_date
+CREATE OR REPLACE TRIGGER t_obj_date
 BEFORE INSERT ON objednavky
 FOR EACH ROW
 BEGIN
@@ -204,61 +209,14 @@ BEGIN
     END IF;
 END;
 
- Logování změn (audit)
+ 
+16. Automatické nastavení výchozího stavu objednávky (bod 6 – doplnění výchozí hodnoty)
 
-
-CREATE TABLE audit_log (
-    user_name VARCHAR2(30),
-    table_name VARCHAR2(30),
-    action VARCHAR2(10),
-    action_date DATE
-);
-
-
-14 - 
-
-CREATE OR REPLACE TRIGGER audit_objednavky
-AFTER INSERT OR UPDATE OR DELETE ON objednavky
-BEGIN
-    INSERT INTO audit_log (user_name, table_name, action, action_date)
-    VALUES (USER, 'OBJEDNAVKY',
-            CASE
-                WHEN INSERTING THEN 'INSERT'
-                WHEN UPDATING THEN 'UPDATE'
-                WHEN DELETING THEN 'DELETE'
-            END,
-            SYSDATE);
-END;
-/
-
-
-Proč: Záznam změn - kdo co udělal s příkazy a kdy.
-
-
-6 - Automatické nastavení stavu objednávky
-
-CREATE OR REPLACE TRIGGER obj_set_default_status
+CREATE OR REPLACE TRIGGER t_obj_status
 BEFORE INSERT ON objednavky
 FOR EACH ROW
 BEGIN
     IF :NEW.id_stav IS NULL THEN
         :NEW.id_stav := 3; -- "V procesu"
     END IF;
-END;
-
-6 - Automatické mazání starých neuhrazených objednávek ??
-
-
-
- Идея: Триггер на таблицу platby
-
-Если ты хочешь, чтобы обновление баланса происходило автоматически, можно вообще добавить триггер:
-
-CREATE OR REPLACE TRIGGER trg_update_zustatek
-AFTER INSERT ON platby
-FOR EACH ROW
-BEGIN
-    UPDATE stravnici
-    SET zustatek = zustatek + :NEW.castka
-    WHERE id_stravnik = :NEW.id_stravnik;
 END;
