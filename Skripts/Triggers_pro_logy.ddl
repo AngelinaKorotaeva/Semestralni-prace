@@ -1,3 +1,5 @@
+1. Logování změn v tabulce ALERGIE
+
 CREATE OR REPLACE TRIGGER t_alergie_log
 AFTER INSERT OR UPDATE OR DELETE ON alergie
 FOR EACH ROW
@@ -14,6 +16,8 @@ BEGIN
     END IF;
 END;
 
+
+2. Logování změn v tabulce STRAVNICI_ALERGIE
 
 CREATE OR REPLACE TRIGGER t_str_alerg_log
 AFTER INSERT OR UPDATE OR DELETE ON stravnici_alergie
@@ -36,6 +40,8 @@ BEGIN
 END;
 
 
+3. Logování změn v tabulce DIETNI_OMEZENI
+
 CREATE OR REPLACE TRIGGER t_dietni_omezeni_log
 AFTER INSERT OR UPDATE OR DELETE ON dietni_omezeni
 FOR EACH ROW
@@ -52,6 +58,8 @@ BEGIN
     END IF;
 END;
 
+
+4. Logování změn v tabulce STRAVNICI_OMEZENI
 
 CREATE OR REPLACE TRIGGER t_str_omezeni_log
 AFTER INSERT OR UPDATE OR DELETE ON stravnici_omezeni
@@ -74,6 +82,8 @@ BEGIN
 END;
 
 
+5. Logování změn v tabulce ADRESY
+
 CREATE OR REPLACE TRIGGER t_adresy_log
 AFTER INSERT OR UPDATE OR DELETE ON adresy
 FOR EACH ROW
@@ -90,6 +100,8 @@ BEGIN
     END IF;
 END;
 
+
+6. Logování změn v tabulce STRAVNICI
 
 CREATE OR REPLACE TRIGGER t_stravnici_log
 AFTER INSERT OR UPDATE OR DELETE ON stravnici
@@ -108,6 +120,8 @@ BEGIN
 END;
 
 
+7. Logování změn v tabulce JIDLA
+
 CREATE OR REPLACE TRIGGER t_jidla_log
 AFTER INSERT OR UPDATE OR DELETE ON jidla
 FOR EACH ROW
@@ -124,6 +138,8 @@ BEGIN
     END IF;
 END;
 
+
+8. Logování změn v tabulce OBJEDNAVKY
 
 CREATE OR REPLACE TRIGGER t_objednavky_log
 AFTER INSERT OR UPDATE OR DELETE ON objednavky
@@ -142,6 +158,8 @@ BEGIN
 END;
 
 
+9. Logování změn v tabulce STAVY
+
 CREATE OR REPLACE TRIGGER t_stavy_log
 AFTER INSERT OR UPDATE OR DELETE ON stavy
 FOR EACH ROW
@@ -158,6 +176,8 @@ BEGIN
     END IF;
 END;
 
+
+10. Logování změn v tabulce POLOZKY
 
 CREATE OR REPLACE TRIGGER t_polozky_log
 AFTER INSERT OR UPDATE OR DELETE ON polozky
@@ -180,6 +200,8 @@ BEGIN
 END;
 
 
+11. Logování změn v tabulce MENU
+
 CREATE OR REPLACE TRIGGER t_menu_log
 AFTER INSERT OR UPDATE OR DELETE ON menu
 FOR EACH ROW
@@ -196,6 +218,8 @@ BEGIN
     END IF;
 END;
 
+
+12. Logování změn v tabulce PLATBY
 
 CREATE OR REPLACE TRIGGER t_platby_log
 AFTER INSERT OR UPDATE OR DELETE ON platby
@@ -214,6 +238,8 @@ BEGIN
 END;
 
 
+13. Logování změn v tabulce SLOZKY
+
 CREATE OR REPLACE TRIGGER t_slozky_log
 AFTER INSERT OR UPDATE OR DELETE ON slozky
 FOR EACH ROW
@@ -231,6 +257,7 @@ BEGIN
 END;
 
 
+14. Logování změn v tabulce SLOZKY_JIDLA
 CREATE OR REPLACE TRIGGER t_slozky_jidla_log
 AFTER INSERT OR UPDATE OR DELETE ON slozky_jidla
 FOR EACH ROW
@@ -252,6 +279,8 @@ BEGIN
 END;
 
 
+15. Logování změn v tabulce SOUBORY (BLOB)
+
 CREATE OR REPLACE TRIGGER t_soubory_log
 AFTER INSERT OR UPDATE OR DELETE ON soubory
 FOR EACH ROW
@@ -268,6 +297,8 @@ BEGIN
     END IF;
 END;
 
+
+16. Logování změn v tabulce STUDENTI
 
 CREATE OR REPLACE TRIGGER t_studenti_log
 AFTER INSERT OR UPDATE OR DELETE ON studenti
@@ -286,6 +317,8 @@ BEGIN
 END;
 
 
+17. Logování změn v tabulce PRACOVNICI
+
 CREATE OR REPLACE TRIGGER t_pracovnici_log
 AFTER INSERT OR UPDATE OR DELETE ON pracovnici
 FOR EACH ROW
@@ -300,4 +333,5 @@ BEGIN
         INSERT INTO logy (id_log, tabulka, id_zaznam, akce, datum_cas, detail)
         VALUES (s_log.NEXTVAL, 'PRACOVNICI', :OLD.id_stravnik, 'DELETE', SYSDATE, NULL);
     END IF;
+
 END;
