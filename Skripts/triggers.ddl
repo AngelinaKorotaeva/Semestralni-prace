@@ -151,12 +151,47 @@ BEGIN
     INTO :new.id_log
     FROM dual; 
   end if; 
-END; 
+END;
 
+
+12. Automatické doplnění id pozice
+
+CREATE OR REPLACE TRIGGER T_POZICE_ID 
+BEFORE INSERT ON pozice
+FOR EACH ROW
+BEGIN
+  IF :NEW.id_pozice IS NULL THEN
+        SELECT S_POZ.NEXTVAL INTO :NEW.id_pozice FROM dual;
+    END IF;
+END;
+
+
+13. Automatické doplnění id stavu
+
+CREATE OR REPLACE TRIGGER T_STAV_ID 
+BEFORE INSERT ON stavy
+FOR EACH ROW
+BEGIN
+  IF :NEW.id_stav IS NULL THEN
+        SELECT S_STAV.NEXTVAL INTO :NEW.id_stav FROM dual;
+    END IF;
+END;  
+
+
+14. Automatické doplnění id třídy
+
+CREATE OR REPLACE TRIGGER T_TRIDA_ID 
+BEFORE INSERT ON tridy
+FOR EACH ROW
+BEGIN
+  IF :NEW.id_trida IS NULL THEN
+        SELECT S_TRIDA.NEXTVAL INTO :NEW.id_trida FROM dual;
+    END IF;
+END;
 
 b) Triggery splňující požadavky:
 
-12. Zákaz vytvoření objednávky bez dostatečného kreditu (bod 14 – kontrola zůstatku)
+1. Zákaz vytvoření objednávky bez dostatečného kreditu (bod 14 – kontrola zůstatku)
 
 CREATE OR REPLACE TRIGGER t_obj_zustatek
 BEFORE INSERT ON objednavky
@@ -174,7 +209,7 @@ BEGIN
 END;
 
 
-13. Automatické stržení peněz při objednávce (bod 14 – práce s transakcemi)
+2. Automatické stržení peněz při objednávce (bod 14 – práce s transakcemi)
 
 CREATE OR REPLACE TRIGGER t_obj_platba
 AFTER INSERT ON objednavky
@@ -186,7 +221,7 @@ BEGIN
 END;
 
 
-14. Automatické přičtení peněz při platbě (bod 14 – práce s transakcemi)
+3. Automatické přičtení peněz při platbě (bod 14 – práce s transakcemi)
 
 CREATE OR REPLACE TRIGGER t_platba_zustatek
 AFTER INSERT ON platby
@@ -198,7 +233,7 @@ BEGIN
 END;
 
 
-15. Automatické nastavení datumu objednávky (bod 6 – automatické doplnění hodnot)
+4. Automatické nastavení datumu objednávky (bod 6 – automatické doplnění hodnot)
 
 CREATE OR REPLACE TRIGGER t_obj_date
 BEFORE INSERT ON objednavky
@@ -210,7 +245,7 @@ BEGIN
 END;
 
  
-16. Automatické nastavení výchozího stavu objednávky (bod 6 – doplnění výchozí hodnoty)
+5. Automatické nastavení výchozího stavu objednávky (bod 6 – doplnění výchozí hodnoty)
 
 CREATE OR REPLACE TRIGGER t_obj_status
 BEFORE INSERT ON objednavky
@@ -224,7 +259,7 @@ END;
 
 с) ARC triggery:
 
-17. ARC trigger pro tabulku PRACOVNICI (Zajišťuje, že do tabulky PRACOVNICI lze vložit pouze strávníka typu „pr“)
+1. ARC trigger pro tabulku PRACOVNICI (Zajišťuje, že do tabulky PRACOVNICI lze vložit pouze strávníka typu „pr“)
 
 CREATE OR REPLACE TRIGGER arc_fkarc_1_pracovnici BEFORE
     INSERT OR UPDATE OF id_stravnik ON pracovnici
@@ -253,7 +288,7 @@ EXCEPTION
 END;
 
 
-18. ARC trigger pro tabulku STUDENTI (Zajišťuje, že do tabulky STUDENTI lze vložit pouze strávníka typu „st“)
+2. ARC trigger pro tabulku STUDENTI (Zajišťuje, že do tabulky STUDENTI lze vložit pouze strávníka typu „st“)
 
 CREATE OR REPLACE TRIGGER arc_fkarc_1_studenti BEFORE
     INSERT OR UPDATE OF id_stravnik ON studenti
@@ -280,3 +315,4 @@ EXCEPTION
     WHEN OTHERS THEN
         RAISE;
 END;
+
