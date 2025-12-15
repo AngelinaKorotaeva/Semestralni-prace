@@ -64,7 +64,7 @@ EXCEPTION
 END F_STAV_MENU;
 
 
-4. Kontroluje, zda má strávník dostatek zůstatku na zaplacení částky; jinak vrací nedostatečný nebo neexistuje.
+4. Kontroluje, zda má strávník dostatečný zůstatek na zaplacení částky; jinak vrací nedostatečný nebo neexistuje.
 
 CREATE OR REPLACE FUNCTION F_ZUSTATEK 
 (
@@ -116,3 +116,4 @@ BEGIN
 
     RETURN v_num_characters;
 END;
+
