@@ -47,6 +47,8 @@ namespace SkolniJidelna.Data
         public DbSet<Student> Student { get; set; }
         public DbSet<Trida> Trida { get; set; }
 
+        public DbSet<VStravnikLogin> VStravnikLogin { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -87,11 +89,11 @@ namespace SkolniJidelna.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Adresa>().ToTable("ADRESY");
-            modelBuilder.Entity<StravnikAlergie>().ToTable("ALERGIE_STRAVNICI");
+            modelBuilder.Entity<StravnikAlergie>().ToTable("STRAVNICI_ALERGIE");
             modelBuilder.Entity<Jidlo>().ToTable("JIDLA");
             modelBuilder.Entity<Log>().ToTable("LOGY");
             modelBuilder.Entity<Objednavka>().ToTable("OBJEDNAVKY");
-            modelBuilder.Entity<StravnikOmezeni>().ToTable("OMEZENI_STRAVNICI");
+            modelBuilder.Entity<StravnikOmezeni>().ToTable("STRAVNICI_OMEZENI");
             modelBuilder.Entity<Platba>().ToTable("PLATBY");
             modelBuilder.Entity<Polozka>().ToTable("POLOZKY");
             modelBuilder.Entity<Pracovnik>().ToTable("PRACOVNICI");
@@ -118,6 +120,10 @@ namespace SkolniJidelna.Data
                 .HasColumnName("ID_STRAVNIK")
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("S_STR.NEXTVAL");
+
+            modelBuilder.Entity<VStravnikLogin>()
+                .ToView("V_STRAVNICI_LOGIN")
+                .HasNoKey();
         }
     }
 }

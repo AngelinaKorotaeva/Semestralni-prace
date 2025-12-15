@@ -1,15 +1,20 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using SkolniJidelna.Data;
+using SkolniJidelna.Services;
 using SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna
 {
     public partial class AdminPanel : Window
     {
-        public AdminPanel()
+        private string Email;
+        public AdminPanel(string email)
         {
             InitializeComponent();
             Loaded += AdminPanel_Loaded;
+
+            this.Email = email;
         }
 
         private async void AdminPanel_Loaded(object? sender, RoutedEventArgs e)
@@ -36,6 +41,20 @@ namespace SkolniJidelna
             if (DataContext is AdminViewModel vm && sender is ListBox lb)
             {
                 vm.OnSelectedItemChanged(lb.SelectedItem as ItemViewModel);
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var aw = new AdminProfileWindow(Email);
+                aw.Show();
+                this.Close();
+            }
+            catch
+            {
+
             }
         }
     }

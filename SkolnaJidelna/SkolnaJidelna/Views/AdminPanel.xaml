@@ -49,8 +49,8 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
-        
-        
+
+
 
         <Grid Grid.Column="0">
 
@@ -72,14 +72,15 @@
                 <ComboBox ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
                 <TextBlock Text="Položky" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
                 <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="400"/>
-                
+
+                <!-- ??? -->
                 <Button Content="Obnovit" Command="{Binding RefreshCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0"/>
-                <Button Content="Zavřít" Command="{Binding CloseCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0"/>
+                <Button Content="Zpět do profilu" Command="{Binding CloseCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0" Click="BackButton_Click"/>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Column="1">
-        
+
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#FFF5F8" Offset="0"/>
@@ -92,9 +93,9 @@
                 <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="200" Canvas.Top="500" Opacity="0.5"/>
             </Canvas>
 
-            <ScrollViewer Grid.Column="1" Margin="20">
+            <ScrollViewer Grid.Column="1" Margin="20" BorderBrush="Black">
                 <StackPanel>
-                    <TextBlock Text="Detaily" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10">
+                    <TextBlock Text="Detaily" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10" >
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="#FF6B9E" Offset="0"/>
@@ -102,7 +103,7 @@
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
                     </TextBlock>
-                    
+
                     <ItemsControl ItemsSource="{Binding Properties}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -113,12 +114,127 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                         <Button Content="Uložit" Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}" Width="120" Height="60" Margin="0,0,8,0" FontSize="22"/>
+
                     </StackPanel>
+
+                    <Grid Width="637" HorizontalAlignment="Left" Height="39">
+                        <TextBlock Text="Jméno" FontSize="16" Foreground="#000000" Margin="20,5,0,15" Opacity="0.9"/>
+                        <TextBlock Text="Prijmeni" FontSize="16" Foreground="#000000" Margin="350,5,0,15" Opacity="0.9"/>
+                    </Grid>
+
+                    <!-- First and last name side-by-side with duplicated icon -->
+                    <Grid Width="640" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="12" Margin="5" HorizontalAlignment="Left" >
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBox Grid.Column="1" x:Name="textBoxFirstName" Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="12,0,40,0"/>
+
+                        <Border Grid.Column="2" Width="40" Height="40" CornerRadius="12" Margin="20,5,5,5" HorizontalAlignment="Left">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="👤" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBox Grid.Column="3" x:Name="textBoxLastName" Style="{StaticResource TextBoxStyle}"
+                                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                    </Grid>
+
+                    <Grid Width="637" HorizontalAlignment="Left" Height="39">
+                        <TextBlock Text="Email" FontSize="16" Foreground="#000000" Margin="20,5,0,15" Opacity="0.9"/>
+                        <TextBlock Text="Adresa (00000, Ulice 10, Mesto)" FontSize="16" Foreground="#000000" Margin="350,5,0,15" Opacity="0.9"/>
+                    </Grid>
+
+                    <Grid Width="640" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="12" Margin="5" HorizontalAlignment="Left" >
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="📧" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBox Grid.Column="1" x:Name="textBoxEmail" Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                            BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="12,0,40,0"/>
+
+                        <Border Grid.Column="2" Width="40" Height="40" CornerRadius="12" Margin="20,5,5,5" HorizontalAlignment="Left">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFB6D9" Offset="0"/>
+                                    <GradientStop Color="#FF6B9E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="🏠" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBox Grid.Column="3" x:Name="textBoxAdresa" Style="{StaticResource TextBoxStyle}"
+                            Text="{Binding Ulice, UpdateSourceTrigger=PropertyChanged}"
+                            BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                    </Grid>
+
+                    <!--<DataTemplate x:Key="StringEditor">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                            <TextBox Text="{Binding StringValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="BoolEditor">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <CheckBox IsChecked="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="NumberEditor">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                            <TextBox Text="{Binding StringValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="DateEditor">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                            <DatePicker SelectedDate="{Binding Value, Mode=TwoWay}" />
+                        </StackPanel>
+                    </DataTemplate> -->
+
                 </StackPanel>
             </ScrollViewer>
-            
+
         </Grid>
-        
+
     </Grid>
-    
+
 </Window>

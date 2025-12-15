@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna
 {
@@ -19,10 +9,31 @@ namespace SkolniJidelna
     /// </summary>
     public partial class AdminProfileWindow : Window
     {
-        public AdminProfileWindow()
+        private string Email;
+        public AdminProfileWindow(string email)
         {
             InitializeComponent();
+
+            this.Email = email;
+
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                var vm = new AdminProfileViewModel(email);
+                this.DataContext = vm;
+            }
         }
+
+        //public AdminProfileWindow(string adminEmail) : this()
+        //{
+        //    if (!string.IsNullOrWhiteSpace(adminEmail))
+        //    {
+        //        var vm = new AdminProfileViewModel(adminEmail);
+        //        DataContext = vm;
+        //
+        //        // No debug popup on load
+        //    }
+        //}
+
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -30,7 +41,9 @@ namespace SkolniJidelna
 
         private void ViewMenuButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var menu = new MenuWindow(Email);
+            menu.Show();
+            this.Close();
         }
 
         private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
@@ -45,7 +58,9 @@ namespace SkolniJidelna
 
         private void AdminPanelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var adminPanel = new AdminPanel(Email);
+            adminPanel.Show();
+            this.Close();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

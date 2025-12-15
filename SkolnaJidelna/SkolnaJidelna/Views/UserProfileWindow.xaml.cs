@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Data;
 using SkolniJidelna.Models;
+using SkolniJidelna.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SkolniJidelna
 {
@@ -24,65 +26,16 @@ namespace SkolniJidelna
     {
         private bool TypStavnik = true;
         private string Email = "";
-        public UserProfileWindow(string email, bool stravnik)
+        public UserProfileWindow(string email)
         {
             InitializeComponent();
             this.Email = email;
-            if (!stravnik) TypStavnik = false;
 
-            LoadUserData(Email);
-        }
+            // Use MVVM: set DataContext to UserProfileViewModel
+            var vm = new UserProfileViewModel(email);
+            this.DataContext = vm;
 
-        private async void LoadUserData(String email)
-        {
-            using var db = new AppDbContext();
-
-            var stravnik = await db.Stravnik
-                .Include(s => s.Alergie)
-                .Include(s => s.Omezeni)
-                .Include(s => s.Platby)
-                .FirstOrDefaultAsync(s => s.Email == email);
-
-            if (stravnik == null)
-            {
-                MessageBox.Show("Uživatel nebyl nalezen.");
-                Close();
-                return;
-            }
-
-            textBalance.Text = $"{stravnik.Zustatek} Kč";
-
-            textName.Text = $"{stravnik.Jmeno} {stravnik.Prijmeni}";
-
-            textStatus.Text = stravnik.TypStravnik == "student" ? "Status: Student" : "Status: Pracovník";
-
-
-            if (stravnik.TypStravnik == "student")
-            {
-                var student = await db.Student
-                    .Include(t => t.Trida)
-                    .FirstOrDefaultAsync(s => s.IdStravnik == stravnik.IdStravnik);
-
-                textPositionClass.Text = student != null ? $"Třída: {student.Trida.CisloTridy}" : "-";
-
-                comboAlergies.Visibility = Visibility.Collapsed;
-                comboDietRestrictions.Visibility = Visibility.Collapsed;
-                saveButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                var pracovnik = await db.Pracovnik
-                    .Include(p => p.Pozice)
-                    .FirstOrDefaultAsync(s => s.IdStravnik == stravnik.IdStravnik);
-
-                textPositionClass.Text = pracovnik != null ? $"Pozice: {pracovnik.Pozice.Nazev}" : "-";
-
-                comboAlergies.Visibility = Visibility.Visible;
-                comboDietRestrictions.Visibility = Visibility.Visible;
-                saveButton.Visibility = Visibility.Visible;
-                textAlergies.Visibility = Visibility.Collapsed;
-                textDietRestrictions.Visibility = Visibility.Collapsed;
-            }
+            // Removed debug MessageBox on LoadFinished as requested
         }
 
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
@@ -94,7 +47,7 @@ namespace SkolniJidelna
 
         private void ViewMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            var menu = new MenuWindow();
+            var menu = new MenuWindow(Email);
             menu.Show();
             this.Close();
         }
@@ -115,14 +68,32 @@ namespace SkolniJidelna
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            try
+            {
+                var main = App.Services.GetService(typeof(MainWindow)) as MainWindow;
+                if (main != null)
+                {
+                    main.Show();
+                }
+                else
+                {
+                    // fallback if DI instance not available
+                    var mw = new MainWindow();
+                    mw.Show();
+                }
+            }
+            catch
+            {
+                // fallback
+                var mw = new MainWindow();
+                mw.Show();
+            }
             this.Close();
         }
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
         }
-            
+
     }
 }

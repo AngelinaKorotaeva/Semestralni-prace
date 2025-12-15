@@ -157,8 +157,8 @@
                             <TextBlock Text="🏠" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <TextBox Grid.Column="1" x:Name="textBoxAdresa" Style="{StaticResource TextBoxStyle}" 
-                                 
-                                 BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                            Text="{Binding Ulice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
                     </Grid>
                 </Border>
                 <TextBlock Text="Adresa (00000, Ulice 0, Město)" FontSize="13" Foreground="#FFFFFF" Margin="20,5,0,15" Opacity="0.9"/>
@@ -202,7 +202,7 @@
                             Margin="0,0,0,15" ItemsSource="{Binding Positions}"
                             SelectedValue="{Binding PositionId, Mode=TwoWay}"
                             SelectedValuePath="IdPozice" DisplayMemberPath="Nazev" IsEditable="False" />
-                        
+
                         <TextBlock Text="Telefon" FontSize="13" Foreground="#999999" Margin="10,5,0,5"/>
                         <Border CornerRadius="15" Background="White" Padding="5" Margin="0,0,0,5">
                             <Border.Effect>
@@ -224,7 +224,8 @@
                                 </Border>
                                 <TextBox Grid.Column="1" x:Name="textBoxPhone" Style="{StaticResource TextBoxStyle}" 
                                          Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
-                                         BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                         BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="61,0,10,0"/>
+                                <Label Grid.Column="1" Content="+420" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="16" Height="40" Width="56"/>
                             </Grid>
                         </Border>
                     </StackPanel>

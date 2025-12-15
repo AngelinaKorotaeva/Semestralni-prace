@@ -2468,11 +2468,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolniJidelna.csproj",
+      "projectUniqueName": "C:\\Users\\Ангелина\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolniJidelna.csproj",
       "projectName": "SkolniJidelna",
-      "projectPath": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolniJidelna.csproj",
+      "projectPath": "C:\\Users\\Ангелина\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\SkolniJidelna.csproj",
       "packagesPath": "C:\\Users\\Ангелина\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\obj\\",
+      "outputPath": "C:\\Users\\Ангелина\\Source\\Repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2505,7 +2505,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -2559,16 +2559,8 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Při čtení souboru mezipaměti C:\\Users\\Ангелина\\source\\repos\\Semestralni-prace\\SkolnaJidelna\\SkolnaJidelna\\obj\\project.nuget.cache došlo k problému: '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
-    }
-  ]
+  }
 }
