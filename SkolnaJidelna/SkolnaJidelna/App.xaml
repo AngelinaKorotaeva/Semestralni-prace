@@ -102,31 +102,65 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="15">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="PART_EditableTextBox" 
-                                         Background="Transparent" 
-                                         BorderThickness="0" 
-                                         Padding="{TemplateBinding Padding}"
-                                         VerticalAlignment="Center"/>
-                                <ToggleButton x:Name="ToggleButton" 
-                                              Grid.Column="1" 
-                                              Background="Transparent" 
-                                              BorderThickness="0" 
-                                              Width="30" 
-                                              Content="▼"/>
-                            </Grid>
-                        </Border>
+                        <Grid>
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="15">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="ContentPresenter"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding SelectionBoxItem}"/>
+                                    <TextBox x:Name="PART_EditableTextBox"
+                                             Visibility="Collapsed"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             Padding="{TemplateBinding Padding}"
+                                             VerticalAlignment="Center"/>
+
+                                    <ToggleButton x:Name="ToggleButton"
+                                                  Grid.Column="1"
+                                                  Background="Transparent"
+                                                  BorderThickness="0"
+                                                  Width="30"
+                                                  Content="▼"
+                                                  Focusable="False"
+                                                  IsChecked="{TemplateBinding IsDropDownOpen}"/>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=Border}"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   StaysOpen="False"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border Background="White" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" CornerRadius="10">
+                                    <ScrollViewer CanContentScroll="True">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="ContentPresenter" Property="Content" Value=""/>
+                            </Trigger>
+                            <Trigger Property="IsEditable" Value="True">
+                                <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                            </Trigger>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="PART_EditableTextBox" Property="BorderBrush">
+                                <Setter TargetName="Border" Property="BorderBrush">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                             <GradientStop Color="#FF6B9E" Offset="0"/>

@@ -100,22 +100,6 @@ C:\Users\Polina Odintsova\Source\Repos\Semestralni-praceBCSH2\SkolnaJidelna\Skol
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-praceBCSH2\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJi.35805029.Up2Date
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-praceBCSH2\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna.genruntimeconfig.cache
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-praceBCSH2\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\ref\SkolniJidelna.dll
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna.csproj.AssemblyReference.cache
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\MenuWindow.baml
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderHistoryWindow.baml
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderWindow.baml
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\UserProfileWindow.baml
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminProfileWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\MenuWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderHistoryWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\StravnikListView.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\UserProfileWindow.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.cache
-C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.lref
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\appsettings.json
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\SkolniJidelna.exe
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\SkolniJidelna.deps.json
@@ -171,8 +155,24 @@ C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJid
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.DirectoryServices.Protocols.dll
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna.csproj.AssemblyReference.cache
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\MenuWindow.baml
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderHistoryWindow.baml
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderWindow.baml
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\UserProfileWindow.baml
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminPanel.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminProfileWindow.g.cs
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\LoginWindow.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\MenuWindow.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderHistoryWindow.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\OrderWindow.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\StravnikListView.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\UserProfileWindow.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.cache
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna_MarkupCompile.lref
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\App.baml
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\MainWindow.baml
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\AdminPanel.baml

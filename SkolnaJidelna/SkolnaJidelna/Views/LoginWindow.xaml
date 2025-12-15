@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:helpers="clr-namespace:SkolniJidelna.Helpers"
-        Title="Registrace - Školní jídelna" Height="900" Width="1100"
+        Title="Registrace - Školní jídelna" Height="750" Width="1100"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -252,10 +252,35 @@
                                     </Border.Background>
                                     <TextBlock Text="📅" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBox Grid.Column="1" x:Name="textBoxBirthYear"
-                                        Text="{Binding BirthYear, UpdateSourceTrigger=PropertyChanged}"
-                                        Style="{StaticResource TextBoxStyle}" BorderThickness="0" 
-                                        Background="Transparent" VerticalAlignment="Center" Margin="6,0,10,0"/>
+                                <!-- Replaced TextBox with ComboBox for year selection 2000..2020 -->
+                                <ComboBox Grid.Column="1" x:Name="comboBirthYear"
+                                          SelectedValuePath="Content"
+                                          SelectedValue="{Binding BirthYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsEditable="False"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="6,0,10,0">
+                                    <ComboBoxItem Content="2000"/>
+                                    <ComboBoxItem Content="2001"/>
+                                    <ComboBoxItem Content="2002"/>
+                                    <ComboBoxItem Content="2003"/>
+                                    <ComboBoxItem Content="2004"/>
+                                    <ComboBoxItem Content="2005"/>
+                                    <ComboBoxItem Content="2006"/>
+                                    <ComboBoxItem Content="2007"/>
+                                    <ComboBoxItem Content="2008"/>
+                                    <ComboBoxItem Content="2009"/>
+                                    <ComboBoxItem Content="2010"/>
+                                    <ComboBoxItem Content="2011"/>
+                                    <ComboBoxItem Content="2012"/>
+                                    <ComboBoxItem Content="2013"/>
+                                    <ComboBoxItem Content="2014"/>
+                                    <ComboBoxItem Content="2015"/>
+                                    <ComboBoxItem Content="2016"/>
+                                    <ComboBoxItem Content="2017"/>
+                                    <ComboBoxItem Content="2018"/>
+                                    <ComboBoxItem Content="2019"/>
+                                    <ComboBoxItem Content="2020"/>
+                                </ComboBox>
                             </Grid>
                         </Border>
                     </StackPanel>

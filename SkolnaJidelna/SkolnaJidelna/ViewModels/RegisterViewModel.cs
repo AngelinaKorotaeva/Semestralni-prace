@@ -29,7 +29,7 @@ namespace SkolniJidelna.ViewModels
         private int? _positionId;
         private int? _classId;
         private string? _photoPath;
-        private string _birthYear = string.Empty;
+        private string _birthYear = "2000"; // default selected year aligns with ComboBox default
         private string _ulice = string.Empty; // input that contains PSC, street+number, city
 
         private readonly IFileDialogService _fileDialogService;
