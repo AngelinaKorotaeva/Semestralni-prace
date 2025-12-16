@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,11 @@ namespace SkolniJidelna.Models
     [Table("STRAVNICI_OMEZENI")]
     public class StravnikOmezeni
     {
+        [Key]
         [Column("ID_STRAVNIK")]
         public int IdStravnik { get; set; }
 
+        [Key]
         [Column("ID_OMEZENI")]
         public int IdOmezeni { get; set; }
 

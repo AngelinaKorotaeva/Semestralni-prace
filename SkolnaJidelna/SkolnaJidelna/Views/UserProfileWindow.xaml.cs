@@ -40,9 +40,12 @@ namespace SkolniJidelna
 
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
         {
-            //var balance = new PaymentWindow();
-            //balance.Show();
-            //this.Close();
+            var rechargeWindow = new RechargeBalanceWindow(Email);
+            if (rechargeWindow.ShowDialog() == true)
+            {
+                // Reload the profile data to update balance
+                this.DataContext = new UserProfileViewModel(Email);
+            }
         }
 
         private void ViewMenuButton_Click(object sender, RoutedEventArgs e)
@@ -110,9 +113,12 @@ namespace SkolniJidelna
             this.Close();
         }
 
-        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (this.DataContext is UserProfileViewModel vm)
+            {
+                await vm.SaveChangesAsync();
+            }
         }
 
     }

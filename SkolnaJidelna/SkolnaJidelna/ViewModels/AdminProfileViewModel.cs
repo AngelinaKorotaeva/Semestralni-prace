@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +44,21 @@ namespace SkolniJidelna.ViewModels
         }
 
         public ObservableCollection<EditableProperty> Properties { get; } = new();
+
+        public ObservableCollection<SelectableAlergie> SelectableAlergies { get; } = new();
+        public ObservableCollection<SelectableDiet> SelectableDiets { get; } = new();
+
+        private Visibility _comboAlergiesVisibility = Visibility.Collapsed;
+        private Visibility _comboDietRestrictionsVisibility = Visibility.Collapsed;
+        private Visibility _textAlergiesVisibility = Visibility.Visible;
+        private Visibility _textDietRestrictionsVisibility = Visibility.Visible;
+        private Visibility _saveButtonVisibility = Visibility.Collapsed;
+
+        public Visibility ComboAlergiesVisibility { get => _comboAlergiesVisibility; private set { if (_comboAlergiesVisibility == value) return; _comboAlergiesVisibility = value; OnPropertyChanged(nameof(ComboAlergiesVisibility)); } }
+        public Visibility ComboDietRestrictionsVisibility { get => _comboDietRestrictionsVisibility; private set { if (_comboDietRestrictionsVisibility == value) return; _comboDietRestrictionsVisibility = value; OnPropertyChanged(nameof(ComboDietRestrictionsVisibility)); } }
+        public Visibility TextAlergiesVisibility { get => _textAlergiesVisibility; private set { if (_textAlergiesVisibility == value) return; _textAlergiesVisibility = value; OnPropertyChanged(nameof(TextAlergiesVisibility)); } }
+        public Visibility TextDietRestrictionsVisibility { get => _textDietRestrictionsVisibility; private set { if (_textDietRestrictionsVisibility == value) return; _textDietRestrictionsVisibility = value; OnPropertyChanged(nameof(TextDietRestrictionsVisibility)); } }
+        public Visibility SaveButtonVisibility { get => _saveButtonVisibility; private set { if (_saveButtonVisibility == value) return; _saveButtonVisibility = value; OnPropertyChanged(nameof(SaveButtonVisibility)); } }
 
         private object? _selectedItem;
         public object? SelectedItem
@@ -218,6 +235,30 @@ namespace SkolniJidelna.ViewModels
                     Phone = prac.Telefon != 0 ? $"+420{prac.Telefon}" : string.Empty;
                     var poz = ctx.Pozice.Find(prac.IdPozice);
                     PositionClass = poz != null ? poz.Nazev : prac.IdPozice.ToString();
+
+                    // Load selectable allergies
+                    SelectableAlergies.Clear();
+                    var allAlergies = ctx.Alergie.ToList();
+                    var selectedAlergieIds = ctx.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToList();
+                    foreach (var a in allAlergies)
+                    {
+                        SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
+                    }
+
+                    // Load selectable diet restrictions
+                    SelectableDiets.Clear();
+                    var allDiets = ctx.DietniOmezeni.ToList();
+                    var selectedDietIds = ctx.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToList();
+                    foreach (var d in allDiets)
+                    {
+                        SelectableDiets.Add(new SelectableDiet { Diet = d, IsSelected = selectedDietIds.Contains(d.IdOmezeni) });
+                    }
+
+                    ComboAlergiesVisibility = Visibility.Visible;
+                    ComboDietRestrictionsVisibility = Visibility.Visible;
+                    TextAlergiesVisibility = Visibility.Collapsed;
+                    TextDietRestrictionsVisibility = Visibility.Collapsed;
+                    SaveButtonVisibility = Visibility.Visible;
                 }
                 else
                 {
@@ -309,5 +350,77 @@ namespace SkolniJidelna.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public async Task SaveChangesAsync()
+        {
+            try
+            {
+                using var db = new AppDbContext();
+                var stravnik = await db.Stravnik.FirstOrDefaultAsync(s => s.Email == Email);
+                if (stravnik == null)
+                {
+                    MessageBox.Show("Uživatel nenalezen.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Check tables exist
+                bool hasAlergieTable = TableExists(db, "ALERGIE");
+                bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
+                bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
+                bool hasOmezeniStravnikTable = TableExists(db, "STRAVNICI_OMEZENI");
+
+                if (!hasAlergieTable || !hasAlergieStravniciTable || !hasDietTable || !hasOmezeniStravnikTable)
+                {
+                    MessageBox.Show("Některé tabulky neexistují.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Save allergies
+                var existingAlergies = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).ToListAsync();
+                db.StravnikAlergie.RemoveRange(existingAlergies);
+                foreach (var sa in SelectableAlergies.Where(s => s.IsSelected && s.Alergie.IdAlergie != null))
+                {
+                    db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = stravnik.IdStravnik, IdAlergie = sa.Alergie.IdAlergie });
+                }
+
+                // Save diet restrictions
+                var existingDiets = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).ToListAsync();
+                db.StravnikOmezeni.RemoveRange(existingDiets);
+                foreach (var sd in SelectableDiets.Where(s => s.IsSelected && s.Diet.IdOmezeni != null))
+                {
+                    db.StravnikOmezeni.Add(new StravnikOmezeni { IdStravnik = stravnik.IdStravnik, IdOmezeni = sd.Diet.IdOmezeni });
+                }
+
+                await db.SaveChangesAsync();
+                MessageBox.Show("Změny byly uloženy.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při ukládání změn: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private bool TableExists(AppDbContext db, string tableName)
+        {
+            try
+            {
+                var conn = db.Database.GetDbConnection();
+                var wasClosed = conn.State == System.Data.ConnectionState.Closed;
+                if (wasClosed) conn.Open();
+                using var cmd = conn.CreateCommand();
+                // use USER_TABLES which lists tables accessible to current schema
+                cmd.CommandText = $"SELECT COUNT(*) FROM user_tables WHERE table_name = '{tableName.ToUpperInvariant()}'";
+                var obj = cmd.ExecuteScalar();
+                if (wasClosed) conn.Close();
+                if (obj == null) return false;
+                if (int.TryParse(obj.ToString(), out var c)) return c > 0;
+                if (long.TryParse(obj.ToString(), out var l)) return l > 0;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

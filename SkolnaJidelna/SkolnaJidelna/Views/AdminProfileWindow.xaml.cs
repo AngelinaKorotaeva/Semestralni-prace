@@ -107,8 +107,12 @@ namespace SkolniJidelna
             this.Close();
         }
 
-        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
+            if (this.DataContext is AdminProfileViewModel vm)
+            {
+                await vm.SaveChangesAsync();
+            }
         }
     }
 }

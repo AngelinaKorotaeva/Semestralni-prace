@@ -13,6 +13,7 @@ using System.Windows.Media.TextFormatting;
 using System.Collections.Generic;
 using System.IO;
 using System.Data.Common;
+using System.Collections.ObjectModel;
 
 namespace SkolniJidelna.ViewModels
 {
@@ -58,6 +59,14 @@ namespace SkolniJidelna.ViewModels
         public string DietRestrictionsText { get => _dietRestrictionsText; private set { if (_dietRestrictionsText == value) return; _dietRestrictionsText = value; OnPropertyChanged(nameof(DietRestrictionsText)); } }
         public Visibility RokVisibility { get => _rokVisibility; private set { if (_rokVisibility == value) return; _rokVisibility = value; OnPropertyChanged(nameof(RokVisibility)); } }
         public Visibility PhoneVisibility { get => _phoneVisibility; private set { if (_phoneVisibility == value) return; _phoneVisibility = value; OnPropertyChanged(nameof(PhoneVisibility)); } }
+
+        public ObservableCollection<Alergie> AvailableAlergies { get; } = new();
+        public ObservableCollection<Alergie> SelectedAlergies { get; } = new();
+        public ObservableCollection<DietniOmezeni> AvailableDietRestrictions { get; } = new();
+        public ObservableCollection<DietniOmezeni> SelectedDietRestrictions { get; } = new();
+
+        public ObservableCollection<SelectableAlergie> SelectableAlergies { get; } = new();
+        public ObservableCollection<SelectableDiet> SelectableDiets { get; } = new();
 
         // Event to signal that async loading finished
         public event Action? LoadFinished;
@@ -204,8 +213,26 @@ namespace SkolniJidelna.ViewModels
                         ComboAlergiesVisibility = Visibility.Visible;
                         ComboDietRestrictionsVisibility = Visibility.Visible;
                         SaveButtonVisibility = Visibility.Visible;
-                        TextAlergiesVisibility = Visibility.Visible;
-                        TextDietRestrictionsVisibility = Visibility.Visible;
+                        TextAlergiesVisibility = Visibility.Collapsed;
+                        TextDietRestrictionsVisibility = Visibility.Collapsed;
+
+                        // Load selectable allergies
+                        SelectableAlergies.Clear();
+                        var allAlergies = await db.Alergie.ToListAsync();
+                        var selectedAlergieIds = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToListAsync();
+                        foreach (var a in allAlergies)
+                        {
+                            SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
+                        }
+
+                        // Load selectable diet restrictions
+                        SelectableDiets.Clear();
+                        var allDiets = await db.DietniOmezeni.ToListAsync();
+                        var selectedDietIds = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToListAsync();
+                        foreach (var d in allDiets)
+                        {
+                            SelectableDiets.Add(new SelectableDiet { Diet = d, IsSelected = selectedDietIds.Contains(d.IdOmezeni) });
+                        }
 
                         // prefix phone with +420 when present
                         if (pracovnik != null && pracovnik.Telefon != 0)
@@ -368,6 +395,67 @@ namespace SkolniJidelna.ViewModels
             catch
             {
                 // ignore exceptions from raising PropertyChanged
+            }
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            try
+            {
+                using var db = new AppDbContext();
+                var stravnik = await db.Stravnik.FirstOrDefaultAsync(s => s.Email == Email);
+                if (stravnik == null)
+                {
+                    MessageBox.Show("Uživatel nenalezen.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Check tables exist
+                bool hasAlergieTable = TableExists(db, "ALERGIE");
+                bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
+                bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
+                bool hasOmezeniStravnikTable = TableExists(db, "STRAVNICI_OMEZENI");
+
+                if (!hasAlergieTable || !hasAlergieStravniciTable || !hasDietTable || !hasOmezeniStravnikTable)
+                {
+                    MessageBox.Show("Některé tabulky neexistují.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Debug: show counts
+                int selectedAlergiesCount = SelectableAlergies.Count(s => s.IsSelected);
+                int selectedDietsCount = SelectableDiets.Count(s => s.IsSelected);
+                MessageBox.Show($"Selected allergies: {selectedAlergiesCount}, Selected diets: {selectedDietsCount}", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Save allergies
+                var existingAlergies = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).ToListAsync();
+                db.StravnikAlergie.RemoveRange(existingAlergies);
+                var toAddAlergies = SelectableAlergies.Where(s => s.IsSelected && s.Alergie.IdAlergie != null).ToList();
+                MessageBox.Show($"Will add {toAddAlergies.Count} allergies: {string.Join(", ", toAddAlergies.Select(a => a.Alergie.IdAlergie))}", "Debug Add", MessageBoxButton.OK, MessageBoxImage.Information);
+                foreach (var sa in toAddAlergies)
+                {
+                    db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = stravnik.IdStravnik, IdAlergie = sa.Alergie.IdAlergie });
+                }
+                MessageBox.Show($"Context has {db.StravnikAlergie.Local.Count} StravnikAlergie entities", "Context", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Save diet restrictions
+                var existingDiets = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).ToListAsync();
+                db.StravnikOmezeni.RemoveRange(existingDiets);
+                var toAddDiets = SelectableDiets.Where(s => s.IsSelected && s.Diet.IdOmezeni != null).ToList();
+                MessageBox.Show($"Will add {toAddDiets.Count} diets: {string.Join(", ", toAddDiets.Select(d => d.Diet.IdOmezeni))}", "Debug Add", MessageBoxButton.OK, MessageBoxImage.Information);
+                foreach (var sd in toAddDiets)
+                {
+                    db.StravnikOmezeni.Add(new StravnikOmezeni { IdStravnik = stravnik.IdStravnik, IdOmezeni = sd.Diet.IdOmezeni });
+                }
+                MessageBox.Show($"Context has {db.StravnikOmezeni.Local.Count} StravnikOmezeni entities", "Context", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                await db.SaveChangesAsync();
+                MessageBox.Show("Změny byly uloženy.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message ?? "No inner exception";
+                MessageBox.Show("Chyba při ukládání změn: " + ex.Message + "\nInner: " + inner, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

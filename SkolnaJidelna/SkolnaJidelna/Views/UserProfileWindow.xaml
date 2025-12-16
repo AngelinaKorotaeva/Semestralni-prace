@@ -68,7 +68,7 @@
             </Canvas>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
-                <StackPanel Margin="50,20" Panel.ZIndex="1" Height="700">
+                <StackPanel Margin="50,20" Panel.ZIndex="1">
                     <TextBlock Text="Osobní profil" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,20">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -119,11 +119,35 @@
 
                     <!-- Аллергии -->
                     <TextBlock Text="Alergie" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                    <TextBlock x:Name="textAlergies" Text="{Binding AlergiesText}" FontSize="14" Foreground="DarkSlateGray" Margin="0,0,0,20" />
+                    <TextBlock x:Name="textAlergies" Text="{Binding AlergiesText}" FontSize="14" Foreground="DarkSlateGray" Margin="0,0,0,20" Visibility="{Binding TextAlergiesVisibility}" />
+                    <ItemsControl ItemsSource="{Binding SelectableAlergies}" Visibility="{Binding ComboAlergiesVisibility}" Margin="0,0,0,20">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Alergie.Nazev}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,5" Style="{StaticResource CheckBoxStyle}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                     <!-- Диетные ограничения -->
                     <TextBlock Text="Dietní omezení" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                    <TextBlock x:Name="textDietRestrictions" Text="{Binding DietRestrictionsText}" FontSize="14" Foreground="DarkSlateGray" Margin="0,0,0,30" />
+                    <TextBlock x:Name="textDietRestrictions" Text="{Binding DietRestrictionsText}" FontSize="14" Foreground="DarkSlateGray" Margin="0,0,0,30" Visibility="{Binding TextDietRestrictionsVisibility}" />
+                    <ItemsControl ItemsSource="{Binding SelectableDiets}" Visibility="{Binding ComboDietRestrictionsVisibility}" Margin="0,0,0,30">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Diet.Nazev}" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,5" Style="{StaticResource CheckBoxStyle}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                     <!-- Кнопка сохранения (только для работников) -->
                     <Button x:Name="saveButton" Content="Uložit změny" Style="{StaticResource PrimaryButton}" Margin="0,0,0,20" Visibility="{Binding SaveButtonVisibility}" Click="SaveChangesButton_Click"/>
