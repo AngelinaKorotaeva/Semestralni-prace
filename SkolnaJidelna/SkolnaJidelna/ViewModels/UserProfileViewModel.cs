@@ -19,7 +19,7 @@ namespace SkolniJidelna.ViewModels
     public class UserProfileViewModel : INotifyPropertyChanged
     {
         private string _fullName = string.Empty;
-        private string _balanceFormatted = "0 K?";
+        private string _balanceFormatted = "0 Kč";
         private string _email = string.Empty;
         private string _phone = string.Empty;
         private string _address = string.Empty;
@@ -91,7 +91,7 @@ namespace SkolniJidelna.ViewModels
 
                 Email = stravnik.Email;
                 FullName = $"{stravnik.Jmeno} {stravnik.Prijmeni}";
-                BalanceFormatted = string.Format("{0:0.##} K?", stravnik.Zustatek);
+                BalanceFormatted = string.Format("{0:0.##} Kč", stravnik.Zustatek);
 
                 // map TypStravnik into localized status
                 var t = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();

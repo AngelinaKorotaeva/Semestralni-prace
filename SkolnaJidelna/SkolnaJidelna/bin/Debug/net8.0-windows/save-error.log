@@ -12,3 +12,66 @@ PL/SQL: Statement ignored
 https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
    at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
    at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 461
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 504
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 504
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 504
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 504
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 504
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 384
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 387
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 387
+OracleException Number=6550, Message=ORA-06550: řádka 1, sloupec 7:
+PLS-00306: chybný počet nebo typy argumentů ve volání 'TRANS_REGISTER_STUDENT'
+ORA-06550: řádka 1, sloupec 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 500

@@ -210,19 +210,6 @@
                          Margin="20,5,0,15"/>
 
 
-                <!-- Забыли пароль (если добавим - нужно заменить на кнопку) -->
-                <TextBlock Text="Zapomněli jste heslo?" 
-                         FontSize="14" 
-                         FontWeight="SemiBold"
-                         Cursor="Hand"
-                         HorizontalAlignment="Right"
-                         Margin="0,0,0,35">
-                    <TextBlock.Foreground>
-                        <StaticResource ResourceKey="PrimaryGradient"/>
-                    </TextBlock.Foreground>
-                </TextBlock>
-
-
                 <!-- Кнопки -->
                 <Button Content="Přihlásit se" 
                         Style="{StaticResource PrimaryButton}"

@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SkolniJidelna.Models;
 
 namespace SkolniJidelna.ViewModels;
 public class AdminViewModel : INotifyPropertyChanged
@@ -133,7 +134,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 }
                 catch
                 {
-                    // potlačit chyby konverze - případně logovat
+                    
                 }
             };
 

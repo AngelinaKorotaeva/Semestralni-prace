@@ -77,7 +77,7 @@
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
                 <StackPanel VerticalAlignment="Top" Margin="70,40" Panel.ZIndex="1">
-                    <TextBlock Text="Aktuální menu" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30">
+                    <TextBlock Text="Odpovídajicí položky menu" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,30">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="#FF6B9E" Offset="0"/>

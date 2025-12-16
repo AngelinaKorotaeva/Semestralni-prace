@@ -163,7 +163,7 @@ namespace SkolniJidelna.ViewModels
             }
             catch (Exception ex)
             {
-                // лог/сообщение
+              
             }
         }
 

@@ -42,6 +42,9 @@ namespace SkolniJidelna.ViewModels
         // Positions for UI
         public ObservableCollection<Pozice> Positions { get; private set; } = new ObservableCollection<Pozice>();
 
+        // Classes for UI
+        public ObservableCollection<Trida> Classes { get; private set; } = new ObservableCollection<Trida>();
+
         // Selected position id (bind to ComboBox.SelectedValue)
         public int? PositionId { get => _positionId; set { if (_positionId == value) return; _positionId = value; OnPropertyChanged(nameof(PositionId)); } }
 
@@ -67,8 +70,13 @@ namespace SkolniJidelna.ViewModels
             IsWorker = true;
 
             LoadPositions();
+            SelectedBirthDate = new DateTime(int.Parse(BirthYear), 1, 1);
+            LoadClasses();
         }
 
+        /// <summary>
+        /// Načte pozice z databáze a přidá výchozí, pokud neexistují.
+        /// </summary>
         private void LoadPositions()
         {
             using var ctx = new AppDbContext();
@@ -77,30 +85,52 @@ namespace SkolniJidelna.ViewModels
 
             if (ctx.Pozice.Count() == 0)
             {
-                var adminPoz = new Pozice { IdPozice = 1, Nazev = "Systémový administrátor" };
+                var adminPoz = new Pozice { Nazev = "Systémový administrátor" };
                 ctx.Pozice.Add(adminPoz);
+                var kucharPoz = new Pozice { Nazev = "Kuchař" };
+                ctx.Pozice.Add(kucharPoz);
+                var uklizechkaPoz = new Pozice { Nazev = "Uklízečka" };
+                ctx.Pozice.Add(uklizechkaPoz);
                 ctx.SaveChanges();
-
-                PositionId = adminPoz.IdPozice;
             }
 
             var list = ctx.Pozice.OrderBy(p => p.IdPozice).ToList();
             Positions = new ObservableCollection<Pozice>(list);
-            OnPropertyChanged(nameof(Positions));
-
-            if (PositionId == null)
+            if (Positions.Count == 0)
             {
-                var first = list.FirstOrDefault();
-                if (first != null) PositionId = first.IdPozice;
+                Positions.Add(new Pozice { IdPozice = 1, Nazev = "Test Admin" });
+                Positions.Add(new Pozice { IdPozice = 2, Nazev = "Test Cook" });
             }
+            OnPropertyChanged(nameof(Positions));
+        }
+
+        /// <summary>
+        /// Načte třídy z databáze a přidá výchozí, pokud neexistují.
+        /// </summary>
+        private void LoadClasses()
+        {
+            using var ctx = new AppDbContext();
+            if (ctx.Trida == null)
+                return;
+
+            if (ctx.Trida.Count() == 0)
+            {
+                for (int i = 1; i <= 9; i++)
+                {
+                    ctx.Trida.Add(new Trida { CisloTridy = i });
+                }
+                ctx.SaveChanges();
+            }
+
+            var list = ctx.Trida.OrderBy(t => t.CisloTridy).ToList();
+            Classes = new ObservableCollection<Trida>(list);
+            OnPropertyChanged(nameof(Classes));
         }
 
         // Vlastnosti pro binding
         public string FirstName { get => _firstName; set { if (_firstName == value) return; _firstName = value; OnPropertyChanged(nameof(FirstName)); } }
         public string LastName { get => _lastName; set { if (_lastName == value) return; _lastName = value; OnPropertyChanged(nameof(LastName)); } }
         public string Email { get => _email; set { if (_email == value) return; _email = value; OnPropertyChanged(nameof(Email)); } }
-
-        // Hesla jsou vázána přes PasswordBoxAssistant
         public string Password { get => _password; set { if (_password == value) return; _password = value; OnPropertyChanged(nameof(Password)); } }
         public string ConfirmPassword { get => _confirmPassword; set { if (_confirmPassword == value) return; _confirmPassword = value; OnPropertyChanged(nameof(ConfirmPassword)); } }
 
@@ -149,7 +179,31 @@ namespace SkolniJidelna.ViewModels
         // Birth year jako string (snadnější vazba do TextBoxu)
         public string BirthYear { get => _birthYear; set { if (_birthYear == value) return; _birthYear = value; OnPropertyChanged(nameof(BirthYear)); } }
 
-        // Výběr fotky (přes službu)
+        // Selected birth date for Calendar binding
+        private DateTime? _selectedBirthDate;
+        public DateTime? SelectedBirthDate
+        {
+            get => _selectedBirthDate;
+            set
+            {
+                if (_selectedBirthDate == value) return;
+                _selectedBirthDate = value;
+                if (value.HasValue)
+                {
+                    BirthYear = value.Value.Year.ToString();
+                }
+                else
+                {
+                    BirthYear = string.Empty;
+                }
+                OnPropertyChanged(nameof(SelectedBirthDate));
+            }
+        } 
+
+
+        /// <summary>
+        /// Otevře dialog pro výběr fotografie a nastaví cestu k souboru.
+        /// </summary>
         private void SelectPhoto()
         {
             try
@@ -166,19 +220,22 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
-        // Zrušení registrace
+        /// <summary>
+        /// Zruší registraci a zavře okno.
+        /// </summary>
         public void Cancel()
         {
             CancelRequested?.Invoke();
             RequestClose?.Invoke();
         }
 
-        // Registrace uživatele — nyní voláme PL/SQL trans_register_* procedury
+        /// <summary>
+        /// Registruje nového uživatele (pracovníka nebo studenta) do databáze.
+        /// </summary>
         public void Register()
         {
             try
             {
-                // základní validace
                 if (string.IsNullOrWhiteSpace(FirstName) ||
                     string.IsNullOrWhiteSpace(LastName) ||
                     string.IsNullOrWhiteSpace(Email) ||
@@ -190,7 +247,6 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // pokud jde o studenta, ověřit rok narození
                 if (IsStudent)
                 {
                     if (string.IsNullOrWhiteSpace(BirthYear) || !int.TryParse(BirthYear, out var by))
@@ -221,7 +277,6 @@ namespace SkolniJidelna.ViewModels
 
                 using var ctx = new AppDbContext();
 
-                // zajistit existence systémové pozice pokud je to první uživatel
                 var isFirst = ctx.Stravnik.Count() == 0;
                 int? adminPoziceId = null;
                 if (isFirst)
@@ -237,7 +292,6 @@ namespace SkolniJidelna.ViewModels
                     if (IsWorker) PositionId = adminPoziceId;
                 }
 
-                // kontrola lokální duplicity (rychlá zpětná vazba)
                 if (ctx.Stravnik.Count(s => s.Email == Email) > 0)
                 {
                     var err = "Uživatel s tímto e-mailem již existuje.";
@@ -246,7 +300,6 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // parsování adresy -> předáme p_psc, p_mesto, p_ulice proceduře
                 int psc = 0;
                 string mesto = "Nezadáno";
                 string ulice = "Nezadáno";
@@ -264,7 +317,6 @@ namespace SkolniJidelna.ViewModels
                     }
                     else
                     {
-                        // nepovinné: podpora jednoduchého prostoru-separated formátu "00000 Ulice 10 Mesto"
                         var sp = Regex.Split(Ulice.Trim(), @"\s+");
                         if (sp.Length >= 3 && int.TryParse(sp[0], out var parsedPsc2))
                         {
@@ -274,7 +326,7 @@ namespace SkolniJidelna.ViewModels
                         }
                         else
                         {
-                            RequestMessage?.Invoke("Adresa není ve formátu '00000, Ulice 10, Mesto'. Použity výchozí hodnoty adresy.");
+                            RequestMessage?.Invoke("Adresa není ve formátu '00000, Ulice 10, Město'. Použity výchozí hodnoty adresy.");
                         }
                     }
                 }
@@ -294,15 +346,12 @@ namespace SkolniJidelna.ViewModels
                         using var cmd = conn.CreateCommand();
                         cmd.CommandType = CommandType.Text;
                         ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).BindByName = true;
-                        // call the transaction proc in an anonymous block to avoid possible parameter binding quirks
                         cmd.CommandText = "BEGIN trans_register_pracovnik(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_telefon, :p_pozice); END;";
 
-                        // p_psc, p_mesto, p_ulice
                         var p1 = new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc };
                         var p2 = new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value };
                         var p3 = new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value };
 
-                        // osobní údaje
                         var p4 = new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = FirstName };
                         var p5 = new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = LastName };
                         var p6 = new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email };
@@ -310,9 +359,6 @@ namespace SkolniJidelna.ViewModels
 
                         var p8 = new OracleParameter("p_zustatek", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = 0 };
 
-                        // telefon a pozice
-                        // vezmeme hodnotu z textBoxPhone (vlastnost Phone),
-                        // odstraníme nečíselné znaky a pokud parsování selže, použijeme 0.
                         var phoneDigits = Regex.Replace(Phone ?? string.Empty, @"\D", "");
                         int telVal = 0;
                         if (!string.IsNullOrWhiteSpace(phoneDigits) && int.TryParse(phoneDigits, out var parsedTel))
@@ -340,12 +386,10 @@ namespace SkolniJidelna.ViewModels
                         {
                             cmd.ExecuteNonQuery();
 
-                            // Pokusíme se uložit fotku do tabulky SOUBORY (pokud byla vybrána)
                             if (!string.IsNullOrWhiteSpace(PhotoPath) && File.Exists(PhotoPath))
                             {
                                 try
                                 {
-                                    // zjistit id_stravnik pro právě vytvořeného uživatele
                                     using var idCmd = conn.CreateCommand();
                                     ((Oracle.ManagedDataAccess.Client.OracleCommand)idCmd).BindByName = true;
                                     idCmd.CommandType = CommandType.Text;
@@ -385,7 +429,6 @@ namespace SkolniJidelna.ViewModels
                                 }
                                 catch (Exception ex)
                                 {
-                                    // Nechceme failovat samotnou registraci kvůli problému s ukládáním fotky
                                     RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
                                 }
                             }
@@ -411,30 +454,26 @@ namespace SkolniJidelna.ViewModels
                             }
                         }
                     }
-                    else // student
+                    else
                     {
                         using var cmd = conn.CreateCommand();
                         cmd.CommandType = CommandType.Text;
                         ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).BindByName = true;
                         cmd.CommandText = "BEGIN trans_register_student(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_rok_narozeni, :p_cislo_tridy); END;";
 
-                        // address
                         var p1 = new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc };
                         var p2 = new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value };
                         var p3 = new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value };
 
-                        // osobní údaje
                         var p4 = new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = FirstName };
                         var p5 = new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = LastName };
                         var p6 = new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email };
                         var p7 = new OracleParameter("p_heslo", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hashed };
                         var p8 = new OracleParameter("p_zustatek", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = 0 };
 
-                        // datum narozeni jako DATE
                         OracleParameter p9;
                         if (int.TryParse(BirthYear, out var by))
                         {
-                            // store as DATE with year only -> use Jan 1 of that year, time 00:00:00
                             var dt = new DateTime(by, 1, 1);
                             p9 = new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = new OracleDate(dt) };
                         }
@@ -460,12 +499,10 @@ namespace SkolniJidelna.ViewModels
                         {
                             cmd.ExecuteNonQuery();
 
-                            // Pokusíme se uložit fotku do tabulky SOUBORY (pokud byla vybrána)
                             if (!string.IsNullOrWhiteSpace(PhotoPath) && File.Exists(PhotoPath))
                             {
                                 try
                                 {
-                                    // zjistit id_stravnik pro právě vytvořeného uživatele
                                     using var idCmd = conn.CreateCommand();
                                     ((Oracle.ManagedDataAccess.Client.OracleCommand)idCmd).BindByName = true;
                                     idCmd.CommandType = CommandType.Text;
@@ -505,7 +542,6 @@ namespace SkolniJidelna.ViewModels
                                 }
                                 catch (Exception ex)
                                 {
-                                    // Nechceme failovat samotnou registraci kvůli problému s ukládáním fotky
                                     RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
                                 }
                             }
@@ -544,27 +580,6 @@ namespace SkolniJidelna.ViewModels
                 RegistrationFailed?.Invoke(err);
                 RequestMessage?.Invoke(err);
             }
-        }
-
-        private int EnsureDefaultAddressAndGetId(AppDbContext ctx)
-        {
-            if (ctx.Adresa.Count() == 0)
-            {
-                var defaultAddr = new Adresa { Mesto = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
-                ctx.Adresa.Add(defaultAddr);
-                ctx.SaveChanges();
-            }
-
-            var firstAddr = ctx.Adresa.OrderBy(a => a.IdAdresa).FirstOrDefault();
-            if (firstAddr == null)
-            {
-                var fallback = new Adresa { Mesto = "Nezadáno", Ulice = "Nezadáno", Psc = 0 };
-                ctx.Adresa.Add(fallback);
-                ctx.SaveChanges();
-                firstAddr = fallback;
-            }
-
-            return firstAddr.IdAdresa;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
