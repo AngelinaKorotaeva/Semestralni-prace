@@ -21,6 +21,7 @@ public class AdminViewModel : INotifyPropertyChanged
     public ObservableCollection<EntityTypeDescriptor> EntityTypes { get; } = new();
     public ObservableCollection<ItemViewModel> Items { get; } = new();
     public ObservableCollection<PropertyViewModel> Properties { get; } = new();
+    public ObservableCollection<string> TableProperties { get; } = new();
 
     private EntityTypeDescriptor? _selectedEntityType;
     public EntityTypeDescriptor? SelectedEntityType
@@ -31,7 +32,15 @@ public class AdminViewModel : INotifyPropertyChanged
             if (_selectedEntityType == value) return;
             _selectedEntityType = value;
             Raise(nameof(SelectedEntityType));
-            _ = LoadItemsForSelectedEntityAsync();
+            TableProperties.Clear();
+            if (_selectedEntityType != null)
+            {
+                var props = _selectedEntityType.EntityType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(p => p.CanRead)
+                    .Select(p => p.Name);
+                foreach (var p in props) TableProperties.Add(p);
+            }
+            // Removed automatic load of items to avoid hanging on large tables
         }
     }
 
@@ -59,27 +68,58 @@ public class AdminViewModel : INotifyPropertyChanged
         SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => SelectedItem != null);
         CloseCommand = new RelayCommand(_ => { /* zavření okna řeší view */ });
 
-        EntityTypes.Add(new EntityTypeDescriptor
-        {
-            Name = "Strávníci",
-            EntityType = typeof(Models.Stravnik),
-            LoaderAsync = async () =>
-            {
-                var list = await _db.Stravnik.AsNoTracking().ToListAsync();
-                return list.Select(s => new ItemViewModel(s, $"{s.Jmeno} {s.Prijmeni} (ID {s.IdStravnik})")).ToList();
-            }
-        });
+        // Dynamically load all entity types from DbContext
+        var dbSetProperties = typeof(AppDbContext).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+            .ToArray();
 
-        EntityTypes.Add(new EntityTypeDescriptor
+        foreach (var prop in dbSetProperties)
         {
-            Name = "Objednávky",
-            EntityType = typeof(Models.Objednavka),
-            LoaderAsync = async () =>
+            var entityType = prop.PropertyType.GetGenericArguments()[0];
+            var name = entityType.Name; // or use a custom display name
+
+            EntityTypes.Add(new EntityTypeDescriptor
             {
-                var list = await _db.Objednavka.AsNoTracking().ToListAsync();
-                return list.Select(o => new ItemViewModel(o, $"Objednávka {o.IdObjednavka} - {o.Datum:d}")).ToList();
-            }
-        });
+                Name = name,
+                EntityType = entityType,
+                LoaderAsync = async () =>
+                {
+                    // Get DbSet using Set<T>
+                    var setMethod = typeof(DbContext).GetMethod("Set", Type.EmptyTypes)?.MakeGenericMethod(entityType);
+                    var dbSet = setMethod?.Invoke(_db, null) as IQueryable;
+                    if (dbSet == null) return new List<ItemViewModel>();
+
+                    // Call ToListAsync using reflection
+                    var toListAsyncMethod = typeof(Queryable).GetMethods()
+                        .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
+                        .FirstOrDefault()?.MakeGenericMethod(entityType);
+                    if (toListAsyncMethod == null) return new List<ItemViewModel>();
+
+                    // Limit to 100 items to avoid hanging
+                    var takeMethod = typeof(Queryable).GetMethods()
+                        .Where(m => m.Name == "Take" && m.GetParameters().Length == 2 && m.GetGenericArguments().Length == 1)
+                        .FirstOrDefault()?.MakeGenericMethod(entityType);
+                    if (takeMethod != null)
+                    {
+                        dbSet = takeMethod.Invoke(null, new object[] { dbSet, 100 }) as IQueryable;
+                    }
+
+                    var task = (Task)toListAsyncMethod.Invoke(null, new[] { dbSet });
+                    await task;
+                    var resultProperty = task.GetType().GetProperty("Result");
+                    var list = resultProperty?.GetValue(task) as System.Collections.IList;
+                    if (list == null) return new List<ItemViewModel>();
+
+                    var items = new List<ItemViewModel>();
+                    foreach (var item in list)
+                    {
+                        var summary = $"{entityType.Name} {GetIdValue(item)}";
+                        items.Add(new ItemViewModel(item, summary));
+                    }
+                    return items;
+                }
+            });
+        }
     }
 
     public async Task LoadEntityTypesAsync()
@@ -158,5 +198,17 @@ public class AdminViewModel : INotifyPropertyChanged
         {
             MessageBox.Show($"Chyba při ukládání: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    private static string GetIdValue(object entity)
+    {
+        var type = entity.GetType();
+        var idProp = type.GetProperty("Id" + type.Name) ?? type.GetProperties().FirstOrDefault(p => p.Name.EndsWith("Id") || p.Name.StartsWith("Id"));
+        if (idProp != null)
+        {
+            var value = idProp.GetValue(entity);
+            return value?.ToString() ?? "N/A";
+        }
+        return "N/A";
     }
 }

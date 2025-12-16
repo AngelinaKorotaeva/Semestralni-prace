@@ -15,6 +15,11 @@ namespace SkolniJidelna
             Loaded += AdminPanel_Loaded;
 
             this.Email = email;
+
+            // Create AdminViewModel with DbContext
+            var db = new AppDbContext();
+            var vm = new AdminViewModel(db);
+            this.DataContext = vm;
         }
 
         private async void AdminPanel_Loaded(object? sender, RoutedEventArgs e)
