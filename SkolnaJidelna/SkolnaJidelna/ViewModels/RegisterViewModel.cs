@@ -31,6 +31,7 @@ namespace SkolniJidelna.ViewModels
         private string? _photoPath;
         private string _birthYear = "2000"; // default selected year aligns with ComboBox default
         private string _ulice = string.Empty; // input that contains PSC, street+number, city
+        private ObservableCollection<string> _years = new ObservableCollection<string>();
 
         private readonly IFileDialogService _fileDialogService;
 
@@ -44,6 +45,27 @@ namespace SkolniJidelna.ViewModels
 
         // Classes for UI
         public ObservableCollection<Trida> Classes { get; private set; } = new ObservableCollection<Trida>();
+
+        // Years for birth year ComboBox
+        public ObservableCollection<string> Years
+        {
+            get
+            {
+                if (_years.Count == 0)
+                {
+                    LoadYears();
+                }
+                return _years;
+            }
+            private set
+            {
+                if (!ReferenceEquals(_years, value))
+                {
+                    _years = value;
+                    OnPropertyChanged(nameof(Years));
+                }
+            }
+        }
 
         // Selected position id (bind to ComboBox.SelectedValue)
         public int? PositionId { get => _positionId; set { if (_positionId == value) return; _positionId = value; OnPropertyChanged(nameof(PositionId)); } }
@@ -72,6 +94,7 @@ namespace SkolniJidelna.ViewModels
             LoadPositions();
             SelectedBirthDate = new DateTime(int.Parse(BirthYear), 1, 1);
             LoadClasses();
+            LoadYears();
         }
 
         /// <summary>
@@ -125,6 +148,25 @@ namespace SkolniJidelna.ViewModels
             var list = ctx.Trida.OrderBy(t => t.CisloTridy).ToList();
             Classes = new ObservableCollection<Trida>(list);
             OnPropertyChanged(nameof(Classes));
+        }
+
+        /// <summary>
+        /// Naplní seznam roků (1900..aktuální) pro výběr roku narození.
+        /// </summary>
+        private void LoadYears()
+        {
+            _years.Clear();
+            var end = DateTime.Now.Year;
+            for (int y = end; y >= 1900; y--)
+            {
+                _years.Add(y.ToString());
+            }
+            // set default if needed
+            if (!string.IsNullOrWhiteSpace(BirthYear) && !_years.Contains(BirthYear))
+            {
+                BirthYear = end.ToString();
+            }
+            OnPropertyChanged(nameof(Years));
         }
 
         // Vlastnosti pro binding
@@ -230,7 +272,7 @@ namespace SkolniJidelna.ViewModels
         }
 
         /// <summary>
-        /// Registruje nového uživatele (pracovníka nebo studenta) do databáze.
+        /// Registruje nového uživatele (pracovního nebo studenta) do databáze.
         /// </summary>
         public void Register()
         {
@@ -249,19 +291,20 @@ namespace SkolniJidelna.ViewModels
 
                 if (IsStudent)
                 {
-                    if (string.IsNullOrWhiteSpace(BirthYear) || !int.TryParse(BirthYear, out var by))
+                    if (!SelectedBirthDate.HasValue)
                     {
-                        var err = "U studenta zadejte platný rok narození.";
+                        var err = "U studenta zadejte platné datum narození.";
                         RegistrationFailed?.Invoke(err);
                         RequestMessage?.Invoke(err);
                         return;
                     }
 
+                    var by = SelectedBirthDate.Value.Year;
                     var thisYear = DateTime.Now.Year;
-                    if (by < 1900 || by > thisYear)
+                    if (by < 1900 || by > thisYear || SelectedBirthDate.Value > DateTime.Today)
                     {
-                        var err = "Rok narození musí být mezi 1900 a " + thisYear;
-                        RegistrationFailed?.Invoke(err);
+                        var err = "Datum narození musí být mezi 1.1.1900 a dnešním dnem.";
+                        RegistrationFailed!.Invoke(err);
                         RequestMessage?.Invoke(err);
                         return;
                     }
@@ -410,21 +453,18 @@ namespace SkolniJidelna.ViewModels
                                             _ => "application/octet-stream",
                                         };
 
-                                        using var insCmd = conn.CreateCommand();
-                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)insCmd).BindByName = true;
-                                        insCmd.CommandType = CommandType.Text;
-                                        insCmd.CommandText = "INSERT INTO soubory (id_soubor, nazev, typ, pripona, obsah, datum_nahrani, tabulka, id_zaznam, id_stravnik) VALUES (s_soub.NEXTVAL, :nazev, :typ, :pripona, :obsah, :datum_nahrani, :tabulka, :id_zaznam, :id_stravnik)";
+                                        using var cmdFoto = conn.CreateCommand();
+                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)cmdFoto).BindByName = true;
+                                        cmdFoto.CommandType = CommandType.StoredProcedure;
+                                        cmdFoto.CommandText = "p_pridat_foto";
 
-                                        insCmd.Parameters.Add(new OracleParameter("nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
-                                        insCmd.Parameters.Add(new OracleParameter("typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
-                                        insCmd.Parameters.Add(new OracleParameter("pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
-                                        insCmd.Parameters.Add(new OracleParameter("obsah", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
-                                        insCmd.Parameters.Add(new OracleParameter("datum_nahrani", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = DateTime.Now });
-                                        insCmd.Parameters.Add(new OracleParameter("tabulka", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = "STRAVNICI" });
-                                        insCmd.Parameters.Add(new OracleParameter("id_zaznam", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
-                                        insCmd.Parameters.Add(new OracleParameter("id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
 
-                                        insCmd.ExecuteNonQuery();
+                                        cmdFoto.ExecuteNonQuery();
                                     }
                                 }
                                 catch (Exception ex)
@@ -432,6 +472,7 @@ namespace SkolniJidelna.ViewModels
                                     RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
                                 }
                             }
+
 
                             RegistrationSucceeded?.Invoke(Email, true, isFirst);
                             RequestMessage?.Invoke("Registrace pracovníka byla úspěšná.");
@@ -472,10 +513,9 @@ namespace SkolniJidelna.ViewModels
                         var p8 = new OracleParameter("p_zustatek", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = 0 };
 
                         OracleParameter p9;
-                        if (int.TryParse(BirthYear, out var by))
+                        if (SelectedBirthDate.HasValue)
                         {
-                            var dt = new DateTime(by, 1, 1);
-                            p9 = new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = new OracleDate(dt) };
+                            p9 = new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = SelectedBirthDate.Value };
                         }
                         else
                         {
@@ -523,21 +563,18 @@ namespace SkolniJidelna.ViewModels
                                             _ => "application/octet-stream",
                                         };
 
-                                        using var insCmd = conn.CreateCommand();
-                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)insCmd).BindByName = true;
-                                        insCmd.CommandType = CommandType.Text;
-                                        insCmd.CommandText = "INSERT INTO soubory (id_soubor, nazev, typ, pripona, obsah, datum_nahrani, tabulka, id_zaznam, id_stravnik) VALUES (s_soub.NEXTVAL, :nazev, :typ, :pripona, :obsah, :datum_nahrani, :tabulka, :id_zaznam, :id_stravnik)";
+                                        using var cmdFoto = conn.CreateCommand();
+                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)cmdFoto).BindByName = true;
+                                        cmdFoto.CommandType = CommandType.StoredProcedure;
+                                        cmdFoto.CommandText = "p_pridat_foto";
 
-                                        insCmd.Parameters.Add(new OracleParameter("nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
-                                        insCmd.Parameters.Add(new OracleParameter("typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
-                                        insCmd.Parameters.Add(new OracleParameter("pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
-                                        insCmd.Parameters.Add(new OracleParameter("obsah", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
-                                        insCmd.Parameters.Add(new OracleParameter("datum_nahrani", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = DateTime.Now });
-                                        insCmd.Parameters.Add(new OracleParameter("tabulka", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = "STRAVNICI" });
-                                        insCmd.Parameters.Add(new OracleParameter("id_zaznam", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
-                                        insCmd.Parameters.Add(new OracleParameter("id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
+                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
 
-                                        insCmd.ExecuteNonQuery();
+                                        cmdFoto.ExecuteNonQuery();
                                     }
                                 }
                                 catch (Exception ex)
@@ -545,6 +582,7 @@ namespace SkolniJidelna.ViewModels
                                     RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
                                 }
                             }
+
 
                             RegistrationSucceeded?.Invoke(Email, false, isFirst);
                             RequestMessage?.Invoke("Registrace studenta byla úspěšná.");

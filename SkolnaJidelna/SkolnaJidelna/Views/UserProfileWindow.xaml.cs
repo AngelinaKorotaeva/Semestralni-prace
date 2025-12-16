@@ -73,12 +73,26 @@ namespace SkolniJidelna
                 var main = App.Services.GetService(typeof(MainWindow)) as MainWindow;
                 if (main != null)
                 {
+                    // ensure DataContext is set to Login VM
+                    if (main.DataContext is not MainWindowViewModel)
+                    {
+                        var vm = App.Services.GetService(typeof(MainWindowViewModel)) as MainWindowViewModel;
+                        if (vm != null)
+                        {
+                            main.DataContext = vm;
+                        }
+                    }
                     main.Show();
                 }
                 else
                 {
                     // fallback if DI instance not available
                     var mw = new MainWindow();
+                    var vm = App.Services.GetService(typeof(MainWindowViewModel)) as MainWindowViewModel;
+                    if (vm != null)
+                    {
+                        mw.DataContext = vm;
+                    }
                     mw.Show();
                 }
             }
@@ -86,6 +100,11 @@ namespace SkolniJidelna
             {
                 // fallback
                 var mw = new MainWindow();
+                var vm = App.Services.GetService(typeof(MainWindowViewModel)) as MainWindowViewModel;
+                if (vm != null)
+                {
+                    mw.DataContext = vm;
+                }
                 mw.Show();
             }
             this.Close();
@@ -93,6 +112,7 @@ namespace SkolniJidelna
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
+
         }
 
     }

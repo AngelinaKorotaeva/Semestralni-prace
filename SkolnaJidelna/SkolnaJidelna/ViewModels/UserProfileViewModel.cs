@@ -180,7 +180,7 @@ namespace SkolniJidelna.ViewModels
                             .AsNoTracking()
                             .FirstOrDefaultAsync(s => s.IdStravnik == stravnik.IdStravnik);
 
-                        PositionClass = student != null && student.Trida != null ? $"T??da: {student.Trida.CisloTridy}" : "-";
+                        PositionClass = student != null && student.Trida != null ? $"Třída: {student.Trida.CisloTridy}" : "-";
 
                         ComboAlergiesVisibility = Visibility.Collapsed;
                         ComboDietRestrictionsVisibility = Visibility.Collapsed;
@@ -237,7 +237,34 @@ namespace SkolniJidelna.ViewModels
                 // Profile image placeholder (initials)
                 try
                 {
-                    ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                    // Try load user's photo from SOUBORY first
+                    try
+                    {
+                        var photo = await db.Soubor
+                            .AsNoTracking()
+                            .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                            .OrderByDescending(s => s.DatumNahrani)
+                            .FirstOrDefaultAsync();
+                        if (photo != null && photo.Obsah != null && photo.Obsah.Length > 0)
+                        {
+                            using var ms = new MemoryStream(photo.Obsah);
+                            var bmp = new BitmapImage();
+                            bmp.BeginInit();
+                            bmp.CacheOption = BitmapCacheOption.OnLoad;
+                            bmp.StreamSource = ms;
+                            bmp.EndInit();
+                            bmp.Freeze();
+                            ProfileImage = bmp;
+                        }
+                        else
+                        {
+                            ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                        }
+                    }
+                    catch
+                    {
+                        ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                    }
                 }
                 catch (Exception ex)
                 {

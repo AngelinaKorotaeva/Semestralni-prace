@@ -229,8 +229,34 @@ namespace SkolniJidelna.ViewModels
                     }
                 }
 
-                // Profile image: not stored currently, create initials placeholder as DrawingImage
-                ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                // Load profile image from SOUBORY table (latest by DATUM_NAHRANI); fallback to initials
+                try
+                {
+                    var photo = ctx.Soubor
+                        .AsNoTracking()
+                        .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                        .OrderByDescending(s => s.DatumNahrani)
+                        .FirstOrDefault();
+                    if (photo != null && photo.Obsah != null && photo.Obsah.Length > 0)
+                    {
+                        using var ms = new System.IO.MemoryStream(photo.Obsah);
+                        var bmp = new BitmapImage();
+                        bmp.BeginInit();
+                        bmp.CacheOption = BitmapCacheOption.OnLoad;
+                        bmp.StreamSource = ms;
+                        bmp.EndInit();
+                        bmp.Freeze();
+                        ProfileImage = bmp;
+                    }
+                    else
+                    {
+                        ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                    }
+                }
+                catch
+                {
+                    ProfileImage = CreateInitialsImage(stravnik.Jmeno, stravnik.Prijmeni);
+                }
             }
             catch
             {

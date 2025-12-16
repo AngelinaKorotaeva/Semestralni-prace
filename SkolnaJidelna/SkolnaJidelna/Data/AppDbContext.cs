@@ -46,6 +46,7 @@ namespace SkolniJidelna.Data
         public DbSet<Stravnik> Stravnik { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<Trida> Trida { get; set; }
+        public DbSet<Soubor> Soubor { get; set; }
 
         public DbSet<VStravnikLogin> VStravnikLogin { get; set; }
 
@@ -103,6 +104,7 @@ namespace SkolniJidelna.Data
             modelBuilder.Entity<Stravnik>().ToTable("STRAVNICI");
             modelBuilder.Entity<Student>().ToTable("STUDENTI");
             modelBuilder.Entity<Trida>().ToTable("TRIDY");
+            modelBuilder.Entity<Soubor>().ToTable("SOUBORY");
 
             modelBuilder.Entity<Polozka>()
                 .HasKey(p => new { p.IdJidlo, p.IdObjednavka });

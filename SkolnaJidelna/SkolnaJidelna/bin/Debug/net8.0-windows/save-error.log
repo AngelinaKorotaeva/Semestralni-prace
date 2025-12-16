@@ -75,3 +75,83 @@ PL/SQL: Statement ignored
 https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
    at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
    at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Polina Odintsova\Source\Repos\SkolniJidelna\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 500
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 542
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 542
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 542
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 542
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 171:
+PLS-00201: идентификатор 'P_FOTO_PRIPONA' должен быть объявлен
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 552
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 171:
+PLS-00201: идентификатор 'P_FOTO_PRIPONA' должен быть объявлен
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 552
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 171:
+PLS-00201: идентификатор 'P_FOTO_PRIPONA' должен быть объявлен
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 552
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 171:
+PLS-00201: идентификатор 'P_FOTO_PRIPONA' должен быть объявлен
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 552
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 131:
+PLS-00049: неверная переменная привязки ''
+ORA-06550: Строка 1, столбец 144:
+PLS-00103: Встретился символ "P" в то время как ожидалось одно из следующих:
+
+   . ( ) , * @ % & = - + < / > at in is mod remainder not rem =>
+   <показатель (**)> <> or != or ~= >= <= <> and or
+   like like2 like4 likec between || indicator multiset member
+   submultiset
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 543
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 131:
+PLS-00049: неверная переменная привязки ''
+ORA-06550: Строка 1, столбец 144:
+PLS-00103: Встретился символ "P" в то время как ожидалось одно из следующих:
+
+   . ( ) , * @ % & = - + < / > at in is mod remainder not rem =>
+   <показатель (**)> <> or != or ~= >= <= <> and or
+   like like2 like4 likec between || indicator multiset member
+   submultiset
+https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 543

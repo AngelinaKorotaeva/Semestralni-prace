@@ -230,13 +230,17 @@
                         </Border>
                     </StackPanel>
 
-                    <!-- Student fields (výběr třídy + rok narození) -->
+                    <!-- Student fields (výběr třídy + datum narození) -->
                     <StackPanel x:Name="studentFields" 
                                 Visibility="{Binding IsStudent, Converter={StaticResource BoolToVis}}" >
                         <TextBlock Text="Třída" FontSize="16" Foreground="#4A4A4A" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                        <ComboBox x:Name="comboClass" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,15"/>
+                        <ComboBox x:Name="comboClass" Style="{StaticResource ComboBoxClassStyle}" Margin="0,0,0,15"
+                                  ItemsSource="{Binding Classes}"
+                                  SelectedValue="{Binding ClassId, Mode=TwoWay}"
+                                  SelectedValuePath="IdTrida"
+                                  DisplayMemberPath="CisloTridy" />
 
-                        <TextBlock Text="Rok narození" FontSize="13" Foreground="#4A4A4A" Margin="0,0,0,6"/>
+                        <TextBlock Text="Datum narození" FontSize="13" Foreground="#4A4A4A" Margin="0,0,0,6"/>
                         <Border CornerRadius="12" Background="White" Padding="4" Margin="0,0,0,12">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -252,35 +256,14 @@
                                     </Border.Background>
                                     <TextBlock Text="📅" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <!-- Replaced TextBox with ComboBox for year selection 2000..2020 -->
-                                <ComboBox Grid.Column="1" x:Name="comboBirthYear"
-                                          SelectedValuePath="Content"
-                                          SelectedValue="{Binding BirthYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          IsEditable="False"
-                                          Style="{StaticResource ComboBoxStyle}"
-                                          BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Margin="6,0,10,0">
-                                    <ComboBoxItem Content="2000"/>
-                                    <ComboBoxItem Content="2001"/>
-                                    <ComboBoxItem Content="2002"/>
-                                    <ComboBoxItem Content="2003"/>
-                                    <ComboBoxItem Content="2004"/>
-                                    <ComboBoxItem Content="2005"/>
-                                    <ComboBoxItem Content="2006"/>
-                                    <ComboBoxItem Content="2007"/>
-                                    <ComboBoxItem Content="2008"/>
-                                    <ComboBoxItem Content="2009"/>
-                                    <ComboBoxItem Content="2010"/>
-                                    <ComboBoxItem Content="2011"/>
-                                    <ComboBoxItem Content="2012"/>
-                                    <ComboBoxItem Content="2013"/>
-                                    <ComboBoxItem Content="2014"/>
-                                    <ComboBoxItem Content="2015"/>
-                                    <ComboBoxItem Content="2016"/>
-                                    <ComboBoxItem Content="2017"/>
-                                    <ComboBoxItem Content="2018"/>
-                                    <ComboBoxItem Content="2019"/>
-                                    <ComboBoxItem Content="2020"/>
-                                </ComboBox>
+                                <DatePicker Grid.Column="1"
+                                            x:Name="dateBirth"
+                                            SelectedDate="{Binding SelectedBirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource DatePickerStyle}"
+                                            BorderThickness="0"
+                                            Background="Transparent"
+                                            VerticalAlignment="Center"
+                                            Margin="6,0,10,0"/>
                             </Grid>
                         </Border>
                     </StackPanel>
