@@ -1,37 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SkolniJidelna.Services;
 using Microsoft.EntityFrameworkCore;
-using SkolniJidelna.Data;
+using SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna
 {
-    /// <summary>
-    /// Interakční logika pro MenuWindow.xaml
-    /// </summary>
     public partial class MenuWindow : Window
     {
         private string Email;
+        private MenuViewModel _vm;
+
         public MenuWindow(string email)
         {
             InitializeComponent();
-            this.Email = email;
+            Email = email;
+            _vm = new MenuViewModel();
+            this.DataContext = _vm;
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // Read selected value from ComboBox and set on VM
+            var selected = (comboTypMenu.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString();
+            if (!string.IsNullOrWhiteSpace(selected))
+            {
+                _vm.SelectedTypMenu = selected;
+            }
+            else
+            {
+                _vm.LoadMenus();
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +39,7 @@ namespace SkolniJidelna
             bool isPracovnik = false;
             try
             {
-                using var ctx = new AppDbContext();
+                using var ctx = new Data.AppDbContext();
                 var v = ctx.VStravnikLogin.AsNoTracking().FirstOrDefault(x => x.Email == Email);
                 var role = v?.Role?.Trim();
                 var type = v?.TypStravnik?.Trim();
@@ -49,12 +48,11 @@ namespace SkolniJidelna
             }
             catch
             {
-                // ignore DB errors and fall back to non-admin behavior
             }
 
             try
             {
-                var svc = App.Services.GetService(typeof(IWindowService)) as IWindowService;
+                var svc = App.Services.GetService(typeof(SkolniJidelna.Services.IWindowService)) as SkolniJidelna.Services.IWindowService;
                 if (svc != null)
                 {
                     if (isAdmin)
@@ -64,7 +62,6 @@ namespace SkolniJidelna
                 }
                 else
                 {
-                    // fallback: create window directly
                     if (isAdmin)
                     {
                         var aw = new AdminProfileWindow(Email);

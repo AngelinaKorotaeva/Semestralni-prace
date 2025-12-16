@@ -71,8 +71,7 @@
                 <TextBlock Text="Vyber tabulky" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,20"/>
                 <ComboBox ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
                 <TextBlock Text="Atributy tabulky" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                <TextBlock FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="400"/>
+                <ListBox ItemsSource="{Binding TableProperties}" Style="{StaticResource ListBoxStyle}" IsEnabled="False" Height="400"/>
 
                 <!-- ??? -->
                 <Button Content="Obnovit" Command="{Binding RefreshCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0"/>
@@ -108,7 +107,13 @@
                     <TextBlock Text="Správa systému" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
                     <!-- Здесь можно добавить элементы управления -->
-                    <TextBlock Text="Funkce admin panelu budou přidány později." FontSize="16" Foreground="DarkSlateGray" HorizontalAlignment="Center"/>
+                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="300" Margin="0,0,0,20" SelectionChanged="ListBox_SelectionChanged"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
+                        <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
+                        <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}"/>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

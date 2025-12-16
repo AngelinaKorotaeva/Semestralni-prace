@@ -52,3 +52,5 @@ Skipping allergies load - ALERGIE present=True, ALERGIE_STRAVNICI present=False,
 Skipping diet restrictions load - DIETNI_OMEZENI present=True, OMEZENI_STRAVNICI present=False, Time=2025-12-16T12:41:38.8577653+01:00
 Skipping allergies load - ALERGIE present=True, ALERGIE_STRAVNICI present=False, Time=2025-12-16T12:42:46.0312518+01:00
 Skipping diet restrictions load - DIETNI_OMEZENI present=True, OMEZENI_STRAVNICI present=False, Time=2025-12-16T12:42:46.4404839+01:00
+Skipping allergies load - ALERGIE present=True, ALERGIE_STRAVNICI present=False, Time=2025-12-16T15:34:41.5978705+01:00
+Skipping diet restrictions load - DIETNI_OMEZENI present=True, OMEZENI_STRAVNICI present=False, Time=2025-12-16T15:34:41.9261428+01:00

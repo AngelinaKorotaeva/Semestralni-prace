@@ -102,7 +102,7 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Nazev}" />
+                        <TextBlock Text="{Binding Nazev}" Foreground="Black"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -123,7 +123,7 @@
                                     <ContentPresenter x:Name="ContentPresenter"
                                                       Margin="{TemplateBinding Padding}"
                                                       VerticalAlignment="Center"
-                                                      Content="{Binding SelectedItem.Nazev, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                      Content="{Binding SelectedItem.Name, RelativeSource={RelativeSource TemplatedParent}, FallbackValue='Vyberte tabulku'}"/>
                                     <ToggleButton x:Name="ToggleButton"
                                                   Grid.Column="1"
                                                   Background="Transparent"
@@ -182,7 +182,7 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding CisloTridy}" />
+                        <TextBlock Text="{Binding CisloTridy}" Foreground="Black"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>

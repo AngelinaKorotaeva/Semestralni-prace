@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkolniJidelna.ViewModels;
 public class AdminViewModel : INotifyPropertyChanged
@@ -36,11 +37,12 @@ public class AdminViewModel : INotifyPropertyChanged
             if (_selectedEntityType != null)
             {
                 var props = _selectedEntityType.EntityType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(p => p.CanRead)
-                    .Select(p => p.Name);
+                    .Where(p => p.CanRead && p.GetCustomAttribute<ColumnAttribute>() != null)
+                    .Select(p => $"{p.Name}");
                 foreach (var p in props) TableProperties.Add(p);
             }
-            // Removed automatic load of items to avoid hanging on large tables
+            // Load items automatically when entity type changes
+            _ = LoadItemsForSelectedEntityAsync();
         }
     }
 
@@ -60,6 +62,7 @@ public class AdminViewModel : INotifyPropertyChanged
     public ICommand RefreshCommand { get; }
     public ICommand SaveCommand { get; }
     public ICommand CloseCommand { get; }
+    public ICommand DeleteCommand { get; }
 
     public AdminViewModel(AppDbContext db)
     {
@@ -67,6 +70,7 @@ public class AdminViewModel : INotifyPropertyChanged
         RefreshCommand = new RelayCommand(async _ => await LoadEntityTypesAsync());
         SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => SelectedItem != null);
         CloseCommand = new RelayCommand(_ => { /* zavření okna řeší view */ });
+        DeleteCommand = new RelayCommand(async _ => await DeleteAsync(), _ => SelectedItem != null);
 
         // Dynamically load all entity types from DbContext
         var dbSetProperties = typeof(AppDbContext).GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -78,45 +82,61 @@ public class AdminViewModel : INotifyPropertyChanged
             var entityType = prop.PropertyType.GetGenericArguments()[0];
             var name = entityType.Name; // or use a custom display name
 
+            // Skip certain tables
+            if (name == "StravnikAlergie" || name == "StravnikOmezeni" || name == "VStravnikLogin" || name == "Log")
+                continue;
+
             EntityTypes.Add(new EntityTypeDescriptor
             {
                 Name = name,
                 EntityType = entityType,
                 LoaderAsync = async () =>
                 {
-                    // Get DbSet using Set<T>
-                    var setMethod = typeof(DbContext).GetMethod("Set", Type.EmptyTypes)?.MakeGenericMethod(entityType);
-                    var dbSet = setMethod?.Invoke(_db, null) as IQueryable;
-                    if (dbSet == null) return new List<ItemViewModel>();
-
-                    // Call ToListAsync using reflection
-                    var toListAsyncMethod = typeof(Queryable).GetMethods()
-                        .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
-                        .FirstOrDefault()?.MakeGenericMethod(entityType);
-                    if (toListAsyncMethod == null) return new List<ItemViewModel>();
-
-                    // Limit to 100 items to avoid hanging
-                    var takeMethod = typeof(Queryable).GetMethods()
-                        .Where(m => m.Name == "Take" && m.GetParameters().Length == 2 && m.GetGenericArguments().Length == 1)
-                        .FirstOrDefault()?.MakeGenericMethod(entityType);
-                    if (takeMethod != null)
+                    try
                     {
-                        dbSet = takeMethod.Invoke(null, new object[] { dbSet, 100 }) as IQueryable;
+                        MessageBox.Show($"Starting load for {entityType.Name}");
+                        // Get DbSet using Set<T>
+                        var setMethod = typeof(DbContext).GetMethods()
+                            .Where(m => m.Name == "Set" && m.IsGenericMethod && m.GetParameters().Length == 0)
+                            .FirstOrDefault()?.MakeGenericMethod(entityType);
+                        var dbSet = setMethod?.Invoke(_db, null) as IQueryable;
+                        if (dbSet == null) return new List<ItemViewModel>();
+
+                        // Call ToListAsync using reflection
+                        var toListAsyncMethod = typeof(Queryable).GetMethods()
+                            .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
+                            .FirstOrDefault()?.MakeGenericMethod(entityType);
+                        if (toListAsyncMethod == null) return new List<ItemViewModel>();
+
+                        // Limit to 100 items to avoid hanging
+                        var takeMethod = typeof(Queryable).GetMethods()
+                            .Where(m => m.Name == "Take" && m.GetParameters().Length == 2 && m.GetGenericArguments().Length == 1)
+                            .FirstOrDefault()?.MakeGenericMethod(entityType);
+                        if (takeMethod != null)
+                        {
+                            dbSet = takeMethod.Invoke(null, new object[] { dbSet, 100 }) as IQueryable;
+                        }
+
+                        var task = (Task)toListAsyncMethod.Invoke(null, new[] { dbSet });
+                        await task;
+                        var resultProperty = task.GetType().GetProperty("Result");
+                        var list = resultProperty?.GetValue(task) as System.Collections.IList;
+                        MessageBox.Show($"List count for {entityType.Name}: {list?.Count ?? 0}");
+                        if (list == null) return new List<ItemViewModel>();
+
+                        var items = new List<ItemViewModel>();
+                        foreach (var item in list)
+                        {
+                            var summary = $"{entityType.Name} {GetIdValue(item)}";
+                            items.Add(new ItemViewModel(item, summary));
+                        }
+                        return items;
                     }
-
-                    var task = (Task)toListAsyncMethod.Invoke(null, new[] { dbSet });
-                    await task;
-                    var resultProperty = task.GetType().GetProperty("Result");
-                    var list = resultProperty?.GetValue(task) as System.Collections.IList;
-                    if (list == null) return new List<ItemViewModel>();
-
-                    var items = new List<ItemViewModel>();
-                    foreach (var item in list)
+                    catch (Exception ex)
                     {
-                        var summary = $"{entityType.Name} {GetIdValue(item)}";
-                        items.Add(new ItemViewModel(item, summary));
+                        MessageBox.Show($"Error loading {entityType.Name}: {ex.Message}");
+                        return new List<ItemViewModel>();
                     }
-                    return items;
                 }
             });
         }
@@ -126,7 +146,7 @@ public class AdminViewModel : INotifyPropertyChanged
     {
         if (EntityTypes.Count == 0) return;
         if (SelectedEntityType == null)
-            SelectedEntityType = EntityTypes[0];
+            SelectedEntityType = EntityTypes.FirstOrDefault(e => e.Name == "Jidlo") ?? EntityTypes[0];
         await LoadItemsForSelectedEntityAsync();
     }
 
@@ -197,6 +217,22 @@ public class AdminViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             MessageBox.Show($"Chyba při ukládání: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private async Task DeleteAsync()
+    {
+        if (SelectedItem == null) return;
+        try
+        {
+            _db.Remove(SelectedItem.Entity);
+            await _db.SaveChangesAsync();
+            MessageBox.Show("Smazáno.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            await LoadItemsForSelectedEntityAsync();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Chyba při mazání: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
