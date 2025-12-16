@@ -33,6 +33,8 @@ namespace SkolniJidelna.Models
 
         [Column("DATUM_MODIFIKACE")]
         public DateTime? DatumModifikace { get; set; }
+
+        [Column("OPERACE")]
         public string? Operace { get; set; }
 
         [Column("TABULKA")]

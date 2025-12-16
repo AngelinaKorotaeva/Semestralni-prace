@@ -327,3 +327,5 @@ C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJid
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna.pdb
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\SkolniJidelna.genruntimeconfig.cache
 C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\ref\SkolniJidelna.dll
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\PaymentWindow.baml
+C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\PaymentWindow.g.cs

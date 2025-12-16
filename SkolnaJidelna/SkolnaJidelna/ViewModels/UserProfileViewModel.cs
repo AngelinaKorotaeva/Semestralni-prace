@@ -129,10 +129,10 @@ namespace SkolniJidelna.ViewModels
                 {
                     // Check that underlying tables exist for current DB user to avoid ORA-00942
                     bool hasAlergieTable = TableExists(db, "ALERGIE");
-                    bool hasAlergieStravniciTable = TableExists(db, "ALERGIE_STRAVNICI");
+                    bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
                     if (!hasAlergieTable || !hasAlergieStravniciTable)
                     {
-                        try { File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "missing-tables.log"), $"Skipping allergies load - ALERGIE present={hasAlergieTable}, ALERGIE_STRAVNICI present={hasAlergieStravniciTable}, Time={DateTime.Now:o}{Environment.NewLine}"); } catch { }
+                        try { File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "missing-tables.log"), $"Skipping allergies load - ALERGIE present={hasAlergieTable}, STRAVNICI_ALERGIE present={hasAlergieStravniciTable}, Time={DateTime.Now:o}{Environment.NewLine}"); } catch { }
                         AlergiesText = string.Empty;
                     }
                     else
@@ -156,10 +156,10 @@ namespace SkolniJidelna.ViewModels
                 try
                 {
                     bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
-                    bool hasOmezeniStravnikTable = TableExists(db, "OMEZENI_STRAVNICI");
+                    bool hasOmezeniStravnikTable = TableExists(db, "STRAVNICI_OMEZENI");
                     if (!hasDietTable || !hasOmezeniStravnikTable)
                     {
-                        try { File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "missing-tables.log"), $"Skipping diet restrictions load - DIETNI_OMEZENI present={hasDietTable}, OMEZENI_STRAVNICI present={hasOmezeniStravnikTable}, Time={DateTime.Now:o}{Environment.NewLine}"); } catch { }
+                        try { File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "missing-tables.log"), $"Skipping diet restrictions load - DIETNI_OMEZENI present={hasDietTable}, STRAVNICI_OMEZENI present={hasOmezeniStravnikTable}, Time={DateTime.Now:o}{Environment.NewLine}"); } catch { }
                         DietRestrictionsText = string.Empty;
                     }
                     else
@@ -182,7 +182,8 @@ namespace SkolniJidelna.ViewModels
                 // Load student or pracovnik info separately
                 try
                 {
-                    if (t == "st" || string.Equals(stravnik.TypStravnik, "student", StringComparison.OrdinalIgnoreCase))
+                    var typ = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();
+                    if (typ == "st" || string.Equals(stravnik.TypStravnik, "student", StringComparison.OrdinalIgnoreCase))
                     {
                         var student = await db.Student
                             .Include(t2 => t2.Trida)
@@ -191,11 +192,30 @@ namespace SkolniJidelna.ViewModels
 
                         PositionClass = student != null && student.Trida != null ? $"Třída: {student.Trida.CisloTridy}" : "-";
 
-                        ComboAlergiesVisibility = Visibility.Collapsed;
-                        ComboDietRestrictionsVisibility = Visibility.Collapsed;
-                        SaveButtonVisibility = Visibility.Collapsed;
-                        TextAlergiesVisibility = Visibility.Visible; // keep visible
-                        TextDietRestrictionsVisibility = Visibility.Visible;
+                        // Show selectable lists for student too
+                        ComboAlergiesVisibility = Visibility.Visible;
+                        ComboDietRestrictionsVisibility = Visibility.Visible;
+                        SaveButtonVisibility = Visibility.Collapsed; // keep saving disabled for students unless needed
+                        TextAlergiesVisibility = Visibility.Collapsed;
+                        TextDietRestrictionsVisibility = Visibility.Collapsed;
+
+                        // Load selectable allergies
+                        SelectableAlergies.Clear();
+                        var allAlergies = await db.Alergie.ToListAsync();
+                        var selectedAlergieIds = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToListAsync();
+                        foreach (var a in allAlergies)
+                        {
+                            SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
+                        }
+
+                        // Load selectable diet restrictions
+                        SelectableDiets.Clear();
+                        var allDiets = await db.DietniOmezeni.ToListAsync();
+                        var selectedDietIds = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToListAsync();
+                        foreach (var d in allDiets)
+                        {
+                            SelectableDiets.Add(new SelectableDiet { Diet = d, IsSelected = selectedDietIds.Contains(d.IdOmezeni) });
+                        }
 
                         RokNarozeni = student != null ? student.DatumNarozeni.Year.ToString() : string.Empty;
                         RokVisibility = Visibility.Visible;
@@ -252,7 +272,6 @@ namespace SkolniJidelna.ViewModels
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("Load Student/Pracovnik failed: " + ex);
-                    // set sensible defaults so UI still renders main user data
                     PositionClass = "-";
                     ComboAlergiesVisibility = Visibility.Collapsed;
                     ComboDietRestrictionsVisibility = Visibility.Collapsed;
@@ -264,14 +283,29 @@ namespace SkolniJidelna.ViewModels
                 // Profile image placeholder (initials)
                 try
                 {
-                    // Try load user's photo from SOUBORY first
                     try
                     {
-                        var photo = await db.Soubor
+                        // 1) Try by ID_ZAZNAM on server, then filter TABULKA on client to avoid Oracle function/literal issues
+                        var candidates = await db.Soubor
                             .AsNoTracking()
-                            .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                            .Where(s => s.IdZaznam == stravnik.IdStravnik)
                             .OrderByDescending(s => s.DatumNahrani)
-                            .FirstOrDefaultAsync();
+                            .ToListAsync();
+
+                        var photo = candidates
+                            .FirstOrDefault(s => string.Equals((s.Tabulka ?? string.Empty).Trim(), "STRAVNICI", StringComparison.OrdinalIgnoreCase))
+                            ?? candidates.FirstOrDefault();
+
+                        // 2) Fallback: try by ID_STRAVNIK column if nothing found
+                        if (photo == null)
+                        {
+                            photo = await db.Soubor
+                                .AsNoTracking()
+                                .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                                .OrderByDescending(s => s.DatumNahrani)
+                                .FirstOrDefaultAsync();
+                        }
+
                         if (photo != null && photo.Obsah != null && photo.Obsah.Length > 0)
                         {
                             using var ms = new MemoryStream(photo.Obsah);
@@ -312,6 +346,22 @@ namespace SkolniJidelna.ViewModels
         }
 
         private ImageSource? CreateInitialsImage(string firstName, string lastName)
+        {
+            try
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    return Application.Current.Dispatcher.Invoke(() => CreateInitialsImageCore(firstName, lastName));
+                }
+                return CreateInitialsImageCore(firstName, lastName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private ImageSource? CreateInitialsImageCore(string firstName, string lastName)
         {
             try
             {

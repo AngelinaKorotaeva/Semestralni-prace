@@ -99,13 +99,6 @@
             <Setter Property="BorderBrush" Value="#FFB6D9"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="#4A4A4A"/>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Nazev}" Foreground="Black"/>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
@@ -122,8 +115,15 @@
                                     </Grid.ColumnDefinitions>
                                     <ContentPresenter x:Name="ContentPresenter"
                                                       Margin="{TemplateBinding Padding}"
-                                                      VerticalAlignment="Center"
-                                                      Content="{Binding SelectedItem.Name, RelativeSource={RelativeSource TemplatedParent}, FallbackValue='Vyberte tabulku'}"/>
+                                                      VerticalAlignment="Center">
+                                        <ContentPresenter.Content>
+                                            <PriorityBinding>
+                                                <Binding Path="SelectedItem.Content" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                                <Binding Path="SelectedItem.Nazev" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                                <Binding Path="SelectedItem" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                            </PriorityBinding>
+                                        </ContentPresenter.Content>
+                                    </ContentPresenter>
                                     <ToggleButton x:Name="ToggleButton"
                                                   Grid.Column="1"
                                                   Background="Transparent"
@@ -441,6 +441,34 @@
             </Setter>
         </Style>
 
+        <!-- RadioButton -->
+        <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource DarkTextColor}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="22" Height="22" Margin="0,0,10,0">
+                                <Ellipse StrokeThickness="2" Stroke="{StaticResource PrimaryGradient}" Fill="White"/>
+                                <Ellipse x:Name="Dot" Width="12" Height="12" Fill="{StaticResource PrimaryGradient}" Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Dot" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- DatePicker -->
         <Style x:Key="DatePickerStyle" TargetType="DatePicker">
             <Setter Property="FontSize" Value="16"/>
@@ -449,58 +477,6 @@
             <Setter Property="BorderBrush" Value="#FFB6D9"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="#4A4A4A"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePicker">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="15">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
-                            </Border.Effect>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <DatePickerTextBox x:Name="PART_TextBox"
-                                                   Grid.Column="0"
-                                                   Background="Transparent"
-                                                   BorderThickness="0"
-                                                   Padding="{TemplateBinding Padding}"
-                                                   VerticalAlignment="Center"/>
-                                <ToggleButton x:Name="PART_Button"
-                                              Grid.Column="1"
-                                              Background="Transparent"
-                                              BorderThickness="0"
-                                              Width="30"
-                                              Content="📅"
-                                              Focusable="False"
-                                              IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <Popup x:Name="PART_Popup"
-                                       Placement="Bottom"
-                                       PlacementTarget="{Binding ElementName=PART_TextBox}"
-                                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                       StaysOpen="False"
-                                       AllowsTransparency="True"
-                                       Focusable="False"
-                                       PopupAnimation="Slide">
-                                    <Calendar x:Name="PART_Calendar"
-                                              DisplayDateStart="1900-01-01"
-                                              DisplayDateEnd="2024-12-31"
-                                              SelectionMode="SingleDate"/>
-                                </Popup>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryGradient}"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
 
         <!-- CheckBox -->

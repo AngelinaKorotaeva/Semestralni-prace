@@ -273,11 +273,27 @@ namespace SkolniJidelna.ViewModels
                 // Load profile image from SOUBORY table (latest by DATUM_NAHRANI); fallback to initials
                 try
                 {
-                    var photo = ctx.Soubor
+                    // 1) Try by ID_ZAZNAM (server-side) then filter TABULKA on client to avoid provider literal issues
+                    var candidates = ctx.Soubor
                         .AsNoTracking()
-                        .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                        .Where(s => s.IdZaznam == stravnik.IdStravnik)
                         .OrderByDescending(s => s.DatumNahrani)
-                        .FirstOrDefault();
+                        .ToList();
+
+                    var photo = candidates
+                        .FirstOrDefault(s => string.Equals((s.Tabulka ?? string.Empty).Trim(), "STRAVNICI", StringComparison.OrdinalIgnoreCase))
+                        ?? candidates.FirstOrDefault();
+
+                    // 2) Fallback: try by ID_STRAVNIK column if nothing found
+                    if (photo == null)
+                    {
+                        photo = ctx.Soubor
+                            .AsNoTracking()
+                            .Where(s => s.IdStravnik == stravnik.IdStravnik)
+                            .OrderByDescending(s => s.DatumNahrani)
+                            .FirstOrDefault();
+                    }
+
                     if (photo != null && photo.Obsah != null && photo.Obsah.Length > 0)
                     {
                         using var ms = new System.IO.MemoryStream(photo.Obsah);
