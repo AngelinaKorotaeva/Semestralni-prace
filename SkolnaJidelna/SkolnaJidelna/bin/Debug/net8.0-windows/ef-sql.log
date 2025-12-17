@@ -43962,3 +43962,1729 @@ dbug: 17.12.2025 15:04:06.530 RelationalEventId.DataReaderClosing[20301] (Micros
       Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
 dbug: 17.12.2025 15:04:06.537 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
       A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 61ms reading results.
+dbug: 17.12.2025 15:10:03.110 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.123 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (28ms).
+dbug: 17.12.2025 15:10:03.138 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:10:03.245 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (108ms) [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:10:03.261 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.277 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 25ms reading results.
+dbug: 17.12.2025 15:10:03.588 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.590 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.593 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:10:03.634 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (41ms) [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:10:03.648 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.650 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 12ms reading results.
+dbug: 17.12.2025 15:10:03.666 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.669 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.672 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:10:03.699 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (27ms) [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:10:03.727 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.729 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 27ms reading results.
+dbug: 17.12.2025 15:10:03.743 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.746 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.748 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:10:03.764 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:10:03.781 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.784 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 16ms reading results.
+dbug: 17.12.2025 15:10:03.790 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.792 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.794 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:10:03.810 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:10:03.835 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.839 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 25ms reading results.
+dbug: 17.12.2025 15:10:03.850 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.853 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.855 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:10:03.873 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:10:03.876 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.878 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:10:03.884 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.886 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.888 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:10:03.904 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:10:03.912 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.915 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 7ms reading results.
+dbug: 17.12.2025 15:10:03.919 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.921 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.923 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:10:03.941 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (17ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:10:03.943 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:03.946 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:10:03.954 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:03.957 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:03.959 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+info: 17.12.2025 15:10:03.977 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+dbug: 17.12.2025 15:10:04.084 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:04.087 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 106ms reading results.
+dbug: 17.12.2025 15:10:16.272 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:16.276 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:10:16.280 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:10:16.305 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:10:16.311 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:16.314 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:10:18.196 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:18.201 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (5ms).
+dbug: 17.12.2025 15:10:18.203 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:10:18.233 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (30ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:10:18.274 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:18.280 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 41ms reading results.
+dbug: 17.12.2025 15:10:20.934 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:20.936 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (6ms).
+dbug: 17.12.2025 15:10:20.939 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:10:20.969 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (30ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:10:21.004 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:21.007 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 35ms reading results.
+dbug: 17.12.2025 15:10:24.038 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:24.045 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (6ms).
+dbug: 17.12.2025 15:10:24.048 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='2', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:10:24.064 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[:cislo_0='2', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:10:24.067 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:24.072 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:10:34.314 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:34.318 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:10:34.320 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:10:34.340 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (20ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:10:34.372 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:34.376 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 32ms reading results.
+dbug: 17.12.2025 15:10:40.815 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:40.818 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:10:40.820 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='3', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:10:40.837 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (17ms) [Parameters=[:cislo_0='3', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:10:40.841 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:40.844 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:10:46.435 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:46.444 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (8ms).
+dbug: 17.12.2025 15:10:46.447 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:10:46.466 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:10:46.502 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:46.505 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 36ms reading results.
+dbug: 17.12.2025 15:10:50.217 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:50.223 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (6ms).
+dbug: 17.12.2025 15:10:50.227 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:10:50.247 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (21ms) [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:10:50.251 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:50.254 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:10:56.135 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:10:56.138 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:10:56.141 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='3', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:10:56.159 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[:cislo_0='3', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:10:56.163 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:10:56.165 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:11:00.322 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:00.330 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (8ms).
+dbug: 17.12.2025 15:11:00.333 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:11:00.349 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:11:00.352 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:00.355 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:11:05.412 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:05.416 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:11:05.418 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:05.434 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (16ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:05.466 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:05.469 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 32ms reading results.
+dbug: 17.12.2025 15:11:11.960 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:11.963 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:11:11.965 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='2', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:11:11.984 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (19ms) [Parameters=[:cislo_0='2', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."CISLO_TRIDY", "v"."DATUM_NAROZENI", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI"
+      FROM "V_STUD_TRIDA" "v"
+      WHERE "v"."CISLO_TRIDY" = :cislo_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:11:11.987 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:11.989 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:11:40.279 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:40.283 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:11:40.288 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:40.320 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (35ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:40.326 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:40.331 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 7ms reading results.
+dbug: 17.12.2025 15:11:42.360 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:42.365 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (5ms).
+dbug: 17.12.2025 15:11:42.367 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:42.392 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (24ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:42.410 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:42.414 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 19ms reading results.
+dbug: 17.12.2025 15:11:43.746 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:43.749 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:11:43.751 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:43.769 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (17ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:43.786 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:43.789 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 17ms reading results.
+dbug: 17.12.2025 15:11:50.181 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:50.184 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:11:50.187 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT DISTINCT "j"."KATEGORIE"
+      FROM "JIDLA" "j"
+info: 17.12.2025 15:11:50.208 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT DISTINCT "j"."KATEGORIE"
+      FROM "JIDLA" "j"
+dbug: 17.12.2025 15:11:50.212 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:50.215 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:11:51.899 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:51.903 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:11:51.905 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."CENA", "v"."ID_JIDLO", "v"."KATEGORIE", "v"."NAZEV_JIDLA", "v"."POPIS_JIDLA", "v"."SLOZENI"
+      FROM "V_JIDLA_SLOZENI" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:51.928 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (23ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."CENA", "v"."ID_JIDLO", "v"."KATEGORIE", "v"."NAZEV_JIDLA", "v"."POPIS_JIDLA", "v"."SLOZENI"
+      FROM "V_JIDLA_SLOZENI" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:51.959 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:51.962 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 30ms reading results.
+dbug: 17.12.2025 15:11:52.612 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:52.620 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (8ms).
+dbug: 17.12.2025 15:11:52.623 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."CENA", "v"."ID_JIDLO", "v"."KATEGORIE", "v"."NAZEV_JIDLA", "v"."POPIS_JIDLA", "v"."SLOZENI"
+      FROM "V_JIDLA_SLOZENI" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:52.642 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (19ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."CENA", "v"."ID_JIDLO", "v"."KATEGORIE", "v"."NAZEV_JIDLA", "v"."POPIS_JIDLA", "v"."SLOZENI"
+      FROM "V_JIDLA_SLOZENI" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:52.663 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:52.667 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 21ms reading results.
+dbug: 17.12.2025 15:11:57.093 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:57.105 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (12ms).
+dbug: 17.12.2025 15:11:57.108 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."NAZEV"
+      FROM "POZICE" "p"
+info: 17.12.2025 15:11:57.127 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."NAZEV"
+      FROM "POZICE" "p"
+dbug: 17.12.2025 15:11:57.130 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:57.133 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:11:59.517 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:11:59.522 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (5ms).
+dbug: 17.12.2025 15:11:59.524 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:11:59.549 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (25ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:11:59.570 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:11:59.574 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 22ms reading results.
+dbug: 17.12.2025 15:12:00.158 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:12:00.166 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (7ms).
+dbug: 17.12.2025 15:12:00.168 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+info: 17.12.2025 15:12:00.192 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (24ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      FETCH FIRST :p_0 ROWS ONLY
+dbug: 17.12.2025 15:12:00.214 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:12:00.217 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 22ms reading results.
+dbug: 17.12.2025 15:12:03.836 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:12:03.841 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:12:03.843 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:selectedPosition_0='Systémový administrátor' (Size = 2000), :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      WHERE "v"."POZICE" = :selectedPosition_0
+      FETCH FIRST :p_1 ROWS ONLY
+info: 17.12.2025 15:12:03.868 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (25ms) [Parameters=[:selectedPosition_0='Systémový administrátor' (Size = 2000), :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."ALERGIE", "v"."EMAIL", "v"."ID_STRAVNIK", "v"."JMENO", "v"."OMEZENI", "v"."POZICE", "v"."TELEFON"
+      FROM "V_PR_POZICE" "v"
+      WHERE "v"."POZICE" = :selectedPosition_0
+      FETCH FIRST :p_1 ROWS ONLY
+dbug: 17.12.2025 15:12:03.871 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:12:03.874 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:18:42.638 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:42.652 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (33ms).
+dbug: 17.12.2025 15:18:42.671 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:18:42.807 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (138ms) [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:18:42.832 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:42.849 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 29ms reading results.
+dbug: 17.12.2025 15:18:43.266 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.269 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:18:43.273 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:18:43.330 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (58ms) [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:18:43.347 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.351 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 16ms reading results.
+dbug: 17.12.2025 15:18:43.374 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.378 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:18:43.382 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:18:43.417 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (35ms) [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:18:43.459 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.462 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 37ms reading results.
+dbug: 17.12.2025 15:18:43.473 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.476 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:18:43.479 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:18:43.519 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (40ms) [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:18:43.539 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.541 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 20ms reading results.
+dbug: 17.12.2025 15:18:43.550 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.552 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:18:43.555 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:18:43.581 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:18:43.623 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.627 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 40ms reading results.
+dbug: 17.12.2025 15:18:43.638 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.640 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:18:43.643 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:18:43.660 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (17ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:18:43.665 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.668 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:18:43.676 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.680 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:18:43.683 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:18:43.702 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:18:43.713 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.716 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 10ms reading results.
+dbug: 17.12.2025 15:18:43.722 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.724 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:18:43.727 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:18:43.754 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (26ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:18:43.757 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.761 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:18:43.771 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:43.774 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:18:43.777 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+info: 17.12.2025 15:18:43.795 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+dbug: 17.12.2025 15:18:43.975 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:43.993 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 195ms reading results.
+dbug: 17.12.2025 15:18:50.051 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:50.056 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (5ms).
+dbug: 17.12.2025 15:18:50.060 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:18:50.092 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (32ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:18:50.114 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:50.118 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 6ms reading results.
+dbug: 17.12.2025 15:18:52.084 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:52.091 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (7ms).
+dbug: 17.12.2025 15:18:52.097 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:18:52.151 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (55ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:18:52.228 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:52.234 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 79ms reading results.
+dbug: 17.12.2025 15:18:53.086 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:53.089 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).
+dbug: 17.12.2025 15:18:53.092 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:18:53.124 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (32ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:18:53.131 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:53.134 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:18:56.526 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:18:56.533 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (6ms).
+dbug: 17.12.2025 15:18:56.537 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:18:56.583 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (46ms) [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:18:56.596 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:18:56.602 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 14ms reading results.
+dbug: 17.12.2025 15:19:46.842 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:19:46.846 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:19:46.857 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p2='15', :p0='2016-07-04T00:00:00.0000000' (DbType = DateTime), :p1='1', :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p0, "ID_TRIDA" = :p1
+      WHERE "ID_STRAVNIK" = :p2;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+info: 17.12.2025 15:19:46.909 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (53ms) [Parameters=[:p2='15', :p0='2016-07-04T00:00:00.0000000' (DbType = DateTime), :p1='1', :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p0, "ID_TRIDA" = :p1
+      WHERE "ID_STRAVNIK" = :p2;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+dbug: 17.12.2025 15:19:47.014 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:19:47.019 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 106ms reading results.
+dbug: 17.12.2025 15:19:50.558 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:19:50.572 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (13ms).
+dbug: 17.12.2025 15:19:50.575 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:19:50.695 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (120ms) [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:19:50.705 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:19:50.708 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:35:03.860 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:03.876 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (40ms).
+dbug: 17.12.2025 15:35:03.894 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:35:04.041 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (148ms) [Parameters=[:Username_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "v"."AKTIVITA", "v"."EMAIL", "v"."HESLO", "v"."ID_STRAVNIK", "v"."ROLE", "v"."TYP_STRAVNIK"
+      FROM "V_STRAVNICI_LOGIN" "v"
+      WHERE "v"."EMAIL" = :Username_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:35:04.060 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.078 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 29ms reading results.
+dbug: 17.12.2025 15:35:04.507 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.512 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:35:04.515 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:35:04.574 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (59ms) [Parameters=[:email_0='janN@gmail.com' (Size = 2000)], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_STRAVNIK", "s"."AKTIVITA", "s"."EMAIL", "s"."HESLO", "s"."ID_ADRESA", "s"."JMENO", "s"."PRIJMENI", "s"."ROLE", "s"."TYP_STRAVNIK", "s"."ZUSTATEK", "a"."ID_ADRESA", "a"."MESTO", "a"."PSC", "a"."ULICE"
+      FROM "STRAVNICI" "s"
+      INNER JOIN "ADRESY" "a" ON "s"."ID_ADRESA" = "a"."ID_ADRESA"
+      WHERE "s"."EMAIL" = :email_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:35:04.592 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.597 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 19ms reading results.
+dbug: 17.12.2025 15:35:04.624 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.628 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:35:04.631 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:35:04.670 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (39ms) [Parameters=[:p_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_STRAVNIK", "p"."ID_POZICE", "p"."TELEFON"
+      FROM "PRACOVNICI" "p"
+      WHERE "p"."ID_STRAVNIK" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:35:04.703 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.707 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 33ms reading results.
+dbug: 17.12.2025 15:35:04.715 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.718 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:35:04.722 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+info: 17.12.2025 15:35:04.745 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (23ms) [Parameters=[:p_0='1'], CommandType='Text', CommandTimeout='0']
+      SELECT "p"."ID_POZICE", "p"."NAZEV"
+      FROM "POZICE" "p"
+      WHERE "p"."ID_POZICE" = :p_0
+      FETCH FIRST 1 ROWS ONLY
+dbug: 17.12.2025 15:35:04.769 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.772 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 23ms reading results.
+dbug: 17.12.2025 15:35:04.781 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.784 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:35:04.787 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:35:04.815 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (29ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:35:04.856 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.860 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 40ms reading results.
+dbug: 17.12.2025 15:35:04.871 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.874 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:35:04.877 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:35:04.917 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (39ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_ALERGIE"
+      FROM "STRAVNICI_ALERGIE" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:35:04.924 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.930 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 6ms reading results.
+dbug: 17.12.2025 15:35:04.941 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:04.945 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:35:04.948 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:35:04.972 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (24ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:35:04.986 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:04.989 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 11ms reading results.
+dbug: 17.12.2025 15:35:04.997 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:05.000 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:35:05.004 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+info: 17.12.2025 15:35:05.031 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (27ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_OMEZENI"
+      FROM "STRAVNICI_OMEZENI" "s"
+      WHERE "s"."ID_STRAVNIK" = :stravnik_IdStravnik_0
+dbug: 17.12.2025 15:35:05.038 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:05.042 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:35:05.055 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:05.060 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:35:05.064 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+info: 17.12.2025 15:35:05.094 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (31ms) [Parameters=[:stravnik_IdStravnik_0='6'], CommandType='Text', CommandTimeout='0']
+      SELECT "s"."ID_SOUBOR", "s"."DATUM_MODIFIKACE", "s"."DATUM_NAHRANI", "s"."ID_STRAVNIK", "s"."ID_ZAZNAM", "s"."NAZEV", "s"."OBSAH", "s"."OPERACE", "s"."PRIPONA", "s"."TABULKA", "s"."TYP"
+      FROM "SOUBORY" "s"
+      WHERE "s"."ID_ZAZNAM" = :stravnik_IdStravnik_0
+      ORDER BY "s"."DATUM_NAHRANI" DESC
+dbug: 17.12.2025 15:35:05.270 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:05.275 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 176ms reading results.
+dbug: 17.12.2025 15:35:10.559 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:10.571 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (12ms).
+dbug: 17.12.2025 15:35:10.575 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:35:10.606 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (31ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:35:10.614 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:10.629 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 20ms reading results.
+dbug: 17.12.2025 15:35:12.831 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:12.839 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (8ms).
+dbug: 17.12.2025 15:35:12.842 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:35:12.881 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (38ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:35:12.967 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:12.971 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 86ms reading results.
+dbug: 17.12.2025 15:35:14.728 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:14.739 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (17ms).
+dbug: 17.12.2025 15:35:14.742 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:35:14.773 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (31ms) [Parameters=[:p_0='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "t"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA"
+          FROM "STUDENTI" "s"
+          FETCH FIRST :p_0 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      INNER JOIN "TRIDY" "t" ON "s1"."ID_TRIDA" = "t"."ID_TRIDA"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s0"."ID_STRAVNIK", "t"."ID_TRIDA", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:35:14.780 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:14.785 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 7ms reading results.
+dbug: 17.12.2025 15:35:17.504 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:17.511 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (7ms).
+dbug: 17.12.2025 15:35:17.515 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:35:17.613 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (98ms) [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:35:17.625 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:17.628 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 9ms reading results.
+dbug: 17.12.2025 15:35:18.864 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:18.869 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:35:18.873 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:35:18.902 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (29ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:35:18.907 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:18.911 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:35:18.914 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:18.918 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:35:18.922 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:35:18.940 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:35:18.944 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:18.947 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:35:18.953 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:18.957 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:35:18.960 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:35:19.010 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (49ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:35:19.013 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:19.016 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:35:57.707 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:35:57.712 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:35:57.721 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p1='13', :p0='novak' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object), :p4='13', :p2='2016-04-11T00:00:00.0000000' (DbType = DateTime), :p3='1', :cur1=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STRAVNICI" SET "PRIJMENI" = :p0
+      WHERE "ID_STRAVNIK" = :p1;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p2, "ID_TRIDA" = :p3
+      WHERE "ID_STRAVNIK" = :p4;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur1 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+info: 17.12.2025 15:35:57.775 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (54ms) [Parameters=[:p1='13', :p0='novak' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object), :p4='13', :p2='2016-04-11T00:00:00.0000000' (DbType = DateTime), :p3='1', :cur1=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STRAVNICI" SET "PRIJMENI" = :p0
+      WHERE "ID_STRAVNIK" = :p1;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p2, "ID_TRIDA" = :p3
+      WHERE "ID_STRAVNIK" = :p4;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur1 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+dbug: 17.12.2025 15:35:57.857 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:35:57.863 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 85ms reading results.
+dbug: 17.12.2025 15:36:11.268 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:11.271 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:36:11.274 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:36:11.301 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (27ms) [Parameters=[:cislo_0='1', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:36:11.305 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:11.309 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:36:17.809 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:17.820 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (10ms).
+dbug: 17.12.2025 15:36:17.825 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:36:17.862 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (37ms) [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:36:17.867 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:17.871 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:36:25.507 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:25.512 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:36:25.515 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:36:25.542 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:36:25.547 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:25.550 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:36:25.554 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:25.557 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:36:25.560 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:36:25.606 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (46ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:36:25.612 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:25.616 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 5ms reading results.
+dbug: 17.12.2025 15:36:25.622 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:25.626 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:36:25.631 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:36:25.651 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:36:25.654 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:25.657 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 2ms reading results.
+dbug: 17.12.2025 15:36:49.082 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:49.085 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (3ms).
+dbug: 17.12.2025 15:36:49.090 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:p1='50', :p0='Zelená' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object), :p4='50', :p2='2011-09-20T00:00:00.0000000' (DbType = DateTime), :p3='4', :cur1=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STRAVNICI" SET "PRIJMENI" = :p0
+      WHERE "ID_STRAVNIK" = :p1;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p2, "ID_TRIDA" = :p3
+      WHERE "ID_STRAVNIK" = :p4;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur1 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+info: 17.12.2025 15:36:49.124 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (35ms) [Parameters=[:p1='50', :p0='Zelená' (Nullable = false) (Size = 2000), :cur0=NULL (Nullable = false) (Direction = Output) (DbType = Object), :p4='50', :p2='2011-09-20T00:00:00.0000000' (DbType = DateTime), :p3='4', :cur1=NULL (Nullable = false) (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      v_RowCount INTEGER;
+      
+      BEGIN
+      
+      UPDATE "STRAVNICI" SET "PRIJMENI" = :p0
+      WHERE "ID_STRAVNIK" = :p1;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur0 FOR SELECT v_RowCount FROM DUAL;
+      UPDATE "STUDENTI" SET "DATUM_NAROZENI" = :p2, "ID_TRIDA" = :p3
+      WHERE "ID_STRAVNIK" = :p4;
+      v_RowCount := SQL%ROWCOUNT;
+      OPEN :cur1 FOR SELECT v_RowCount FROM DUAL;
+      
+      END;
+dbug: 17.12.2025 15:36:49.224 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:49.227 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 98ms reading results.
+dbug: 17.12.2025 15:36:56.807 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:36:56.811 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:36:56.815 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+info: 17.12.2025 15:36:56.844 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (29ms) [Parameters=[:cislo_0='4', :p_1='100'], CommandType='Text', CommandTimeout='0']
+      SELECT "s1"."ID_STRAVNIK", "s1"."DATUM_NAROZENI", "s1"."ID_TRIDA", "s0"."ID_STRAVNIK", "s0"."AKTIVITA", "s0"."EMAIL", "s0"."HESLO", "s0"."ID_ADRESA", "s0"."JMENO", "s0"."PRIJMENI", "s0"."ROLE", "s0"."TYP_STRAVNIK", "s0"."ZUSTATEK", "s1"."ID_TRIDA0", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s4"."NAZEV", "s4"."PRODUKT", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI", "s5"."ID_OMEZENI0", "s5"."NAZEV", "s5"."POPIS", "s1"."CISLO_TRIDY"
+      FROM (
+          SELECT "s"."ID_STRAVNIK", "s"."DATUM_NAROZENI", "s"."ID_TRIDA", "t"."ID_TRIDA" "ID_TRIDA0", "t"."CISLO_TRIDY"
+          FROM "STUDENTI" "s"
+          INNER JOIN "TRIDY" "t" ON "s"."ID_TRIDA" = "t"."ID_TRIDA"
+          WHERE "t"."CISLO_TRIDY" = :cislo_0
+          FETCH FIRST :p_1 ROWS ONLY
+      ) "s1"
+      INNER JOIN "STRAVNICI" "s0" ON "s1"."ID_STRAVNIK" = "s0"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s2"."ID_STRAVNIK", "s2"."ID_ALERGIE", "a"."ID_ALERGIE" "ID_ALERGIE0", "a"."NAZEV", "a"."PRODUKT"
+          FROM "STRAVNICI_ALERGIE" "s2"
+          INNER JOIN "ALERGIE" "a" ON "s2"."ID_ALERGIE" = "a"."ID_ALERGIE"
+      ) "s4" ON "s0"."ID_STRAVNIK" = "s4"."ID_STRAVNIK"
+      LEFT JOIN (
+          SELECT "s3"."ID_STRAVNIK", "s3"."ID_OMEZENI", "d"."ID_OMEZENI" "ID_OMEZENI0", "d"."NAZEV", "d"."POPIS"
+          FROM "STRAVNICI_OMEZENI" "s3"
+          INNER JOIN "DIETNI_OMEZENI" "d" ON "s3"."ID_OMEZENI" = "d"."ID_OMEZENI"
+      ) "s5" ON "s0"."ID_STRAVNIK" = "s5"."ID_STRAVNIK"
+      ORDER BY "s1"."ID_STRAVNIK", "s1"."ID_TRIDA0", "s0"."ID_STRAVNIK", "s4"."ID_STRAVNIK", "s4"."ID_ALERGIE", "s4"."ID_ALERGIE0", "s5"."ID_STRAVNIK", "s5"."ID_OMEZENI"
+dbug: 17.12.2025 15:36:56.849 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:36:56.852 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:37:04.701 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:37:04.706 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (4ms).
+dbug: 17.12.2025 15:37:04.710 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+info: 17.12.2025 15:37:04.735 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (25ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "t"."ID_TRIDA", "t"."CISLO_TRIDY"
+      FROM "TRIDY" "t"
+dbug: 17.12.2025 15:37:04.740 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:37:04.745 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.
+dbug: 17.12.2025 15:37:04.749 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:37:04.752 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:37:04.755 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+info: 17.12.2025 15:37:04.775 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "a"."ID_ALERGIE", "a"."NAZEV", "a"."PRODUKT"
+      FROM "ALERGIE" "a"
+dbug: 17.12.2025 15:37:04.780 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:37:04.783 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 3ms reading results.
+dbug: 17.12.2025 15:37:04.787 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 17.12.2025 15:37:04.789 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (2ms).
+dbug: 17.12.2025 15:37:04.791 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+info: 17.12.2025 15:37:04.825 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='0']
+      SELECT "d"."ID_OMEZENI", "d"."NAZEV", "d"."POPIS"
+      FROM "DIETNI_OMEZENI" "d"
+dbug: 17.12.2025 15:37:04.832 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))'.
+dbug: 17.12.2025 15:37:04.837 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for '' on server '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fei-sql3.upceucebny.cz)(PORT=1521))(CONNECT_DATA=(SID=BDAS)))' is being disposed after spending 4ms reading results.

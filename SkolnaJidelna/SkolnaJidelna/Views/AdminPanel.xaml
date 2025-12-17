@@ -37,11 +37,33 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="ComboEditor">
+            <StackPanel>
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                <ComboBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding Value, Mode=TwoWay}" DisplayMemberPath="CisloTridy" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MultiSelectEditor">
+            <StackPanel>
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                <ItemsControl ItemsSource="{Binding ItemsSource}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Nazev}" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
         <vm:PropertyEditorSelector x:Key="EditorSelector"
                                    StringTemplate="{StaticResource StringEditor}"
                                    BoolTemplate="{StaticResource BoolEditor}"
                                    NumberTemplate="{StaticResource NumberEditor}"
-                                   DateTemplate="{StaticResource DateEditor}"/>
+                                   DateTemplate="{StaticResource DateEditor}"
+                                   ComboTemplate="{StaticResource ComboEditor}"
+                                   MultiSelectTemplate="{StaticResource MultiSelectEditor}"/>
     </Window.Resources>
 
     <Grid>
@@ -107,7 +129,7 @@
                     <TextBlock Text="Správa systému" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
                     <!-- Здесь можно добавить элементы управления -->
-                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="300" Margin="0,0,0,20" SelectionChanged="ListBox_SelectionChanged"/>
+                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="300" Margin="0,0,0,20"/>
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>

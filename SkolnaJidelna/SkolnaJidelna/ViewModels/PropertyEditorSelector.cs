@@ -9,10 +9,16 @@ public class PropertyEditorSelector : DataTemplateSelector
     public DataTemplate? BoolTemplate { get; set; }
     public DataTemplate? NumberTemplate { get; set; }
     public DataTemplate? DateTemplate { get; set; }
+    public DataTemplate? ComboTemplate { get; set; }
+    public DataTemplate? MultiSelectTemplate { get; set; }
 
     public override DataTemplate? SelectTemplate(object item, DependencyObject container)
     {
         if (item is not PropertyViewModel p) return base.SelectTemplate(item, container);
+
+        if (p.EditorType == "Combo") return ComboTemplate ?? base.SelectTemplate(item, container);
+        if (p.EditorType == "MultiSelect") return MultiSelectTemplate ?? base.SelectTemplate(item, container);
+
         var t = p.PropertyType;
         var underlying = Nullable.GetUnderlyingType(t) ?? t;
 

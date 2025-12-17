@@ -211,45 +211,60 @@ public class AdminViewModel : INotifyPropertyChanged
 
                         if (entityType == typeof(Student))
                         {
-                            // Use VStudTrida for display
-                            var query = _db.VStudTrida.AsQueryable();
+                            // Load students with includes
+                            var query = _db.Student
+                                .Include(s => s.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
+                                .Include(s => s.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
+                                .Include(s => s.Trida)
+                                .AsQueryable();
                             if (!string.IsNullOrEmpty(_selectedClass) && _selectedClass != "Vše")
                             {
                                 if (int.TryParse(_selectedClass, out int cislo))
                                 {
-                                    query = query.Where(s => s.CisloTridy == cislo);
+                                    query = query.Where(s => s.Trida.CisloTridy == cislo);
                                 }
                             }
                             var students = await query.Take(100).ToListAsync();
                             var studentItems = new List<ItemViewModel>();
-                            foreach (var stud in students)
+                            foreach (var student in students)
                             {
-                                var summary = $"{stud.Jmeno} - {stud.Email} - {stud.DatumNarozeni.ToShortDateString()} - Alergie: {stud.Alergie ?? "Žádné"} - Omezení: {stud.Omezeni ?? "Žádné"}";
-                                studentItems.Add(new ItemViewModel(stud, summary));
+                                var alergie = student.Stravnik.Alergie != null ? string.Join(", ", student.Stravnik.Alergie.Select(sa => sa.Alergie.Nazev)) : "Žádné";
+                                var omezeni = student.Stravnik.Omezeni != null ? string.Join(", ", student.Stravnik.Omezeni.Select(so => so.DietniOmezeni.Nazev)) : "Žádné";
+                                var summary = $"{student.Stravnik.Jmeno} {student.Stravnik.Prijmeni} - {student.Stravnik.Email} - {student.DatumNarozeni.ToShortDateString()} - Alergie: {alergie} - Omezení: {omezeni}";
+                                studentItems.Add(new ItemViewModel(student, summary));
                             }
                             return studentItems;
                         }
                         else if (entityType == typeof(Pracovnik))
                         {
-                            // Use VPracovnikPozice for display
-                            var query = _db.VPracovnikPozice.AsQueryable();
+                            // Load workers with includes
+                            var query = _db.Pracovnik
+                                .Include(p => p.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
+                                .Include(p => p.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
+                                .Include(p => p.Pozice)
+                                .AsQueryable();
                             if (!string.IsNullOrEmpty(_selectedPosition) && _selectedPosition != "Vše")
                             {
-                                query = query.Where(p => p.Pozice == _selectedPosition);
+                                query = query.Where(p => p.Pozice != null && p.Pozice.Nazev == _selectedPosition);
                             }
                             var workers = await query.Take(100).ToListAsync();
                             var workerItems = new List<ItemViewModel>();
                             foreach (var worker in workers)
                             {
-                                var summary = $"{worker.Jmeno} - {worker.Email} - Telefon: {worker.Telefon} - Pozice: {worker.Pozice} - Alergie: {worker.Alergie ?? "Žádné"} - Omezení: {worker.Omezeni ?? "Žádné"}";
+                                var pozice = worker.Pozice?.Nazev ?? "Nezadáno";
+                                var alergie = worker.Stravnik.Alergie != null ? string.Join(", ", worker.Stravnik.Alergie.Select(sa => sa.Alergie.Nazev)) : "Žádné";
+                                var omezeni = worker.Stravnik.Omezeni != null ? string.Join(", ", worker.Stravnik.Omezeni.Select(so => so.DietniOmezeni.Nazev)) : "Žádné";
+                                var summary = $"{worker.Stravnik.Jmeno} {worker.Stravnik.Prijmeni} - {worker.Stravnik.Email} - Telefon: {worker.Telefon} - Pozice: {pozice} - Alergie: {alergie} - Omezení: {omezeni}";
                                 workerItems.Add(new ItemViewModel(worker, summary));
                             }
                             return workerItems;
                         }
                         else if (entityType == typeof(Jidlo))
                         {
-                            // Use VJidlaSlozeni for display
-                            var query = _db.VJidlaSlozeni.AsQueryable();
+                            // Load foods with includes
+                            var query = _db.Jidlo
+                                .Include(j => j.SlozkyJidla).ThenInclude(sj => sj.Slozka)
+                                .AsQueryable();
                             if (!string.IsNullOrEmpty(_selectedFoodCategory) && _selectedFoodCategory != "Vše")
                             {
                                 query = query.Where(j => j.Kategorie == _selectedFoodCategory);
@@ -258,7 +273,8 @@ public class AdminViewModel : INotifyPropertyChanged
                             var foodItems = new List<ItemViewModel>();
                             foreach (var food in foods)
                             {
-                                var summary = $"{food.NazevJidla} - {food.PopisJidla} - Cena: {food.Cena} - Složení: {food.Slozeni}";
+                                var slozeni = food.SlozkyJidla != null ? string.Join(", ", food.SlozkyJidla.Select(sj => sj.Slozka?.Nazev ?? "Nezadáno")) : "Nezadáno";
+                                var summary = $"{food.Nazev} - {food.Popis} - Cena: {food.Cena} - Složení: {slozeni}";
                                 foodItems.Add(new ItemViewModel(food, summary));
                             }
                             return foodItems;
@@ -350,39 +366,70 @@ public class AdminViewModel : INotifyPropertyChanged
         Properties.Clear();
         if (item == null) return;
 
-        var props = item.Entity.GetType()
-            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(p => p.CanRead && p.CanWrite)
-            .Where(p => !typeof(System.Collections.IEnumerable).IsAssignableFrom(p.PropertyType) || p.PropertyType == typeof(string))
-            .ToArray();
-
-        foreach (var p in props)
+        if (item.Entity is Student student)
         {
-            // připravíme počáteční hodnotu a callback, který nastaví hodnotu zpět na entitu
-            var currentValue = p.GetValue(item.Entity);
-            Action<object?> onChanged = val =>
-            {
-                try
-                {
-                    // jednoduchá konverze pokud je potřeba
-                    if (val == null)
-                    {
-                        p.SetValue(item.Entity, null);
-                    }
-                    else
-                    {
-                        var targetType = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
-                        var converted = Convert.ChangeType(val, targetType);
-                        p.SetValue(item.Entity, converted);
-                    }
-                }
-                catch
-                {
-                    
-                }
-            };
+            // Jméno
+            Properties.Add(new PropertyViewModel("Jméno", typeof(string), student.Stravnik.Jmeno, val => student.Stravnik.Jmeno = (string)val));
 
-            Properties.Add(new PropertyViewModel(p.Name, p.PropertyType, currentValue, onChanged));
+            // Příjmení
+            Properties.Add(new PropertyViewModel("Příjmení", typeof(string), student.Stravnik.Prijmeni, val => student.Stravnik.Prijmeni = (string)val));
+
+            // Datum narození
+            Properties.Add(new PropertyViewModel("Datum narození", typeof(DateTime), student.DatumNarozeni.Date, val => student.DatumNarozeni = ((DateTime)val).Date));
+
+            // Adresa
+            Properties.Add(new PropertyViewModel("Adresa", typeof(string), $"{student.Stravnik.Adresa?.Ulice ?? ""}, {student.Stravnik.Adresa?.Mesto ?? ""} {student.Stravnik.Adresa?.Psc.ToString() ?? ""}", null));
+
+            // Třída
+            var tridy = _db.Trida.ToList();
+            Properties.Add(new PropertyViewModel("Třída", typeof(Trida), student.Trida, val => { if (val is Trida t) student.IdTrida = t.IdTrida; }) { EditorType = "Combo", ItemsSource = tridy });
+
+            // Alergie
+            var allAlergies = _db.Alergie.ToList();
+            var selectableAlergies = allAlergies.Select(a => new SelectableItem(a, student.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie))).ToList();
+            Properties.Add(new PropertyViewModel("Alergie", typeof(IEnumerable<SelectableItem>), selectableAlergies, null) { EditorType = "MultiSelect", ItemsSource = selectableAlergies });
+
+            // Dietní omezení
+            var allOmezeni = _db.DietniOmezeni.ToList();
+            var selectableOmezeni = allOmezeni.Select(o => new SelectableItem(o, student.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni))).ToList();
+            Properties.Add(new PropertyViewModel("Dietní omezení", typeof(IEnumerable<SelectableItem>), selectableOmezeni, null) { EditorType = "MultiSelect", ItemsSource = selectableOmezeni });
+        }
+        else
+        {
+            var props = item.Entity.GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.CanRead && p.CanWrite)
+                .Where(p => !typeof(System.Collections.IEnumerable).IsAssignableFrom(p.PropertyType) || p.PropertyType == typeof(string))
+                .ToArray();
+
+            foreach (var p in props)
+            {
+                // připravíme počáteční hodnotu a callback, který nastaví hodnotu zpět na entitu
+                var currentValue = p.GetValue(item.Entity);
+                Action<object?> onChanged = val =>
+                {
+                    try
+                    {
+                        // jednoduchá konverze pokud je potřeba
+                        if (val == null)
+                        {
+                            p.SetValue(item.Entity, null);
+                        }
+                        else
+                        {
+                            var targetType = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                            var converted = Convert.ChangeType(val, targetType);
+                            p.SetValue(item.Entity, converted);
+                        }
+                    }
+                    catch
+                    {
+                        
+                    }
+                };
+
+                Properties.Add(new PropertyViewModel(p.Name, p.PropertyType, currentValue, onChanged));
+            }
         }
 
         (SaveCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -395,6 +442,50 @@ public class AdminViewModel : INotifyPropertyChanged
         {
             _db.Update(SelectedItem.Entity);
             await _db.SaveChangesAsync();
+
+            // Special handling for Student
+            if (SelectedItem.Entity is Student student)
+            {
+                // Update alergie
+                var alergieProp = Properties.FirstOrDefault(p => p.Name == "Alergie");
+                if (alergieProp?.ItemsSource != null)
+                {
+                    var selectedAlergies = alergieProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (Alergie)si.Item).ToList();
+                    var currentAlergies = student.Stravnik.Alergie.Select(sa => sa.Alergie).ToList();
+
+                    // Remove deselected
+                    var toRemove = student.Stravnik.Alergie.Where(sa => !selectedAlergies.Any(a => a.IdAlergie == sa.IdAlergie)).ToList();
+                    foreach (var sa in toRemove) _db.StravnikAlergie.Remove(sa);
+
+                    // Add selected
+                    var toAdd = selectedAlergies.Where(a => !student.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie)).ToList();
+                    foreach (var a in toAdd)
+                    {
+                        _db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = student.IdStravnik, IdAlergie = a.IdAlergie });
+                    }
+                }
+
+                // Update omezeni
+                var omezeniProp = Properties.FirstOrDefault(p => p.Name == "Dietní omezení");
+                if (omezeniProp?.ItemsSource != null)
+                {
+                    var selectedOmezeni = omezeniProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (DietniOmezeni)si.Item).ToList();
+
+                    // Remove deselected
+                    var toRemove = student.Stravnik.Omezeni.Where(so => !selectedOmezeni.Any(o => o.IdOmezeni == so.IdOmezeni)).ToList();
+                    foreach (var so in toRemove) _db.StravnikOmezeni.Remove(so);
+
+                    // Add selected
+                    var toAdd = selectedOmezeni.Where(o => !student.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni)).ToList();
+                    foreach (var o in toAdd)
+                    {
+                        _db.StravnikOmezeni.Add(new StravnikOmezeni { IdStravnik = student.IdStravnik, IdOmezeni = o.IdOmezeni });
+                    }
+                }
+
+                await _db.SaveChangesAsync();
+            }
+
             MessageBox.Show("Uloženo.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             await LoadItemsForSelectedEntityAsync();
         }
