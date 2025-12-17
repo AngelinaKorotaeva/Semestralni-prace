@@ -388,7 +388,7 @@ public class AdminViewModel : INotifyPropertyChanged
         (SaveCommand as RelayCommand)?.RaiseCanExecuteChanged();
     }
 
-    private async Task SaveAsync()
+    public async Task SaveAsync()
     {
         if (SelectedItem == null) return;
         try

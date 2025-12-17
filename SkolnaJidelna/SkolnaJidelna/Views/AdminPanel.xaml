@@ -111,7 +111,7 @@
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
-                        <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
+                        <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="UpravitButton_Click"/>
                         <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}"/>
                     </StackPanel>
                 </StackPanel>

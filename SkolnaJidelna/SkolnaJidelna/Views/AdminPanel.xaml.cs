@@ -81,5 +81,17 @@ namespace SkolniJidelna
 
             }
         }
+
+        private async void UpravitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AdminViewModel vm && vm.SelectedItem != null)
+            {
+                var editDialog = new EditDialogWindow(vm.Properties);
+                if (editDialog.ShowDialog() == true)
+                {
+                    await vm.SaveAsync();
+                }
+            }
+        }
     }
 }

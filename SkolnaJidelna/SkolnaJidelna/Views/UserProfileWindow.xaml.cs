@@ -121,5 +121,12 @@ namespace SkolniJidelna
             }
         }
 
+        private async void ChangePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is UserProfileViewModel vm)
+            {
+                await vm.ChangePhotoAsync();
+            }
+        }
     }
 }

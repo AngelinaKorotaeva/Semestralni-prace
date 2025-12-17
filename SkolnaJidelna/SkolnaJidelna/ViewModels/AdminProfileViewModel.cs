@@ -438,5 +438,55 @@ namespace SkolniJidelna.ViewModels
                 return false;
             }
         }
+
+        public async Task ChangePhotoAsync()
+        {
+            try
+            {
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    Title = "Vyberte fotografii",
+                    Filter = "Obrázky|*.jpg;*.jpeg;*.png;*.bmp;*.gif"
+                };
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    var filePath = openFileDialog.FileName;
+                    var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+
+                    using var db = new AppDbContext();
+                    var stravnik = await db.Stravnik.FirstOrDefaultAsync(s => s.Email == Email);
+                    if (stravnik == null) return;
+
+                    // Create new Soubor
+                    var soubor = new Soubor
+                    {
+                        Nazev = System.IO.Path.GetFileName(filePath),
+                        Obsah = bytes,
+                        DatumNahrani = DateTime.Now,
+                        Tabulka = "STRAVNICI",
+                        IdZaznam = stravnik.IdStravnik
+                    };
+                    db.Soubor.Add(soubor);
+                    await db.SaveChangesAsync();
+
+                    // Update UI
+                    using var ms = new System.IO.MemoryStream(bytes);
+                    var bmp = new BitmapImage();
+                    bmp.BeginInit();
+                    bmp.CacheOption = BitmapCacheOption.OnLoad;
+                    bmp.StreamSource = ms;
+                    bmp.EndInit();
+                    bmp.Freeze();
+                    ProfileImage = bmp;
+
+                    MessageBox.Show("Fotografie byla změněna.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při změně fotografie: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
