@@ -45,7 +45,26 @@ namespace SkolniJidelna
         {
             if (DataContext is AdminViewModel vm && sender is ListBox lb)
             {
-                vm.OnSelectedItemChanged(lb.SelectedItem as ItemViewModel);
+                if (vm.SelectedEntityType?.Name == "Studenti")
+                {
+                    vm.SelectedClass = lb.SelectedItem as string;
+                }
+                else if (vm.SelectedEntityType?.Name == "Pracovníci")
+                {
+                    vm.SelectedPosition = lb.SelectedItem as string;
+                }
+                else if (vm.SelectedEntityType?.Name == "Jídla")
+                {
+                    vm.SelectedFoodCategory = lb.SelectedItem as string;
+                }
+                else if (vm.SelectedEntityType?.Name == "Dietní omezení")
+                {
+                    vm.SelectedDietType = lb.SelectedItem as string;
+                }
+                else
+                {
+                    vm.OnSelectedItemChanged(lb.SelectedItem as ItemViewModel);
+                }
             }
         }
 

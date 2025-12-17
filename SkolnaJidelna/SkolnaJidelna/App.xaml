@@ -121,8 +121,10 @@
                                                       VerticalAlignment="Center">
                                         <ContentPresenter.Content>
                                             <PriorityBinding>
+                                                <Binding Path="Text" RelativeSource="{RelativeSource TemplatedParent}"/>
                                                 <Binding Path="SelectedItem.Content" RelativeSource="{RelativeSource TemplatedParent}"/>
                                                 <Binding Path="SelectedItem.Nazev" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                                <Binding Path="SelectedItem.Name" RelativeSource="{RelativeSource TemplatedParent}"/>
                                                 <Binding Path="SelectedItem" RelativeSource="{RelativeSource TemplatedParent}"/>
                                             </PriorityBinding>
                                         </ContentPresenter.Content>

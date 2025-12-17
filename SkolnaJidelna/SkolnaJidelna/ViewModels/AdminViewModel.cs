@@ -23,6 +23,21 @@ public class AdminViewModel : INotifyPropertyChanged
     public ObservableCollection<ItemViewModel> Items { get; } = new();
     public ObservableCollection<PropertyViewModel> Properties { get; } = new();
     public ObservableCollection<string> TableProperties { get; } = new();
+    public ObservableCollection<string> Classes { get; } = new();
+    public ObservableCollection<string> Positions { get; } = new();
+    public ObservableCollection<string> FoodCategories { get; } = new();
+    public ObservableCollection<string> DietTypes { get; } = new();
+    private ObservableCollection<string> _currentList = new();
+    public ObservableCollection<string> CurrentList
+    {
+        get => _currentList;
+        set
+        {
+            if (_currentList == value) return;
+            _currentList = value;
+            Raise(nameof(CurrentList));
+        }
+    }
 
     private EntityTypeDescriptor? _selectedEntityType;
     public EntityTypeDescriptor? SelectedEntityType
@@ -34,12 +49,55 @@ public class AdminViewModel : INotifyPropertyChanged
             _selectedEntityType = value;
             Raise(nameof(SelectedEntityType));
             TableProperties.Clear();
+            Classes.Clear();
+            Positions.Clear();
+            FoodCategories.Clear();
+            SelectedClass = null;
+            SelectedPosition = null;
+            SelectedFoodCategory = null;
+            SelectedDietType = null;
             if (_selectedEntityType != null)
             {
-                var props = _selectedEntityType.EntityType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(p => p.CanRead && p.GetCustomAttribute<ColumnAttribute>() != null)
-                    .Select(p => $"{p.Name}");
-                foreach (var p in props) TableProperties.Add(p);
+                if (_selectedEntityType.Name == "Studenti")
+                {
+                    // Load classes asynchronously
+                    _ = LoadClassesAsync();
+                    CurrentList = Classes;
+                }
+                else if (_selectedEntityType.Name == "Pracovníci")
+                {
+                    // Load positions asynchronously
+                    _ = LoadPositionsAsync();
+                    CurrentList = Positions;
+                }
+                else if (_selectedEntityType.Name == "Jídla")
+                {
+                    // Load food categories asynchronously
+                    _ = LoadFoodCategoriesAsync();
+                    CurrentList = FoodCategories;
+                }
+                else if (_selectedEntityType.Name == "Dietní omezení")
+                {
+                    // Load diet types
+                    DietTypes.Clear();
+                    DietTypes.Add("Vše");
+                    DietTypes.Add("Alergie");
+                    DietTypes.Add("Dietní omezení");
+                    CurrentList = DietTypes;
+                }
+                else
+                {
+                    var props = _selectedEntityType.EntityType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Where(p => p.CanRead && p.GetCustomAttribute<ColumnAttribute>() != null)
+                        .Select(p => $"{p.Name}");
+                    TableProperties.Clear();
+                    foreach (var p in props) TableProperties.Add(p);
+                    CurrentList = TableProperties;
+                }
+            }
+            else
+            {
+                CurrentList = TableProperties;
             }
             // Load items automatically when entity type changes
             _ = LoadItemsForSelectedEntityAsync();
@@ -59,6 +117,58 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    private string? _selectedClass;
+    public string? SelectedClass
+    {
+        get => _selectedClass;
+        set
+        {
+            if (_selectedClass == value) return;
+            _selectedClass = value;
+            Raise(nameof(SelectedClass));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
+    private string? _selectedPosition;
+    public string? SelectedPosition
+    {
+        get => _selectedPosition;
+        set
+        {
+            if (_selectedPosition == value) return;
+            _selectedPosition = value;
+            Raise(nameof(SelectedPosition));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
+    private string? _selectedFoodCategory;
+    public string? SelectedFoodCategory
+    {
+        get => _selectedFoodCategory;
+        set
+        {
+            if (_selectedFoodCategory == value) return;
+            _selectedFoodCategory = value;
+            Raise(nameof(SelectedFoodCategory));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
+    private string? _selectedDietType;
+    public string? SelectedDietType
+    {
+        get => _selectedDietType;
+        set
+        {
+            if (_selectedDietType == value) return;
+            _selectedDietType = value;
+            Raise(nameof(SelectedDietType));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
     public ICommand RefreshCommand { get; }
     public ICommand SaveCommand { get; }
     public ICommand CloseCommand { get; }
@@ -72,23 +182,20 @@ public class AdminViewModel : INotifyPropertyChanged
         CloseCommand = new RelayCommand(_ => { /* zavření okna řeší view */ });
         DeleteCommand = new RelayCommand(async _ => await DeleteAsync(), _ => SelectedItem != null);
 
-        // Dynamically load all entity types from DbContext
-        var dbSetProperties = typeof(AppDbContext).GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
-            .ToArray();
-
-        foreach (var prop in dbSetProperties)
+        // Statically load entity types
+        var entityTypesToInclude = new[]
         {
-            var entityType = prop.PropertyType.GetGenericArguments()[0];
-            var name = entityType.Name; // or use a custom display name
+            ("Studenti", typeof(Student)),
+            ("Pracovníci", typeof(Pracovnik)),
+            ("Jídla", typeof(Jidlo)),
+            ("Dietní omezení", typeof(DietniOmezeni))
+        };
 
-            // Skip certain tables
-            if (name == "StravnikAlergie" || name == "StravnikOmezeni" || name == "VStravnikLogin" || name == "Log")
-                continue;
-
+        foreach (var (displayName, entityType) in entityTypesToInclude)
+        {
             EntityTypes.Add(new EntityTypeDescriptor
             {
-                Name = name,
+                Name = displayName,
                 EntityType = entityType,
                 LoaderAsync = async () =>
                 {
@@ -101,6 +208,84 @@ public class AdminViewModel : INotifyPropertyChanged
                             .FirstOrDefault()?.MakeGenericMethod(entityType);
                         var dbSet = setMethod?.Invoke(_db, null) as IQueryable;
                         if (dbSet == null) return new List<ItemViewModel>();
+
+                        if (entityType == typeof(Student))
+                        {
+                            // Use VStudTrida for display
+                            var query = _db.VStudTrida.AsQueryable();
+                            if (!string.IsNullOrEmpty(_selectedClass) && _selectedClass != "Vše")
+                            {
+                                if (int.TryParse(_selectedClass, out int cislo))
+                                {
+                                    query = query.Where(s => s.CisloTridy == cislo);
+                                }
+                            }
+                            var students = await query.Take(100).ToListAsync();
+                            var studentItems = new List<ItemViewModel>();
+                            foreach (var stud in students)
+                            {
+                                var summary = $"{stud.Jmeno} - {stud.Email} - {stud.DatumNarozeni.ToShortDateString()} - Alergie: {stud.Alergie ?? "Žádné"} - Omezení: {stud.Omezeni ?? "Žádné"}";
+                                studentItems.Add(new ItemViewModel(stud, summary));
+                            }
+                            return studentItems;
+                        }
+                        else if (entityType == typeof(Pracovnik))
+                        {
+                            // Use VPracovnikPozice for display
+                            var query = _db.VPracovnikPozice.AsQueryable();
+                            if (!string.IsNullOrEmpty(_selectedPosition) && _selectedPosition != "Vše")
+                            {
+                                query = query.Where(p => p.Pozice == _selectedPosition);
+                            }
+                            var workers = await query.Take(100).ToListAsync();
+                            var workerItems = new List<ItemViewModel>();
+                            foreach (var worker in workers)
+                            {
+                                var summary = $"{worker.Jmeno} - {worker.Email} - Telefon: {worker.Telefon} - Pozice: {worker.Pozice} - Alergie: {worker.Alergie ?? "Žádné"} - Omezení: {worker.Omezeni ?? "Žádné"}";
+                                workerItems.Add(new ItemViewModel(worker, summary));
+                            }
+                            return workerItems;
+                        }
+                        else if (entityType == typeof(Jidlo))
+                        {
+                            // Use VJidlaSlozeni for display
+                            var query = _db.VJidlaSlozeni.AsQueryable();
+                            if (!string.IsNullOrEmpty(_selectedFoodCategory) && _selectedFoodCategory != "Vše")
+                            {
+                                query = query.Where(j => j.Kategorie == _selectedFoodCategory);
+                            }
+                            var foods = await query.Take(100).ToListAsync();
+                            var foodItems = new List<ItemViewModel>();
+                            foreach (var food in foods)
+                            {
+                                var summary = $"{food.NazevJidla} - {food.PopisJidla} - Cena: {food.Cena} - Složení: {food.Slozeni}";
+                                foodItems.Add(new ItemViewModel(food, summary));
+                            }
+                            return foodItems;
+                        }
+                        else if (entityType == typeof(DietniOmezeni))
+                        {
+                            var dietItems = new List<ItemViewModel>();
+                            if (_selectedDietType == "Alergie" || _selectedDietType == "Vše")
+                            {
+                                var alergies = await _db.Alergie.Take(100).ToListAsync();
+                                foreach (var a in alergies)
+                                {
+                                    var summary = $"Alergie: {a.Nazev}";
+                                    dietItems.Add(new ItemViewModel(a, summary));
+                                }
+                            }
+                            if (_selectedDietType == "Dietní omezení" || _selectedDietType == "Vše")
+                            {
+                                var omezeni = await _db.DietniOmezeni.Take(100).ToListAsync();
+                                foreach (var o in omezeni)
+                                {
+                                    var summary = $"Dietní omezení: {o.Nazev}";
+                                    dietItems.Add(new ItemViewModel(o, summary));
+                                }
+                            }
+                            return dietItems;
+                        }
 
                         // Call ToListAsync using reflection
                         var toListAsyncMethod = typeof(Queryable).GetMethods()
@@ -127,7 +312,7 @@ public class AdminViewModel : INotifyPropertyChanged
                         var items = new List<ItemViewModel>();
                         foreach (var item in list)
                         {
-                            var summary = $"{entityType.Name} {GetIdValue(item)}";
+                            var summary = $"{displayName} {GetIdValue(item)}";
                             items.Add(new ItemViewModel(item, summary));
                         }
                         return items;
@@ -145,8 +330,7 @@ public class AdminViewModel : INotifyPropertyChanged
     public async Task LoadEntityTypesAsync()
     {
         if (EntityTypes.Count == 0) return;
-        if (SelectedEntityType == null)
-            SelectedEntityType = EntityTypes.FirstOrDefault(e => e.Name == "Jidlo") ?? EntityTypes[0];
+        // Do not set SelectedEntityType by default
         await LoadItemsForSelectedEntityAsync();
     }
 
@@ -234,6 +418,38 @@ public class AdminViewModel : INotifyPropertyChanged
         {
             MessageBox.Show($"Chyba při mazání: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    public async Task LoadClassesAsync()
+    {
+        var classes = await _db.Trida.Select(t => t.CisloTridy).ToListAsync();
+        Classes.Clear();
+        Classes.Add("Vše");
+        foreach (var c in classes.OrderBy(c => c)) Classes.Add(c.ToString());
+    }
+
+    public async Task LoadPositionsAsync()
+    {
+        var positions = await _db.Pozice.Select(p => p.Nazev).ToListAsync();
+        Positions.Clear();
+        Positions.Add("Vše");
+        foreach (var p in positions.OrderBy(p => p)) Positions.Add(p);
+    }
+
+    public async Task LoadFoodCategoriesAsync()
+    {
+        var foodCategories = await _db.Jidlo.Select(j => j.Kategorie).Distinct().ToListAsync();
+        FoodCategories.Clear();
+        FoodCategories.Add("Vše");
+        foreach (var c in foodCategories.OrderBy(c => c)) FoodCategories.Add(c);
+    }
+
+    public async Task LoadDietTypesAsync()
+    {
+        var dietTypes = await _db.DietniOmezeni.Select(d => d.Nazev).Distinct().ToListAsync();
+        DietTypes.Clear();
+        DietTypes.Add("Vše");
+        foreach (var d in dietTypes.OrderBy(d => d)) DietTypes.Add(d);
     }
 
     private static string GetIdValue(object entity)

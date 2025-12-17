@@ -14,6 +14,7 @@ namespace SkolniJidelna.Models
     {
         [Key]
         [Column("ID_SOUBOR")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdSoubor { get; set; }
 
         [Column("NAZEV")]

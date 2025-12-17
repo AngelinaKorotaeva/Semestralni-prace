@@ -49,6 +49,9 @@ namespace SkolniJidelna.Data
         public DbSet<Soubor> Soubor { get; set; }
 
         public DbSet<VStravnikLogin> VStravnikLogin { get; set; }
+        public DbSet<VStudTrida> VStudTrida { get; set; }
+        public DbSet<VPracovnikPozice> VPracovnikPozice { get; set; }
+        public DbSet<VJidlaSlozeni> VJidlaSlozeni { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -125,6 +128,18 @@ namespace SkolniJidelna.Data
 
             modelBuilder.Entity<VStravnikLogin>()
                 .ToView("V_STRAVNICI_LOGIN")
+                .HasNoKey();
+
+            modelBuilder.Entity<VStudTrida>()
+                .ToView("V_STUD_TRIDA")
+                .HasNoKey();
+
+            modelBuilder.Entity<VPracovnikPozice>()
+                .ToView("V_PR_POZICE")
+                .HasNoKey();
+
+            modelBuilder.Entity<VJidlaSlozeni>()
+                .ToView("V_JIDLA_SLOZENI")
                 .HasNoKey();
         }
     }

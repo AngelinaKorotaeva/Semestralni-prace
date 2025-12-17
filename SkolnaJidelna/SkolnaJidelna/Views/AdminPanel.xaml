@@ -68,10 +68,10 @@
             </Canvas>
 
             <StackPanel Grid.Column="0" Margin="20">
-                <TextBlock Text="Vyber tabulky" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,20"/>
-                <ComboBox ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
+                <TextBlock Text="Vyberte kategorii" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                <ComboBox IsEditable="True" IsReadOnly="True" Text="{Binding SelectedEntityType.Name, FallbackValue='Vyberte kategorii'}" ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
                 <TextBlock Text="Atributy tabulky" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                <ListBox ItemsSource="{Binding TableProperties}" Style="{StaticResource ListBoxStyle}" IsEnabled="False" Height="400"/>
+                <ListBox ItemsSource="{Binding CurrentList}" Style="{StaticResource ListBoxStyle}" IsEnabled="True" Height="400" SelectionChanged="ListBox_SelectionChanged"/>
 
                 <!-- ??? -->
                 <Button Content="Obnovit" Command="{Binding RefreshCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0"/>
