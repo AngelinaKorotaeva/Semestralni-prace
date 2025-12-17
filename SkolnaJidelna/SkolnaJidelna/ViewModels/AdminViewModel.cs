@@ -500,7 +500,46 @@ public class AdminViewModel : INotifyPropertyChanged
         if (SelectedItem == null) return;
         try
         {
-            _db.Remove(SelectedItem.Entity);
+            if (SelectedItem.Entity is Student student)
+            {
+                // Remove alergie links
+                var alergieLinks = student.Stravnik.Alergie.ToList();
+                foreach (var sa in alergieLinks) _db.StravnikAlergie.Remove(sa);
+
+                // Remove omezeni links
+                var omezeniLinks = student.Stravnik.Omezeni.ToList();
+                foreach (var so in omezeniLinks) _db.StravnikOmezeni.Remove(so);
+
+                // Then remove student
+                _db.Remove(student);
+            }
+            else if (SelectedItem.Entity is Pracovnik pracovnik)
+            {
+                // Remove alergie links
+                var alergieLinks = pracovnik.Stravnik.Alergie.ToList();
+                foreach (var sa in alergieLinks) _db.StravnikAlergie.Remove(sa);
+
+                // Remove omezeni links
+                var omezeniLinks = pracovnik.Stravnik.Omezeni.ToList();
+                foreach (var so in omezeniLinks) _db.StravnikOmezeni.Remove(so);
+
+                // Then remove pracovnik
+                _db.Remove(pracovnik);
+            }
+            else if (SelectedItem.Entity is Jidlo jidlo)
+            {
+                // Remove slozky links
+                var slozkyLinks = jidlo.SlozkyJidla.ToList();
+                foreach (var sj in slozkyLinks) _db.SlozkaJidlo.Remove(sj);
+
+                // Then remove jidlo
+                _db.Remove(jidlo);
+            }
+            else
+            {
+                _db.Remove(SelectedItem.Entity);
+            }
+
             await _db.SaveChangesAsync();
             MessageBox.Show("Smazáno.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             await LoadItemsForSelectedEntityAsync();
