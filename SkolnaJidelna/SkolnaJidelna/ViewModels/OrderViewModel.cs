@@ -148,6 +148,11 @@ namespace SkolniJidelna.ViewModels
 
         public void CreateOrder(string email, PaymentMethod method, string? note)
         {
+            // Validate date is not weekend
+            var dateVal = SelectedDate ?? DateTime.Today;
+            if (dateVal.DayOfWeek == DayOfWeek.Saturday || dateVal.DayOfWeek == DayOfWeek.Sunday)
+                throw new InvalidOperationException("Objednávku nelze vytvořit na víkend (sobota/neděle). Zvolte pracovní den.");
+
             using var ctx = new AppDbContext();
             var stravnik = ctx.Stravnik.AsNoTracking().FirstOrDefault(s => s.Email == email);
             if (stravnik == null)
@@ -175,7 +180,6 @@ namespace SkolniJidelna.ViewModels
             {
                 // Insert order directly to avoid broken P_INSERT_OBJ OUT parameter for id_stav
                 var stavId = (method == PaymentMethod.Cash) ? 4 : 1;
-                var dateVal = SelectedDate ?? DateTime.Today;
                 var noteVal = string.IsNullOrWhiteSpace(note) ? (object)DBNull.Value : note;
 
                 using var cmdIns = new OracleCommand("INSERT INTO objednavky (id_objednavka, datum, celkova_cena, poznamka, id_stravnik, id_stav) VALUES (S_OBJ.NEXTVAL, :d, 0, :p, :sId, :stav) RETURNING id_objednavka INTO :id", conn)
