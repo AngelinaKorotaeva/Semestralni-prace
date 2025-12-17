@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:helpers="clr-namespace:SkolniJidelna.Helpers" >
     <Application.Resources>
+        <!-- Converter for visibility bindings -->
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
         <!-- Основные цвета -->
         <SolidColorBrush x:Key="PrimaryColor" Color="#FF6B9E"/>
         <SolidColorBrush x:Key="SecondaryColor" Color="#FF8B5E"/>
