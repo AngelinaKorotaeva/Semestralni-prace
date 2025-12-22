@@ -36,7 +36,6 @@ namespace SkolniJidelna.ViewModels
         public string Status { get => _status; private set { if (_status == value) return; _status = value; OnPropertyChanged(nameof(Status)); } }
         public string PositionClass { get => _positionClass; private set { if (_positionClass == value) return; _positionClass = value; OnPropertyChanged(nameof(PositionClass)); } }
 
-        // New property for direct ImageSource binding
         public ImageSource? ProfileImage
         {
             get => _profileImage;
@@ -73,6 +72,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Připraví editovatelné vlastnosti aktuálně vybrané entity.
         private void LoadPropertiesForSelectedItem()
         {
             Properties.Clear();
@@ -88,6 +88,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Pro nový záznam: vytvoří prázdné položky Properties pro daný typ.
         public void PopulateEmptyPropertiesForType(Type entityClrType)
         {
             if (entityClrType == null) return;
@@ -101,6 +102,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Vytvoří instanci daného typu, naplní ji z Properties a uloží do DB.
         public bool SaveNewEntity(Type entityClrType)
         {
             if (entityClrType == null) return false;
@@ -109,7 +111,6 @@ namespace SkolniJidelna.ViewModels
                 var entity = Activator.CreateInstance(entityClrType);
                 if (entity == null) return false;
 
-                // assign values from Properties
                 foreach (var ep in Properties)
                 {
                     var prop = entityClrType.GetProperty(ep.Name);
@@ -123,7 +124,7 @@ namespace SkolniJidelna.ViewModels
                 }
 
                 using var ctx = new AppDbContext();
-                ctx.Add(entity); // use non-generic Add(object) to avoid type inference issues
+                ctx.Add(entity);
                 ctx.SaveChanges();
                 return true;
             }
@@ -133,6 +134,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Rozhodne, zda typ je „jednoduchý“ (string, číslo, enum, DateTime); kolekce/navigace vrací false.
         private static bool IsScalarType(Type t)
         {
             if (t == typeof(string)) return true;
@@ -140,11 +142,12 @@ namespace SkolniJidelna.ViewModels
             if (t == typeof(DateTime) || t == typeof(decimal) || t == typeof(double) || t == typeof(float)) return true;
             var nt = Nullable.GetUnderlyingType(t);
             if (nt != null) return IsScalarType(nt);
-            // exclude collections and complex types
+
             if (typeof(System.Collections.IEnumerable).IsAssignableFrom(t) && t != typeof(string)) return false;
             return false;
         }
 
+        // Přepíše hodnoty zpět do SelectedItem a uloží je do DB jako Modified.
         private void SaveSelectedItem()
         {
             if (SelectedItem == null) return;
@@ -156,7 +159,6 @@ namespace SkolniJidelna.ViewModels
                 if (prop == null || !prop.CanWrite) continue;
                 try
                 {
-                    // убедиться, что Value имеет корректный тип
                     var valueToSet = ep.Value;
                     if (valueToSet != null && !prop.PropertyType.IsAssignableFrom(valueToSet.GetType()))
                     {
@@ -166,11 +168,9 @@ namespace SkolniJidelna.ViewModels
                 }
                 catch
                 {
-                    // обработка ошибок парсинга — можно показать сообщение
                 }
             }
 
-            // сохранить в БД (если объект — сущность EF)
             try
             {
                 using var ctx = new AppDbContext();
@@ -180,19 +180,17 @@ namespace SkolniJidelna.ViewModels
             }
             catch (Exception ex)
             {
-              
             }
         }
 
-        public AdminProfileViewModel() { }
-
-        // Create and load by email (email should be unique)
+        // Konstruktor: načte profil podle emailu hned po vytvoření.
         public AdminProfileViewModel(string email)
         {
             if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException(nameof(email));
             LoadByEmail(email.Trim());
         }
 
+        // Načte uživatele podle emailu, vyplní základní údaje, alergie/diety, pozici/třídu a fotku.
         private void LoadByEmail(string email)
         {
             try
@@ -214,29 +212,24 @@ namespace SkolniJidelna.ViewModels
                 FullName = $"{stravnik.Jmeno} {stravnik.Prijmeni}";
                 Role = stravnik.Role?.Trim() ?? string.Empty;
                 BalanceFormatted = string.Format("{0:0.##} Kč", stravnik.Zustatek);
-                // Map typ_stravnik to localized status (keep original when unknown)
                 var t = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();
                 if (t == "pr") Status = "pracovnik";
                 else if (t == "st") Status = "student";
                 else Status = stravnik.TypStravnik ?? string.Empty;
 
-                // Address
                 if (stravnik.Adresa != null)
                 {
                     Address = $"{stravnik.Adresa.Psc} {stravnik.Adresa.Ulice}, {stravnik.Adresa.Mesto}".Trim();
                 }
 
-                // Try load pracovnik by primary key
                 var prac = ctx.Pracovnik.Find(stravnik.IdStravnik);
 
                 if (prac != null)
                 {
-                    // Prefix phone digits with country code +420 when present
                     Phone = prac.Telefon != 0 ? $"+420{prac.Telefon}" : string.Empty;
                     var poz = ctx.Pozice.Find(prac.IdPozice);
                     PositionClass = poz != null ? poz.Nazev : prac.IdPozice.ToString();
 
-                    // Load selectable allergies
                     SelectableAlergies.Clear();
                     var allAlergies = ctx.Alergie.ToList();
                     var selectedAlergieIds = ctx.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToList();
@@ -245,7 +238,6 @@ namespace SkolniJidelna.ViewModels
                         SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
                     }
 
-                    // Load selectable diet restrictions
                     SelectableDiets.Clear();
                     var allDiets = ctx.DietniOmezeni.ToList();
                     var selectedDietIds = ctx.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToList();
@@ -262,7 +254,6 @@ namespace SkolniJidelna.ViewModels
                 }
                 else
                 {
-                    // student
                     var stud = ctx.Student.Find(stravnik.IdStravnik);
                     if (stud != null)
                     {
@@ -270,10 +261,8 @@ namespace SkolniJidelna.ViewModels
                     }
                 }
 
-                // Load profile image from SOUBORY table (latest by DATUM_NAHRANI); fallback to initials
                 try
                 {
-                    // 1) Try by ID_ZAZNAM (server-side) then filter TABULKA on client to avoid provider literal issues
                     var candidates = ctx.Soubor
                         .AsNoTracking()
                         .Where(s => s.IdZaznam == stravnik.IdStravnik)
@@ -284,7 +273,6 @@ namespace SkolniJidelna.ViewModels
                         .FirstOrDefault(s => string.Equals((s.Tabulka ?? string.Empty).Trim(), "STRAVNICI", StringComparison.OrdinalIgnoreCase))
                         ?? candidates.FirstOrDefault();
 
-                    // 2) Fallback: try by ID_STRAVNIK column if nothing found
                     if (photo == null)
                     {
                         photo = ctx.Soubor
@@ -317,11 +305,28 @@ namespace SkolniJidelna.ViewModels
             }
             catch
             {
-                // swallow - UI will show empty/default values
             }
         }
 
+        // Fallback obrázek s iniciálami – na UI thread nebo pomocí Dispatcher.
         private ImageSource? CreateInitialsImage(string firstName, string lastName)
+        {
+            try
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    return Application.Current.Dispatcher.Invoke(() => CreateInitialsImageCore(firstName, lastName));
+                }
+                return CreateInitialsImageCore(firstName, lastName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Vykreslí 120x120 bitmapu s iniciálami (bílý podklad, černý text).
+        private ImageSource? CreateInitialsImageCore(string firstName, string lastName)
         {
             try
             {
@@ -330,7 +335,6 @@ namespace SkolniJidelna.ViewModels
                 if (!string.IsNullOrWhiteSpace(lastName)) initials += lastName[0];
                 initials = initials.ToUpperInvariant();
 
-                // Create a RenderTargetBitmap with text drawn
                 var dpi = 96;
                 var width = 120;
                 var height = 120;
@@ -338,10 +342,8 @@ namespace SkolniJidelna.ViewModels
                 var visual = new DrawingVisual();
                 using (var dc = visual.RenderOpen())
                 {
-                    // background
                     dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromRgb(255, 255, 255)), null, new System.Windows.Rect(0, 0, width, height), 15, 15);
 
-                    // text
                     var ft = new FormattedText(initials,
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Windows.FlowDirection.LeftToRight,
@@ -364,9 +366,30 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Vyvolá PropertyChanged na správném vlákně, aby se zaktualizovaly bindingy.
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        protected void OnPropertyChanged(string name)
+        {
+            var handler = PropertyChanged;
+            if (handler == null) return;
 
+            try
+            {
+                if (Application.Current == null || Application.Current.Dispatcher.CheckAccess())
+                {
+                    handler(this, new PropertyChangedEventArgs(name));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() => handler(this, new PropertyChangedEventArgs(name)));
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        // Zapíše vybrané alergie/dietní omezení pro aktuální Email do DB (předem kontroluje existenci tabulek).
         public async Task SaveChangesAsync()
         {
             try
@@ -379,7 +402,6 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // Check tables exist
                 bool hasAlergieTable = TableExists(db, "ALERGIE");
                 bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
                 bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
@@ -391,7 +413,6 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // Save allergies
                 var existingAlergies = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).ToListAsync();
                 db.StravnikAlergie.RemoveRange(existingAlergies);
                 foreach (var sa in SelectableAlergies.Where(s => s.IsSelected && s.Alergie.IdAlergie != null))
@@ -399,7 +420,6 @@ namespace SkolniJidelna.ViewModels
                     db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = stravnik.IdStravnik, IdAlergie = sa.Alergie.IdAlergie });
                 }
 
-                // Save diet restrictions
                 var existingDiets = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).ToListAsync();
                 db.StravnikOmezeni.RemoveRange(existingDiets);
                 foreach (var sd in SelectableDiets.Where(s => s.IsSelected && s.Diet.IdOmezeni != null))
@@ -416,6 +436,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Zkontroluje v USER_TABLES, zda daná tabulka existuje (pro ochranu před ORA-00942).
         private bool TableExists(AppDbContext db, string tableName)
         {
             try
@@ -424,7 +445,6 @@ namespace SkolniJidelna.ViewModels
                 var wasClosed = conn.State == System.Data.ConnectionState.Closed;
                 if (wasClosed) conn.Open();
                 using var cmd = conn.CreateCommand();
-                // use USER_TABLES which lists tables accessible to current schema
                 cmd.CommandText = $"SELECT COUNT(*) FROM user_tables WHERE table_name = '{tableName.ToUpperInvariant()}'";
                 var obj = cmd.ExecuteScalar();
                 if (wasClosed) conn.Close();
@@ -439,6 +459,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Vybere fotku z disku, uloží ji do SOUBORY a nastaví ji jako profilový náhled.
         public async Task ChangePhotoAsync()
         {
             try
@@ -458,7 +479,7 @@ namespace SkolniJidelna.ViewModels
                     var stravnik = await db.Stravnik.FirstOrDefaultAsync(s => s.Email == Email);
                     if (stravnik == null) return;
 
-                    // Create new Soubor
+
                     var soubor = new Soubor
                     {
                         Nazev = System.IO.Path.GetFileName(filePath),
@@ -470,7 +491,6 @@ namespace SkolniJidelna.ViewModels
                     db.Soubor.Add(soubor);
                     await db.SaveChangesAsync();
 
-                    // Update UI
                     using var ms = new System.IO.MemoryStream(bytes);
                     var bmp = new BitmapImage();
                     bmp.BeginInit();

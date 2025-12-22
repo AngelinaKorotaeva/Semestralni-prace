@@ -16,7 +16,7 @@ namespace SkolniJidelna
 
             this.Email = email;
 
-            // Create AdminViewModel with DbContext
+
             var db = new AppDbContext();
             var vm = new AdminViewModel(db);
             this.DataContext = vm;
@@ -40,7 +40,7 @@ namespace SkolniJidelna
             }
         }
 
-        // Pokud později přidáte SelectionChanged na ListBox, použijte tento handler
+
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DataContext is AdminViewModel vm && sender is ListBox lb)
@@ -91,6 +91,38 @@ namespace SkolniJidelna
                 {
                     await vm.SaveAsync();
                 }
+            }
+        }
+
+        private async void PridatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not AdminViewModel vm) return;
+
+            if (vm.SelectedEntityType?.Name == "Studenti")
+            {
+                var created = await vm.BeginCreateStudentAsync();
+                if (!created) return;
+
+                var editDialog = new EditDialogWindow(vm.Properties);
+                if (editDialog.ShowDialog() == true)
+                {
+                    await vm.SaveAsync();
+                }
+            }
+            else if (vm.SelectedEntityType?.Name == "Pracovníci")
+            {
+                var created = await vm.BeginCreateWorkerAsync();
+                if (!created) return;
+
+                var editDialog = new EditDialogWindow(vm.Properties);
+                if (editDialog.ShowDialog() == true)
+                {
+                    await vm.SaveAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Přidání je aktuálně podporováno pouze pro studenty a pracovníky.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

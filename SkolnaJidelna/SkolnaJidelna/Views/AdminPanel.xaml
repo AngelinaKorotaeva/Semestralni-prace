@@ -40,7 +40,21 @@
         <DataTemplate x:Key="ComboEditor">
             <StackPanel>
                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
-                <ComboBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding Value, Mode=TwoWay}" DisplayMemberPath="CisloTridy" />
+                <ComboBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding Value, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <PriorityBinding>
+                                        <Binding Path="Nazev"/>
+                                        <Binding Path="CisloTridy"/>
+                                        <Binding Path="."/>
+                                    </PriorityBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
         </DataTemplate>
 
@@ -132,7 +146,7 @@
                     <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}" DisplayMemberPath="Summary" Height="300" Margin="0,0,0,20"/>
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
+                        <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="PridatButton_Click"/>
                         <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="UpravitButton_Click"/>
                         <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}"/>
                     </StackPanel>

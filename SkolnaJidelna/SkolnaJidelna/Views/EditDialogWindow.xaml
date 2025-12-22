@@ -10,11 +10,67 @@
         WindowStyle="ToolWindow">
 
     <Window.Resources>
+        <!-- Default text editor -->
+        <DataTemplate x:Key="DefaultInputTemplate">
+            <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0"/>
+        </DataTemplate>
+
+        <!-- Date editor -->
+        <DataTemplate x:Key="DateInputTemplate">
+            <DatePicker SelectedDate="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0"
+                        Style="{StaticResource DatePickerStyle}"/>
+        </DataTemplate>
+
+        <!-- Combo editor -->
+        <DataTemplate x:Key="ComboInputTemplate">
+            <ComboBox ItemsSource="{Binding ItemsSource}"
+                      SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="CisloTridy"
+                      Margin="0,5,0,0"
+                      Style="{StaticResource ComboBoxStyle}"/>
+        </DataTemplate>
+
+        <!-- Checkbox list editor -->
+        <DataTemplate x:Key="CheckboxListInputTemplate">
+            <ItemsControl ItemsSource="{Binding ItemsSource}" Margin="0,5,0,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Nazev}"
+                                  IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource CheckBoxStyle}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <!-- Wrapper that chooses template based on EditorType -->
         <DataTemplate x:Key="PropertyTemplate">
             <StackPanel Margin="0,10">
                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold" Foreground="#4A4A4A"/>
-                <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource TextBoxStyle}" Margin="0,5,0,0"/>
+                <ContentControl Content="{Binding}">
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="ContentTemplate" Value="{StaticResource DefaultInputTemplate}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditorType}" Value="Date">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource DateInputTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding EditorType}" Value="Combo">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource ComboInputTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding EditorType}" Value="CheckboxList">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource CheckboxListInputTemplate}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>

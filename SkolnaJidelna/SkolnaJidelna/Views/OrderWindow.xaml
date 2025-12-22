@@ -48,16 +48,108 @@
                                     <ItemsControl ItemsSource="{Binding Jidla}" Margin="0,10,0,0">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border CornerRadius="15" Background="White" Padding="15" Margin="0,0,0,15">
+                                                <Border CornerRadius="15" Background="White" Padding="15" Margin="0,0,0,15" BorderThickness="2">
                                                     <Border.Effect>
-                                                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
+                                                        <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.2" Color="#000000"/>
                                                     </Border.Effect>
-                                                    <StackPanel>
-                                                        <TextBlock Text="{Binding Nazev}" FontSize="18" FontWeight="Bold" Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{Binding Popis}" FontSize="12" Foreground="#757575" Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{Binding Cena, StringFormat='Cena: {0} Kč'}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                                                        <Button Content="Přidat do objednávky" Style="{StaticResource SecondaryButton}" Padding="10,5" Click="AddToOrderButton_Click" Tag="{Binding}"/>
-                                                    </StackPanel>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="BorderBrush" Value="#DDD"/>
+                                                            <Setter Property="Background" Value="White"/>
+                                                            <Style.Triggers>
+                                                                <!-- Diet yellow first -->
+                                                                <DataTrigger Binding="{Binding IsDietConflict}" Value="True">
+                                                                    <Setter Property="BorderBrush" Value="#E6C200"/>
+                                                                    <Setter Property="Background" Value="#FFFDF0CC"/>
+                                                                </DataTrigger>
+                                                                <!-- Allergy red after so it has priority if both true -->
+                                                                <DataTrigger Binding="{Binding IsAllergic}" Value="True">
+                                                                    <Setter Property="BorderBrush" Value="Red"/>
+                                                                    <Setter Property="Background" Value="#FFFFEEEE"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="6"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <!-- Left color bar: yellow for diet, red overrides if allergy also true -->
+                                                        <Border Grid.Column="0" Background="Transparent">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsDietConflict}" Value="True">
+                                                                            <Setter Property="Background" Value="#E6C200"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsAllergic}" Value="True">
+                                                                            <Setter Property="Background" Value="Red"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                        </Border>
+
+                                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                                            <TextBlock Text="{Binding Nazev}" FontSize="18" FontWeight="Bold" Margin="0,0,0,5">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Foreground" Value="Black"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsDietConflict}" Value="True">
+                                                                                <Setter Property="Foreground" Value="#8A6D00"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsAllergic}" Value="True">
+                                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <TextBlock Text="{Binding Popis}" FontSize="12" Foreground="#757575" Margin="0,0,0,5"/>
+                                                            <TextBlock Text="{Binding Cena, StringFormat='Cena: {0} Kč'}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                                                            <!-- Warning banner for allergens -->
+                                                            <Border CornerRadius="8" Background="#FFFFD5D5" Padding="8" Margin="0,0,0,8" Visibility="Collapsed">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsAllergic}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="⚠ " FontSize="16" Foreground="Red"/>
+                                                                    <TextBlock Text="Obsahuje vaše alergeny: " FontSize="12" Foreground="Red" FontWeight="Bold"/>
+                                                                    <TextBlock Text="{Binding MatchedAllergens}" FontSize="12" Foreground="Red"/>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                            <!-- Warning banner for diet conflicts -->
+                                                            <Border CornerRadius="8" Background="#FFFBE7A1" Padding="8" Margin="0,0,0,8" Visibility="Collapsed">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsDietConflict}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="⚠ " FontSize="16" Foreground="#8A6D00"/>
+                                                                    <TextBlock Text="Nekompatibilní s vaší dietou: " FontSize="12" Foreground="#8A6D00" FontWeight="Bold"/>
+                                                                    <TextBlock Text="{Binding MatchedDietKeywords}" FontSize="12" Foreground="#8A6D00"/>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                            <Button Content="Přidat do objednávky" Style="{StaticResource SecondaryButton}" Padding="10,5" Click="AddToOrderButton_Click" Tag="{Binding}"/>
+                                                        </StackPanel>
+                                                    </Grid>
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -118,7 +210,7 @@
                     <!-- Итоговая цена -->
                     <TextBlock x:Name="textTotal" Text="{Binding TotalFormatted}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-                    <!-- Способы оплаты -->
+                    <!-- Спосoby оплаты -->
                     <TextBlock Text="Způsob platby" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                     <StackPanel Orientation="Vertical" Margin="0,0,0,20">
                         <RadioButton x:Name="radioPlatbaKartou" Content="Kartou" GroupName="Platba" IsChecked="True" Style="{StaticResource RadioButtonStyle}" Height="30"/>

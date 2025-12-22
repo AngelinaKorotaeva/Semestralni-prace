@@ -48,12 +48,16 @@ namespace SkolniJidelna
 
         private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var ow = new OrderWindow(Email);
+            ow.Show();
+            this.Close();
         }
 
         private void OrderHistoryButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var oh = new OrderHistoryWindow(Email);
+            oh.Show();
+            this.Close();
         }
 
         private void AdminPanelButton_Click(object sender, RoutedEventArgs e)

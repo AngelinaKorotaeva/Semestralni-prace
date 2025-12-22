@@ -18,6 +18,9 @@ namespace SkolniJidelna
             this.Email = email;
             _vm = new OrderViewModel();
             this.DataContext = _vm;
+
+            // Initial load with email to mark allergic items
+            _vm.LoadMenus(Email);
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -27,7 +30,7 @@ namespace SkolniJidelna
             {
                 _vm.SelectedTypMenu = selected;
             }
-            _vm.LoadMenus();
+            _vm.LoadMenus(Email);
         }
 
         private void comboTypMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)

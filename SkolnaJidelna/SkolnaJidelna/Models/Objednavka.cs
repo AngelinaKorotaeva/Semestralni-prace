@@ -27,6 +27,8 @@ namespace SkolniJidelna.Models
 
         [Column("ID_STAV")]
         public int IdStav { get; set; }
+
+        [ForeignKey(nameof(IdStav))]
         public Stav Stav { get; set; } = null!;
 
 

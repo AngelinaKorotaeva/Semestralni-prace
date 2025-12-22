@@ -213,6 +213,7 @@ public class AdminViewModel : INotifyPropertyChanged
                         {
                             // Load students with includes
                             var query = _db.Student
+                                .Include(s => s.Stravnik).ThenInclude(str => str.Adresa)
                                 .Include(s => s.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
                                 .Include(s => s.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
                                 .Include(s => s.Trida)
@@ -239,6 +240,7 @@ public class AdminViewModel : INotifyPropertyChanged
                         {
                             // Load workers with includes
                             var query = _db.Pracovnik
+                                .Include(p => p.Stravnik).ThenInclude(str => str.Adresa)
                                 .Include(p => p.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
                                 .Include(p => p.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
                                 .Include(p => p.Pozice)
@@ -361,6 +363,82 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var it in items) Items.Add(it);
     }
 
+    public async Task<bool> BeginCreateStudentAsync()
+    {
+        var trida = await _db.Trida.OrderBy(t => t.CisloTridy).FirstOrDefaultAsync();
+        if (trida == null)
+        {
+            MessageBox.Show("Nelze vytvořit studenta: žádná třída není v databázi.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        var adresa = new Adresa { Psc = 0, Mesto = string.Empty, Ulice = string.Empty };
+        var stravnik = new Stravnik
+        {
+            Jmeno = string.Empty,
+            Prijmeni = string.Empty,
+            Email = string.Empty,
+            Heslo = string.Empty,
+            Zustatek = 0,
+            Role = "user",
+            Aktivita = '1',
+            TypStravnik = "st",
+            Adresa = adresa,
+            Alergie = new List<StravnikAlergie>(),
+            Omezeni = new List<StravnikOmezeni>()
+        };
+
+        var student = new Student
+        {
+            Stravnik = stravnik,
+            DatumNarozeni = DateTime.Today,
+            Trida = trida,
+            IdTrida = trida.IdTrida
+        };
+
+        SelectedItem = new ItemViewModel(student, "Nový student");
+        OnSelectedItemChanged(SelectedItem);
+        return true;
+    }
+
+    public async Task<bool> BeginCreateWorkerAsync()
+    {
+        var pozice = await _db.Pozice.OrderBy(p => p.IdPozice).FirstOrDefaultAsync();
+        if (pozice == null)
+        {
+            MessageBox.Show("Nelze vytvořit pracovníka: žádná pozice není v databázi.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        var adresa = new Adresa { Psc = 0, Mesto = string.Empty, Ulice = string.Empty };
+        var stravnik = new Stravnik
+        {
+            Jmeno = string.Empty,
+            Prijmeni = string.Empty,
+            Email = string.Empty,
+            Heslo = string.Empty,
+            Zustatek = 0,
+            Role = "user",
+            Aktivita = '1',
+            TypStravnik = "pr",
+            Adresa = adresa,
+            Alergie = new List<StravnikAlergie>(),
+            Omezeni = new List<StravnikOmezeni>()
+        };
+
+        var pracovnik = new Pracovnik
+        {
+            Stravnik = stravnik,
+            Telefon = 0,
+            Pozice = pozice,
+            IdPozice = pozice.IdPozice
+        };
+
+        SelectedItem = new ItemViewModel(pracovnik, "Nový pracovník");
+        OnSelectedItemChanged(SelectedItem);
+        return true;
+    }
+
     public void OnSelectedItemChanged(ItemViewModel? item)
     {
         Properties.Clear();
@@ -368,31 +446,88 @@ public class AdminViewModel : INotifyPropertyChanged
 
         if (item.Entity is Student student)
         {
+            student.Stravnik.Alergie ??= new List<StravnikAlergie>();
+            student.Stravnik.Omezeni ??= new List<StravnikOmezeni>();
+            if (student.Stravnik.Adresa == null) student.Stravnik.Adresa = new Adresa();
+
             // Jméno
             Properties.Add(new PropertyViewModel("Jméno", typeof(string), student.Stravnik.Jmeno, val => student.Stravnik.Jmeno = (string)val));
 
             // Příjmení
             Properties.Add(new PropertyViewModel("Příjmení", typeof(string), student.Stravnik.Prijmeni, val => student.Stravnik.Prijmeni = (string)val));
 
-            // Datum narození
-            Properties.Add(new PropertyViewModel("Datum narození", typeof(DateTime), student.DatumNarozeni.Date, val => student.DatumNarozeni = ((DateTime)val).Date));
+            // Email / Heslo pouze pro nové záznamy
+            if (student.IdStravnik == 0)
+            {
+                Properties.Add(new PropertyViewModel("Email", typeof(string), student.Stravnik.Email, val => student.Stravnik.Email = val?.ToString() ?? string.Empty));
+                Properties.Add(new PropertyViewModel("Heslo", typeof(string), student.Stravnik.Heslo ?? string.Empty, val => student.Stravnik.Heslo = val?.ToString() ?? string.Empty));
+            }
 
-            // Adresa
-            Properties.Add(new PropertyViewModel("Adresa", typeof(string), $"{student.Stravnik.Adresa?.Ulice ?? ""}, {student.Stravnik.Adresa?.Mesto ?? ""} {student.Stravnik.Adresa?.Psc.ToString() ?? ""}", null));
+            // Datum narození (date only)
+            Properties.Add(new PropertyViewModel("Datum narození", typeof(DateTime), student.DatumNarozeni.Date, val => student.DatumNarozeni = ((DateTime)val).Date)
+            {
+                EditorType = "Date"
+            });
+
+            // Adresa - editable parts
+            Properties.Add(new PropertyViewModel("PSČ", typeof(int), student.Stravnik.Adresa?.Psc ?? 0, val =>
+            {
+                if (val == null) { student.Stravnik.Adresa.Psc = 0; return; }
+                var text = val.ToString();
+                if (int.TryParse(text, out var psc)) student.Stravnik.Adresa.Psc = psc;
+            }));
+            Properties.Add(new PropertyViewModel("Město", typeof(string), student.Stravnik.Adresa?.Mesto ?? string.Empty, val => { student.Stravnik.Adresa.Mesto = val?.ToString() ?? string.Empty; }));
+            Properties.Add(new PropertyViewModel("Ulice", typeof(string), student.Stravnik.Adresa?.Ulice ?? string.Empty, val => { student.Stravnik.Adresa.Ulice = val?.ToString() ?? string.Empty; }));
 
             // Třída
             var tridy = _db.Trida.ToList();
             Properties.Add(new PropertyViewModel("Třída", typeof(Trida), student.Trida, val => { if (val is Trida t) student.IdTrida = t.IdTrida; }) { EditorType = "Combo", ItemsSource = tridy });
 
-            // Alergie
+            // Alergie (checkbox list)
             var allAlergies = _db.Alergie.ToList();
             var selectableAlergies = allAlergies.Select(a => new SelectableItem(a, student.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie))).ToList();
-            Properties.Add(new PropertyViewModel("Alergie", typeof(IEnumerable<SelectableItem>), selectableAlergies, null) { EditorType = "MultiSelect", ItemsSource = selectableAlergies });
+            Properties.Add(new PropertyViewModel("Alergie", typeof(IEnumerable<SelectableItem>), selectableAlergies, null) { EditorType = "CheckboxList", ItemsSource = selectableAlergies });
+
+            // Dietní omezení (checkbox list)
+            var allOmezeni = _db.DietniOmezeni.ToList();
+            var selectableOmezeni = allOmezeni.Select(o => new SelectableItem(o, student.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni))).ToList();
+            Properties.Add(new PropertyViewModel("Dietní omezení", typeof(IEnumerable<SelectableItem>), selectableOmezeni, null) { EditorType = "CheckboxList", ItemsSource = selectableOmezeni });
+        }
+        else if (item.Entity is Pracovnik pracovnik)
+        {
+            pracovnik.Stravnik.Alergie ??= new List<StravnikAlergie>();
+            pracovnik.Stravnik.Omezeni ??= new List<StravnikOmezeni>();
+            if (pracovnik.Stravnik.Adresa == null) pracovnik.Stravnik.Adresa = new Adresa();
+
+            Properties.Add(new PropertyViewModel("Jméno", typeof(string), pracovnik.Stravnik.Jmeno, val => pracovnik.Stravnik.Jmeno = val?.ToString() ?? string.Empty));
+            Properties.Add(new PropertyViewModel("Příjmení", typeof(string), pracovnik.Stravnik.Prijmeni, val => pracovnik.Stravnik.Prijmeni = val?.ToString() ?? string.Empty));
+
+            if (pracovnik.IdStravnik == 0)
+            {
+                Properties.Add(new PropertyViewModel("Email", typeof(string), pracovnik.Stravnik.Email, val => pracovnik.Stravnik.Email = val?.ToString() ?? string.Empty));
+                Properties.Add(new PropertyViewModel("Heslo", typeof(string), pracovnik.Stravnik.Heslo ?? string.Empty, val => pracovnik.Stravnik.Heslo = val?.ToString() ?? string.Empty));
+            }
+
+            Properties.Add(new PropertyViewModel("Telefon", typeof(int), pracovnik.Telefon, val => { if (int.TryParse(val?.ToString(), out var tel)) pracovnik.Telefon = tel; else pracovnik.Telefon = 0; }));
+
+            // Pozice combo
+            var pozice = _db.Pozice.ToList();
+            Properties.Add(new PropertyViewModel("Pozice", typeof(Pozice), pracovnik.Pozice, val => { if (val is Pozice p) { pracovnik.Pozice = p; pracovnik.IdPozice = p.IdPozice; } }) { EditorType = "Combo", ItemsSource = pozice });
+
+            // Adresa - editable parts
+            Properties.Add(new PropertyViewModel("PSČ", typeof(int), pracovnik.Stravnik.Adresa?.Psc ?? 0, val => { if (val != null && int.TryParse(val.ToString(), out var psc)) pracovnik.Stravnik.Adresa.Psc = psc; }));
+            Properties.Add(new PropertyViewModel("Město", typeof(string), pracovnik.Stravnik.Adresa?.Mesto ?? string.Empty, val => { pracovnik.Stravnik.Adresa.Mesto = val?.ToString() ?? string.Empty; }));
+            Properties.Add(new PropertyViewModel("Ulice", typeof(string), pracovnik.Stravnik.Adresa?.Ulice ?? string.Empty, val => { pracovnik.Stravnik.Adresa.Ulice = val?.ToString() ?? string.Empty; }));
+
+            // Alergie
+            var allAlergies = _db.Alergie.ToList();
+            var selectableAlergies = allAlergies.Select(a => new SelectableItem(a, pracovnik.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie))).ToList();
+            Properties.Add(new PropertyViewModel("Alergie", typeof(IEnumerable<SelectableItem>), selectableAlergies, null) { EditorType = "CheckboxList", ItemsSource = selectableAlergies });
 
             // Dietní omezení
             var allOmezeni = _db.DietniOmezeni.ToList();
-            var selectableOmezeni = allOmezeni.Select(o => new SelectableItem(o, student.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni))).ToList();
-            Properties.Add(new PropertyViewModel("Dietní omezení", typeof(IEnumerable<SelectableItem>), selectableOmezeni, null) { EditorType = "MultiSelect", ItemsSource = selectableOmezeni });
+            var selectableOmezeni = allOmezeni.Select(o => new SelectableItem(o, pracovnik.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni))).ToList();
+            Properties.Add(new PropertyViewModel("Dietní omezení", typeof(IEnumerable<SelectableItem>), selectableOmezeni, null) { EditorType = "CheckboxList", ItemsSource = selectableOmezeni });
         }
         else
         {
@@ -400,17 +535,29 @@ public class AdminViewModel : INotifyPropertyChanged
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.CanRead && p.CanWrite)
                 .Where(p => !typeof(System.Collections.IEnumerable).IsAssignableFrom(p.PropertyType) || p.PropertyType == typeof(string))
+                .Where(p =>
+                {
+                    var targetType = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                    // allow only value types (including enums) and string -> skip navigation/reference types
+                    return targetType.IsValueType || targetType == typeof(string);
+                })
+                .Where(p =>
+                {
+                    // never edit IDs
+                    if (p.Name.StartsWith("Id", StringComparison.OrdinalIgnoreCase)) return false;
+                    // never edit emails
+                    if (p.Name.Equals("Email", StringComparison.OrdinalIgnoreCase)) return false;
+                    return true;
+                })
                 .ToArray();
 
             foreach (var p in props)
             {
-                // připravíme počáteční hodnotu a callback, který nastaví hodnotu zpět na entitu
                 var currentValue = p.GetValue(item.Entity);
                 Action<object?> onChanged = val =>
                 {
                     try
                     {
-                        // jednoduchá konverze pokud je potřeba
                         if (val == null)
                         {
                             p.SetValue(item.Entity, null);
@@ -440,24 +587,89 @@ public class AdminViewModel : INotifyPropertyChanged
         if (SelectedItem == null) return;
         try
         {
-            _db.Update(SelectedItem.Entity);
-            await _db.SaveChangesAsync();
-
-            // Special handling for Student
             if (SelectedItem.Entity is Student student)
             {
-                // Update alergie
+                student.Stravnik.Alergie ??= new List<StravnikAlergie>();
+                student.Stravnik.Omezeni ??= new List<StravnikOmezeni>();
+                if (student.Stravnik.Adresa == null) student.Stravnik.Adresa = new Adresa();
+
+                // basic required fields
+                if (string.IsNullOrWhiteSpace(student.Stravnik.Jmeno) || string.IsNullOrWhiteSpace(student.Stravnik.Prijmeni) || string.IsNullOrWhiteSpace(student.Stravnik.Email))
+                {
+                    MessageBox.Show("Vyplňte jméno, příjmení a email.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (student.IdStravnik == 0 && string.IsNullOrWhiteSpace(student.Stravnik.Heslo))
+                {
+                    MessageBox.Show("Zadejte heslo pro nového studenta.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string hashed = student.Stravnik.Heslo ?? string.Empty;
+                if (!hashed.StartsWith("$2")) hashed = BCrypt.Net.BCrypt.HashPassword(hashed);
+
+                // address parts
+                var psc = student.Stravnik.Adresa?.Psc ?? 0;
+                var mesto = student.Stravnik.Adresa?.Mesto ?? "Nezadáno";
+                var ulice = student.Stravnik.Adresa?.Ulice ?? "Nezadáno";
+                var tridaCislo = student.Trida?.CisloTridy ?? 0;
+
+                if (student.IdStravnik == 0)
+                {
+                    // call stored procedure trans_register_student
+                    var conn = _db.Database.GetDbConnection();
+                    try
+                    {
+                        if (conn.State != System.Data.ConnectionState.Open) conn.Open();
+                        using var cmd = conn.CreateCommand();
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        if (cmd is Oracle.ManagedDataAccess.Client.OracleCommand ocmd) ocmd.BindByName = true;
+                        cmd.CommandText = "BEGIN trans_register_student(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_rok_narozeni, :p_cislo_tridy); END;";
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_psc", Oracle.ManagedDataAccess.Client.OracleDbType.Int32) { Value = psc });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_mesto", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = (object)mesto ?? DBNull.Value });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_ulice", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = (object)ulice ?? DBNull.Value });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_jmeno", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Jmeno });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_prijmeni", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Prijmeni });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_email", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Email });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_heslo", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = hashed });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_zustatek", Oracle.ManagedDataAccess.Client.OracleDbType.Decimal) { Value = 0 });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_rok_narozeni", Oracle.ManagedDataAccess.Client.OracleDbType.Date) { Value = student.DatumNarozeni });
+                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_cislo_tridy", Oracle.ManagedDataAccess.Client.OracleDbType.Int32) { Value = tridaCislo });
+                        cmd.ExecuteNonQuery();
+                    }
+                    finally
+                    {
+                        try { if (conn.State == System.Data.ConnectionState.Open) conn.Close(); } catch { }
+                    }
+
+                    // reload student from DB to get ids
+                    var dbStudent = _db.Student.Include(s => s.Stravnik).ThenInclude(st => st.Adresa).Include(s => s.Trida).FirstOrDefault(s => s.Stravnik.Email == student.Stravnik.Email);
+                    if (dbStudent != null)
+                    {
+                        student.IdStravnik = dbStudent.IdStravnik;
+                        student.Stravnik.IdStravnik = dbStudent.IdStravnik;
+                        student.Stravnik.IdAdresa = dbStudent.Stravnik.IdAdresa;
+                        student.Trida = dbStudent.Trida;
+                        student.IdTrida = dbStudent.IdTrida;
+                    }
+                }
+                else
+                {
+                    // update existing via EF
+                    student.Stravnik.Heslo = hashed;
+                    _db.Update(student.Stravnik.Adresa);
+                    _db.Update(student.Stravnik);
+                    _db.Update(student);
+                    await _db.SaveChangesAsync();
+                }
+
+                // Update alergie links
                 var alergieProp = Properties.FirstOrDefault(p => p.Name == "Alergie");
                 if (alergieProp?.ItemsSource != null)
                 {
                     var selectedAlergies = alergieProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (Alergie)si.Item).ToList();
-                    var currentAlergies = student.Stravnik.Alergie.Select(sa => sa.Alergie).ToList();
-
-                    // Remove deselected
                     var toRemove = student.Stravnik.Alergie.Where(sa => !selectedAlergies.Any(a => a.IdAlergie == sa.IdAlergie)).ToList();
                     foreach (var sa in toRemove) _db.StravnikAlergie.Remove(sa);
-
-                    // Add selected
                     var toAdd = selectedAlergies.Where(a => !student.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie)).ToList();
                     foreach (var a in toAdd)
                     {
@@ -465,17 +677,13 @@ public class AdminViewModel : INotifyPropertyChanged
                     }
                 }
 
-                // Update omezeni
+                // Update dietni omezeni links
                 var omezeniProp = Properties.FirstOrDefault(p => p.Name == "Dietní omezení");
                 if (omezeniProp?.ItemsSource != null)
                 {
                     var selectedOmezeni = omezeniProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (DietniOmezeni)si.Item).ToList();
-
-                    // Remove deselected
                     var toRemove = student.Stravnik.Omezeni.Where(so => !selectedOmezeni.Any(o => o.IdOmezeni == so.IdOmezeni)).ToList();
                     foreach (var so in toRemove) _db.StravnikOmezeni.Remove(so);
-
-                    // Add selected
                     var toAdd = selectedOmezeni.Where(o => !student.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni)).ToList();
                     foreach (var o in toAdd)
                     {
@@ -483,6 +691,111 @@ public class AdminViewModel : INotifyPropertyChanged
                     }
                 }
 
+                await _db.SaveChangesAsync();
+            }
+            else if (SelectedItem.Entity is Pracovnik pracovnik)
+            {
+                pracovnik.Stravnik.Alergie ??= new List<StravnikAlergie>();
+                pracovnik.Stravnik.Omezeni ??= new List<StravnikOmezeni>();
+                if (pracovnik.Stravnik.Adresa == null) pracovnik.Stravnik.Adresa = new Adresa();
+
+                if (string.IsNullOrWhiteSpace(pracovnik.Stravnik.Jmeno) || string.IsNullOrWhiteSpace(pracovnik.Stravnik.Prijmeni))
+                {
+                    MessageBox.Show("Vyplňte jméno a příjmení.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (pracovnik.IdStravnik == 0)
+                {
+                    if (string.IsNullOrWhiteSpace(pracovnik.Stravnik.Email) || string.IsNullOrWhiteSpace(pracovnik.Stravnik.Heslo))
+                    {
+                        MessageBox.Show("Vyplňte email a heslo pro nového pracovníka.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    var hashed = pracovnik.Stravnik.Heslo ?? string.Empty;
+                    if (!hashed.StartsWith("$2")) hashed = BCrypt.Net.BCrypt.HashPassword(hashed);
+                    pracovnik.Stravnik.Heslo = hashed;
+                    pracovnik.Stravnik.TypStravnik = "pr";
+                    pracovnik.Stravnik.Role = "user";
+                    pracovnik.Stravnik.Aktivita = '1';
+
+                    // address
+                    _db.Adresa.Add(pracovnik.Stravnik.Adresa);
+                    await _db.SaveChangesAsync();
+                    pracovnik.Stravnik.IdAdresa = pracovnik.Stravnik.Adresa.IdAdresa;
+
+                    // stravnik
+                    _db.Stravnik.Add(pracovnik.Stravnik);
+                    await _db.SaveChangesAsync();
+
+                    // pracovník
+                    pracovnik.IdStravnik = pracovnik.Stravnik.IdStravnik;
+                    if (pracovnik.Pozice != null) pracovnik.IdPozice = pracovnik.Pozice.IdPozice;
+                    _db.Pracovnik.Add(pracovnik);
+                    await _db.SaveChangesAsync();
+                }
+                else
+                {
+                    // update address
+                    if (pracovnik.Stravnik.Adresa.IdAdresa == 0)
+                    {
+                        _db.Adresa.Add(pracovnik.Stravnik.Adresa);
+                        await _db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        _db.Update(pracovnik.Stravnik.Adresa);
+                    }
+                    pracovnik.Stravnik.IdAdresa = pracovnik.Stravnik.Adresa.IdAdresa;
+
+                    if (pracovnik.Pozice != null) pracovnik.IdPozice = pracovnik.Pozice.IdPozice;
+
+                    _db.Update(pracovnik.Stravnik);
+                    _db.Update(pracovnik);
+                    await _db.SaveChangesAsync();
+                }
+
+                // Update alergie links
+                var alergieProp = Properties.FirstOrDefault(p => p.Name == "Alergie");
+                if (alergieProp?.ItemsSource != null)
+                {
+                    var selectedAlergies = alergieProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (Alergie)si.Item).ToList();
+                    var toRemove = pracovnik.Stravnik.Alergie.Where(sa => !selectedAlergies.Any(a => a.IdAlergie == sa.IdAlergie)).ToList();
+                    foreach (var sa in toRemove) _db.StravnikAlergie.Remove(sa);
+                    var toAdd = selectedAlergies.Where(a => !pracovnik.Stravnik.Alergie.Any(sa => sa.IdAlergie == a.IdAlergie)).ToList();
+                    foreach (var a in toAdd)
+                    {
+                        _db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = pracovnik.IdStravnik, IdAlergie = a.IdAlergie });
+                    }
+                }
+
+                // Update dietni omezeni links
+                var omezeniProp = Properties.FirstOrDefault(p => p.Name == "Dietní omezení");
+                if (omezeniProp?.ItemsSource != null)
+                {
+                    var selectedOmezeni = omezeniProp.ItemsSource.Cast<SelectableItem>().Where(si => si.IsSelected).Select(si => (DietniOmezeni)si.Item).ToList();
+                    var toRemove = pracovnik.Stravnik.Omezeni.Where(so => !selectedOmezeni.Any(o => o.IdOmezeni == so.IdOmezeni)).ToList();
+                    foreach (var so in toRemove) _db.StravnikOmezeni.Remove(so);
+                    var toAdd = selectedOmezeni.Where(o => !pracovnik.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni)).ToList();
+                    foreach (var o in toAdd)
+                    {
+                        _db.StravnikOmezeni.Add(new StravnikOmezeni { IdStravnik = pracovnik.IdStravnik, IdOmezeni = o.IdOmezeni });
+                    }
+                }
+
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                if (_db.Entry(SelectedItem.Entity).State == EntityState.Detached)
+                {
+                    _db.Add(SelectedItem.Entity);
+                }
+                else
+                {
+                    _db.Update(SelectedItem.Entity);
+                }
                 await _db.SaveChangesAsync();
             }
 
@@ -502,38 +815,123 @@ public class AdminViewModel : INotifyPropertyChanged
         {
             if (SelectedItem.Entity is Student student)
             {
-                // Remove alergie links
-                var alergieLinks = student.Stravnik.Alergie.ToList();
-                foreach (var sa in alergieLinks) _db.StravnikAlergie.Remove(sa);
+                var fullStudent = await _db.Student
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Adresa)
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Alergie)
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Omezeni)
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Objednavky).ThenInclude(o => o.Polozky)
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Platby)
+                    .Include(s => s.Stravnik).ThenInclude(str => str.Soubory)
+                    .FirstOrDefaultAsync(s => s.IdStravnik == student.IdStravnik);
 
-                // Remove omezeni links
-                var omezeniLinks = student.Stravnik.Omezeni.ToList();
-                foreach (var so in omezeniLinks) _db.StravnikOmezeni.Remove(so);
+                if (fullStudent != null)
+                {
+                    foreach (var pol in fullStudent.Stravnik.Objednavky.SelectMany(o => o.Polozky))
+                        _db.Remove(pol);
 
-                // Then remove student
-                _db.Remove(student);
+                    foreach (var obj in fullStudent.Stravnik.Objednavky)
+                        _db.Remove(obj);
+
+                    foreach (var plat in fullStudent.Stravnik.Platby)
+                        _db.Remove(plat);
+
+                    foreach (var soub in fullStudent.Stravnik.Soubory)
+                        _db.Remove(soub);
+
+                    foreach (var sa in fullStudent.Stravnik.Alergie)
+                        _db.Remove(sa);
+
+                    foreach (var so in fullStudent.Stravnik.Omezeni)
+                        _db.Remove(so);
+
+                    var adresaUsed = await _db.Stravnik
+                        .AsNoTracking()
+                        .CountAsync(str => str.IdAdresa == fullStudent.Stravnik.IdAdresa && str.IdStravnik != fullStudent.IdStravnik);
+                    if (adresaUsed == 0)
+                        _db.Remove(fullStudent.Stravnik.Adresa);
+
+                    _db.Remove(fullStudent.Stravnik);
+                    _db.Remove(fullStudent);
+                }
             }
             else if (SelectedItem.Entity is Pracovnik pracovnik)
             {
-                // Remove alergie links
-                var alergieLinks = pracovnik.Stravnik.Alergie.ToList();
-                foreach (var sa in alergieLinks) _db.StravnikAlergie.Remove(sa);
+                var fullPracovnik = await _db.Pracovnik
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Adresa)
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Alergie)
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Omezeni)
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Objednavky).ThenInclude(o => o.Polozky)
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Platby)
+                    .Include(p => p.Stravnik).ThenInclude(str => str.Soubory)
+                    .FirstOrDefaultAsync(p => p.IdStravnik == pracovnik.IdStravnik);
 
-                // Remove omezeni links
-                var omezeniLinks = pracovnik.Stravnik.Omezeni.ToList();
-                foreach (var so in omezeniLinks) _db.StravnikOmezeni.Remove(so);
+                if (fullPracovnik != null)
+                {
+                    foreach (var pol in fullPracovnik.Stravnik.Objednavky.SelectMany(o => o.Polozky))
+                        _db.Remove(pol);
 
-                // Then remove pracovnik
-                _db.Remove(pracovnik);
+                    foreach (var obj in fullPracovnik.Stravnik.Objednavky)
+                        _db.Remove(obj);
+
+                    foreach (var plat in fullPracovnik.Stravnik.Platby)
+                        _db.Remove(plat);
+
+                    foreach (var soub in fullPracovnik.Stravnik.Soubory)
+                        _db.Remove(soub);
+
+                    foreach (var sa in fullPracovnik.Stravnik.Alergie)
+                        _db.Remove(sa);
+
+                    foreach (var so in fullPracovnik.Stravnik.Omezeni)
+                        _db.Remove(so);
+
+                    var adresaUsed = await _db.Stravnik
+                        .AsNoTracking()
+                        .CountAsync(str => str.IdAdresa == fullPracovnik.Stravnik.IdAdresa && str.IdStravnik != fullPracovnik.IdStravnik);
+                    if (adresaUsed == 0)
+                        _db.Remove(fullPracovnik.Stravnik.Adresa);
+
+                    _db.Remove(fullPracovnik.Stravnik);
+                    _db.Remove(fullPracovnik);
+                }
             }
             else if (SelectedItem.Entity is Jidlo jidlo)
             {
-                // Remove slozky links
-                var slozkyLinks = jidlo.SlozkyJidla.ToList();
-                foreach (var sj in slozkyLinks) _db.SlozkaJidlo.Remove(sj);
+                var fullJidlo = await _db.Jidlo
+                    .Include(j => j.SlozkyJidla)
+                    .Include(j => j.Polozky)
+                    .FirstOrDefaultAsync(j => j.IdJidlo == jidlo.IdJidlo);
 
-                // Then remove jidlo
-                _db.Remove(jidlo);
+                if (fullJidlo != null)
+                {
+                    if (fullJidlo.Polozky != null)
+                    {
+                        foreach (var p in fullJidlo.Polozky) _db.Remove(p);
+                    }
+
+                    if (fullJidlo.SlozkyJidla != null)
+                    {
+                        foreach (var sj in fullJidlo.SlozkyJidla) _db.Remove(sj);
+                    }
+
+                    _db.Remove(fullJidlo);
+                }
+            }
+            else if (SelectedItem.Entity is Alergie alergie)
+            {
+                var links = await _db.StravnikAlergie.Where(sa => sa.IdAlergie == alergie.IdAlergie).ToListAsync();
+                foreach (var link in links) _db.Remove(link);
+
+                var entity = await _db.Alergie.FirstOrDefaultAsync(a => a.IdAlergie == alergie.IdAlergie);
+                if (entity != null) _db.Remove(entity);
+            }
+            else if (SelectedItem.Entity is DietniOmezeni omezeni)
+            {
+                var links = await _db.StravnikOmezeni.Where(so => so.IdOmezeni == omezeni.IdOmezeni).ToListAsync();
+                foreach (var link in links) _db.Remove(link);
+
+                var entity = await _db.DietniOmezeni.FirstOrDefaultAsync(o => o.IdOmezeni == omezeni.IdOmezeni);
+                if (entity != null) _db.Remove(entity);
             }
             else
             {

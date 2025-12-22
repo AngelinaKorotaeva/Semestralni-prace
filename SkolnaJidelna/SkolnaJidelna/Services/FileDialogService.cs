@@ -7,6 +7,7 @@ using Microsoft.Win32;
 
 namespace SkolniJidelna.Services
 {
+    // Dialog pro výběr souboru 
     public class FileDialogService : IFileDialogService
     {
         public string? OpenFileDialog(string filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All files|*.*")

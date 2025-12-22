@@ -17,10 +17,12 @@ namespace SkolniJidelna.Data
 
         private readonly IConfiguration _configuration;
 
+        // Bezparametrický konstruktor pro scénáøe, kdy DbContext vytváøíme ruènì bez DI.
         public AppDbContext()
         {
         }
 
+        // Konstruktor používaný pøi DI – umožòuje pøedat nastavené DbContextOptions a IConfiguration.
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
             : base(options)
         {
@@ -55,6 +57,8 @@ namespace SkolniJidelna.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Pokud kontext nebyl nakonfigurován DI, naèti connection string z appsettings.json
+            // a zapni logování SQL do ef-sql.log pro ladìní.
             if (!optionsBuilder.IsConfigured)
             {
                 var configuration = new ConfigurationBuilder()
@@ -78,6 +82,7 @@ namespace SkolniJidelna.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Pøevede všechny bool property na int (1/0) kvùli Oracle a nastaví mapování tabulek, klíèù a pohledù.
             var boolToInt = new ValueConverter<bool, int>(
                v => v ? 1 : 0,
                v => v == 1);
@@ -92,6 +97,7 @@ namespace SkolniJidelna.Data
 
             base.OnModelCreating(modelBuilder);
 
+            // Explicitní názvy tabulek, klíèe složených tabulek a mapování pohledù.
             modelBuilder.Entity<Adresa>().ToTable("ADRESY");
             modelBuilder.Entity<StravnikAlergie>().ToTable("STRAVNICI_ALERGIE");
             modelBuilder.Entity<Jidlo>().ToTable("JIDLA");
