@@ -79,11 +79,11 @@
                     </TextBlock>
 
                     <!-- Фото -->
-                    <Border CornerRadius="15" Background="White" Padding="10" Margin="0,0,0,20" HorizontalAlignment="Center" Height="120" Width="120">
+                    <Border CornerRadius="15" Background="White" Padding="10" Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Center" Height="120" Width="120">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.1" Color="#FF6B9E"/>
                         </Border.Effect>
-                        <Image x:Name="imageProfile" Width="120" Height="120" Stretch="UniformToFill">
+                        <Image x:Name="imageProfile" Width="120" Height="120" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Visibility" Value="Visible" />

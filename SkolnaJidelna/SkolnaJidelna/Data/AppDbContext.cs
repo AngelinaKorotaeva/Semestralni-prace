@@ -54,6 +54,7 @@ namespace SkolniJidelna.Data
         public DbSet<VStudTrida> VStudTrida { get; set; }
         public DbSet<VPracovnikPozice> VPracovnikPozice { get; set; }
         public DbSet<VJidlaSlozeni> VJidlaSlozeni { get; set; }
+        public DbSet<VObjHistorieDetail> VObjHistorieDetail { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -146,6 +147,10 @@ namespace SkolniJidelna.Data
 
             modelBuilder.Entity<VJidlaSlozeni>()
                 .ToView("V_JIDLA_SLOZENI")
+                .HasNoKey();
+
+            modelBuilder.Entity<VObjHistorieDetail>()
+                .ToView("V_OBJEDNAVKY_HISTORIE_DETAIL")
                 .HasNoKey();
         }
     }

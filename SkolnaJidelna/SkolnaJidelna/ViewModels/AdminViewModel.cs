@@ -47,15 +47,29 @@ public class AdminViewModel : INotifyPropertyChanged
         {
             if (_selectedEntityType == value) return;
             _selectedEntityType = value;
-            Raise(nameof(SelectedEntityType));
+
             TableProperties.Clear();
             Classes.Clear();
             Positions.Clear();
             FoodCategories.Clear();
-            SelectedClass = null;
-            SelectedPosition = null;
-            SelectedFoodCategory = null;
-            SelectedDietType = null;
+            DietTypes.Clear();
+
+            CurrentList = null;
+
+            _selectedClass = null;
+            _selectedPosition = null;
+            _selectedFoodCategory = null;
+            _selectedDietType = null;
+
+            Raise(nameof(SelectedClass));
+            Raise(nameof(SelectedPosition));
+            Raise(nameof(SelectedFoodCategory));
+            Raise(nameof(SelectedDietType));
+
+            TableProperties.Clear();
+            Classes.Clear();
+            Positions.Clear();
+            FoodCategories.Clear();
             if (_selectedEntityType != null)
             {
                 if (_selectedEntityType.Name == "Studenti")
@@ -201,7 +215,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 {
                     try
                     {
-                        MessageBox.Show($"Starting load for {entityType.Name}");
+                        //MessageBox.Show($"Starting load for {entityType.Name}");
                         // Get DbSet using Set<T>
                         var setMethod = typeof(DbContext).GetMethods()
                             .Where(m => m.Name == "Set" && m.IsGenericMethod && m.GetParameters().Length == 0)
@@ -337,7 +351,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error loading {entityType.Name}: {ex.Message}");
+                        //MessageBox.Show($"Error loading {entityType.Name}: {ex.Message}");
                         return new List<ItemViewModel>();
                     }
                 }

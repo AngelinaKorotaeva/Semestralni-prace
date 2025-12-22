@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -14,14 +14,14 @@ namespace SkolniJidelna.ViewModels
     public class MenuViewModel : BaseViewModel
     {
         private ObservableCollection<JidloViewModel> _jidla = new();
-        private string _selectedTypMenu = "Vše";
-        private string _selectedTyden = "Vše";
+        private string _selectedTypMenu = "VÅ¡e";
+        private string _selectedTyden = "VÅ¡e";
 
         // Grouped menus -> jidla for TreeView binding
         private ObservableCollection<MenuWithJidla> _menus = new();
 
         // Old simple list (not used by ComboBox now but kept if needed elsewhere)
-        public ObservableCollection<string> TypyMenu { get; } = new(new[] { "Vše", "SNIDANE", "OBED" });
+        public ObservableCollection<string> TypyMenu { get; } = new(new[] { "VÅ¡e", "SNIDANE", "OBED" });
 
         // New list to support DisplayMemberPath/SelectedValuePath like in LoginWindow
         public class TypMenuItem
@@ -61,7 +61,7 @@ namespace SkolniJidelna.ViewModels
         public MenuViewModel()
         {
             // Populate items for ComboBox like in LoginWindow (DisplayMemberPath/SelectedValuePath)
-            TypyMenuItems.Add(new TypMenuItem { Key = "Vše", Nazev = "Vše" });
+            TypyMenuItems.Add(new TypMenuItem { Key = "VÅ¡e", Nazev = "VÅ¡e" });
             TypyMenuItems.Add(new TypMenuItem { Key = "SNIDANE", Nazev = "SNIDANE" });
             TypyMenuItems.Add(new TypMenuItem { Key = "OBED", Nazev = "OBED" });
 
@@ -104,13 +104,13 @@ namespace SkolniJidelna.ViewModels
                         .ThenInclude(sj => sj.Slozka)
                     .AsQueryable();
 
-                if (!string.Equals(SelectedTypMenu ?? "Vše", "Vše", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(SelectedTypMenu ?? "VÅ¡e", "VÅ¡e", StringComparison.OrdinalIgnoreCase))
                 {
                     var typ = (SelectedTypMenu ?? string.Empty).Trim().ToUpperInvariant();
                     query = query.Where(j => j.Menu != null && j.Menu.TypMenu != null && j.Menu.TypMenu.ToUpper() == typ);
                 }
 
-                // TODO: Filter by week if Menu has týden information
+                // TODO: Filter by week if Menu has tÑden information
 
                 var filtered = query.ToList().Select(j => new JidloViewModel(j));
                 Jidla = new ObservableCollection<JidloViewModel>(filtered);
@@ -145,7 +145,7 @@ namespace SkolniJidelna.ViewModels
                 using var ctx = new AppDbContext();
                 var menusQuery = ctx.Menu.AsNoTracking();
                 var selected = (SelectedTypMenu ?? "").Trim();
-                if (!string.Equals(selected, "Vše", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(selected, "VÅ¡e", StringComparison.OrdinalIgnoreCase))
                 {
                     var typ = selected.ToUpperInvariant();
                     menusQuery = menusQuery.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == typ);
