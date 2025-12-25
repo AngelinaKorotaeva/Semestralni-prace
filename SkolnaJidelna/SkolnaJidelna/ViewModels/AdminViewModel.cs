@@ -90,7 +90,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     _ = LoadFoodCategoriesAsync();
                     CurrentList = FoodCategories;
                 }
-                else if (_selectedEntityType.Name == "Dietní omezení")
+                else if (_selectedEntityType.Name == "Alergie a omezení")
                 {
                     // Load diet types
                     DietTypes.Clear();
@@ -202,7 +202,7 @@ public class AdminViewModel : INotifyPropertyChanged
             ("Studenti", typeof(Student)),
             ("Pracovníci", typeof(Pracovnik)),
             ("Jídla", typeof(Jidlo)),
-            ("Dietní omezení", typeof(DietniOmezeni))
+            ("Alergie a omezení", typeof(DietniOmezeni))
         };
 
         foreach (var (displayName, entityType) in entityTypesToInclude)

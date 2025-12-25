@@ -57,7 +57,7 @@ namespace SkolniJidelna
                 {
                     vm.SelectedFoodCategory = lb.SelectedItem as string;
                 }
-                else if (vm.SelectedEntityType?.Name == "Dietní omezení")
+                else if (vm.SelectedEntityType?.Name == "Alergie a omezení")
                 {
                     vm.SelectedDietType = lb.SelectedItem as string;
                 }

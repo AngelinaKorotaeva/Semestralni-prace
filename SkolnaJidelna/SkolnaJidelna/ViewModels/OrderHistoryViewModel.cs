@@ -22,6 +22,8 @@ namespace SkolniJidelna.ViewModels
         private string _orderNoteText = "Poznámka: -";
         private ObservableCollection<OrderItemDetail> _selectedOrderItems = new();
         private bool _isSelectedOrderUnpaid;
+        private string _ordersStatusOverview = string.Empty;
+        private bool _isCancelVisible;
 
         public string SelectedStav
         {
@@ -52,6 +54,8 @@ namespace SkolniJidelna.ViewModels
         public string OrderNoteText { get => _orderNoteText; private set { _orderNoteText = value; RaisePropertyChanged(); } }
         public ObservableCollection<OrderItemDetail> SelectedOrderItems { get => _selectedOrderItems; private set { _selectedOrderItems = value; RaisePropertyChanged(); } }
         public bool IsSelectedOrderUnpaid { get => _isSelectedOrderUnpaid; private set { _isSelectedOrderUnpaid = value; RaisePropertyChanged(); } }
+        public string OrdersStatusOverview { get => _ordersStatusOverview; private set { _ordersStatusOverview = value; RaisePropertyChanged(); } }
+        public bool IsCancelVisible { get => _isCancelVisible; private set { _isCancelVisible = value; RaisePropertyChanged(); } }
 
         public OrderHistoryViewModel(string email)
         {
@@ -94,6 +98,7 @@ namespace SkolniJidelna.ViewModels
                 OrderNoteText = "Poznámka: -";
                 SelectedOrderItems = new ObservableCollection<OrderItemDetail>();
                 IsSelectedOrderUnpaid = false;
+                IsCancelVisible = false;
                 return;
             }
 
@@ -106,6 +111,8 @@ namespace SkolniJidelna.ViewModels
             SelectedOrderItems = o.Items;
             var statusUp = (o.StavNazev ?? string.Empty).ToUpperInvariant();
             IsSelectedOrderUnpaid = statusUp.StartsWith("NEZAPLAC");
+            // Hide cancel button if already canceled
+            IsCancelVisible = !statusUp.StartsWith("ZRU");
         }
 
         public void LoadOrders()
@@ -136,49 +143,93 @@ namespace SkolniJidelna.ViewModels
                 .ThenByDescending(r => r.DatumVytvoreni)
                 .ToList();
 
-            foreach (var g in rows.GroupBy(r => r.IdObjednavka))
+            // Prepare a single connection for calling the DB function per order and overview
+            var dbConn = ctx.Database.GetDbConnection();
+            var needClose = dbConn.State != ConnectionState.Open;
+            if (needClose) dbConn.Open();
+            try
             {
-                var first = g.First();
-                var summary = new OrderSummary
+                // Overview status for the stravnik via F_OBJEDNAVKA_STAV
+                using (var cmdOv = dbConn.CreateCommand())
                 {
-                    IdObjednavka = first.IdObjednavka,
-                    DatumOdberu = first.DatumOdberu,
-                    DatumVytvoreni = first.DatumVytvoreni,
-                    StavNazev = first.Stav,
-                    CelkovaCena = first.CelkovaCena,
-                    Items = new ObservableCollection<OrderItemDetail>()
-                };
+                    cmdOv.CommandType = CommandType.Text;
+                    cmdOv.CommandText = "SELECT F_OBJEDNAVKA_STAV(:p_sid) FROM dual";
+                    var pSid = cmdOv.CreateParameter();
+                    pSid.ParameterName = ":p_sid";
+                    pSid.Value = _idStravnik;
+                    pSid.DbType = DbType.Int32;
+                    cmdOv.Parameters.Add(pSid);
+                    var ov = cmdOv.ExecuteScalar();
+                    OrdersStatusOverview = ov == null || ov == DBNull.Value ? string.Empty : ov.ToString() ?? string.Empty;
+                }
 
-                foreach (var it in g)
+                foreach (var g in rows.GroupBy(r => r.IdObjednavka))
                 {
-                    summary.Items.Add(new OrderItemDetail
+                    var first = g.First();
+
+                    // Call Oracle function F_CELKOVA_CENA for the order
+                    double celkovaCena = 0;
+                    using (var cmd = dbConn.CreateCommand())
                     {
-                        Nazev = it.Jidlo,
-                        Mnozstvi = it.Mnozstvi,
-                        Cena = Math.Round(it.CenaPolozkyCelkem, 2)
-                    });
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT F_CELKOVA_CENA(:p_id) FROM dual";
+                        var p = cmd.CreateParameter();
+                        p.ParameterName = ":p_id";
+                        p.Value = first.IdObjednavka;
+                        p.DbType = DbType.Int32;
+                        cmd.Parameters.Add(p);
+                        var obj = cmd.ExecuteScalar();
+                        if (obj != null && obj != DBNull.Value)
+                        {
+                            celkovaCena = Convert.ToDouble(obj);
+                        }
+                    }
+
+                    var summary = new OrderSummary
+                    {
+                        IdObjednavka = first.IdObjednavka,
+                        DatumOdberu = first.DatumOdberu,
+                        DatumVytvoreni = first.DatumVytvoreni,
+                        StavNazev = first.Stav,
+                        CelkovaCena = Math.Round(celkovaCena, 2),
+                        Items = new ObservableCollection<OrderItemDetail>()
+                    };
+
+                    foreach (var it in g)
+                    {
+                        summary.Items.Add(new OrderItemDetail
+                        {
+                            Nazev = it.Jidlo,
+                            Mnozstvi = it.Mnozstvi,
+                            Cena = Math.Round(it.CenaPolozkyCelkem, 2)
+                        });
+                    }
+
+                    list.Add(summary);
                 }
 
-                list.Add(summary);
-            }
-
-            // notes
-            if (list.Count > 0)
-            {
-                var ids = list.Select(o => o.IdObjednavka).ToList();
-                var notes = ctx.Objednavka.AsNoTracking()
-                    .Where(o => ids.Contains(o.IdObjednavka))
-                    .Select(o => new { o.IdObjednavka, o.Poznamka })
-                    .ToList()
-                    .ToDictionary(x => x.IdObjednavka, x => x.Poznamka);
-
-                foreach (var o in list)
+                // notes
+                if (list.Count > 0)
                 {
-                    if (notes.TryGetValue(o.IdObjednavka, out var p)) o.Poznamka = p;
-                }
-            }
+                    var ids = list.Select(o => o.IdObjednavka).ToList();
+                    var notes = ctx.Objednavka.AsNoTracking()
+                        .Where(o => ids.Contains(o.IdObjednavka))
+                        .Select(o => new { o.IdObjednavka, o.Poznamka })
+                        .ToList()
+                        .ToDictionary(x => x.IdObjednavka, x => x.Poznamka);
 
-            Orders = new ObservableCollection<OrderSummary>(list);
+                    foreach (var o in list)
+                    {
+                        if (notes.TryGetValue(o.IdObjednavka, out var p)) o.Poznamka = p;
+                    }
+                }
+
+                Orders = new ObservableCollection<OrderSummary>(list);
+            }
+            finally
+            {
+                if (needClose) dbConn.Close();
+            }
         }
 
         public enum PaymentMethod
@@ -195,11 +246,38 @@ namespace SkolniJidelna.ViewModels
             {
                 if (method == PaymentMethod.Account)
                 {
+                    // Validate balance using DB function F_ZUSTATEK
+                    var dbConn = ctx.Database.GetDbConnection();
+                    var needClose = dbConn.State != ConnectionState.Open;
+                    if (needClose) dbConn.Open();
+                    try
+                    {
+                        using var cmd = dbConn.CreateCommand();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT F_ZUSTATEK(:p_sid, :p_amt) FROM dual";
+                        var pSid = cmd.CreateParameter();
+                        pSid.ParameterName = ":p_sid";
+                        pSid.Value = _idStravnik;
+                        pSid.DbType = DbType.Int32;
+                        cmd.Parameters.Add(pSid);
+                        var pAmt = cmd.CreateParameter();
+                        pAmt.ParameterName = ":p_amt";
+                        pAmt.Value = order.CelkovaCena;
+                        pAmt.DbType = DbType.Double;
+                        cmd.Parameters.Add(pAmt);
+                        var res = cmd.ExecuteScalar()?.ToString() ?? string.Empty;
+                        if (!string.Equals(res, "OK", StringComparison.OrdinalIgnoreCase))
+                        {
+                            throw new InvalidOperationException(res == "NEDOSTATECNY" ? "Nedostatečný zůstatek na účtu." : "Strávník neexistuje.");
+                        }
+                    }
+                    finally
+                    {
+                        if (needClose) dbConn.Close();
+                    }
+
                     var str = ctx.Stravnik.Single(s => s.IdStravnik == _idStravnik);
-                    var needed = order.CelkovaCena;
-                    if (str.Zustatek < needed)
-                        throw new InvalidOperationException("Nedostatečný zůstatek na účtu.");
-                    str.Zustatek -= needed;
+                    str.Zustatek -= order.CelkovaCena;
                     ctx.SaveChanges();
                 }
 

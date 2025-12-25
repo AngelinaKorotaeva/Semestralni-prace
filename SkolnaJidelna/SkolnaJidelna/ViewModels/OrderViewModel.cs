@@ -327,14 +327,7 @@ namespace SkolniJidelna.ViewModels
             if (stravnik == null)
                 throw new InvalidOperationException("Uživatel nenalezen");
 
-            if (method == PaymentMethod.Account)
-            {
-                var needed = Convert.ToDecimal(Total);
-                var balance = Convert.ToDecimal(stravnik.Zustatek);
-                if (balance < needed)
-                    throw new InvalidOperationException("Nedostatečný zůstatek na účtu.");
-            }
-
+            // open connection once (used for balance check + whole transaction)
             var dbConn = ctx.Database.GetDbConnection();
             var wasClosed = dbConn.State == System.Data.ConnectionState.Closed;
             if (wasClosed) dbConn.Open();
@@ -342,6 +335,23 @@ namespace SkolniJidelna.ViewModels
             var conn = dbConn as OracleConnection;
             if (conn == null)
                 throw new InvalidOperationException("OracleConnection není dostupné");
+
+            // Validate balance using DB function F_ZUSTATEK for Account method
+            if (method == PaymentMethod.Account)
+            {
+                using var cmdCheck = new OracleCommand("SELECT F_ZUSTATEK(:p_sid, :p_amt) FROM dual", conn)
+                {
+                    CommandType = System.Data.CommandType.Text
+                };
+                cmdCheck.Parameters.Add(":p_sid", OracleDbType.Int32).Value = stravnik.IdStravnik;
+                cmdCheck.Parameters.Add(":p_amt", OracleDbType.Double).Value = Total;
+                var res = cmdCheck.ExecuteScalar()?.ToString() ?? string.Empty;
+                if (!string.Equals(res, "OK", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (wasClosed) dbConn.Close();
+                    throw new InvalidOperationException(res == "NEDOSTATECNY" ? "Nedostatečný zůstatek na účtu." : "Strávník neexistuje.");
+                }
+            }
 
             using var tx = conn.BeginTransaction();
             try
