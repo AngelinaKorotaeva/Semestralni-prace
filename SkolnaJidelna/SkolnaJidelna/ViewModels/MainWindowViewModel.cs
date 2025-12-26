@@ -13,6 +13,8 @@ using System.Diagnostics;
 
 namespace SkolniJidelna.ViewModels
 {
+    // ViewModel hlavního okna – přihlašovací logika (MVVM)
+    // Ověřuje vstupy, kontroluje heslo (BCrypt), vyhodnocuje roli a otevírá příslušná okna přes IWindowService
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly AppDbContext _db;
@@ -21,17 +23,19 @@ namespace SkolniJidelna.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         void Raise(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
+        // Přihlašovací údaje z UI
         private string _username = "";
         public string Username { get => _username; set { if (_username == value) return; _username = value; Raise(nameof(Username)); } }
 
         private string _password = "";
         public string Password { get => _password; set { if (_password == value) return; _password = value; Raise(nameof(Password)); } }
 
+        // Příkazy pro tlačítka
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        // email, isPracovnik, isAdmin
-        public event Action<string, bool, bool>? LoginSucceeded;
+        // Události pro View (úspěch/neúspěch přihlášení, žádost o registraci)
+        public event Action<string, bool, bool>? LoginSucceeded; // email, isPracovnik, isAdmin
         public event Action<string>? LoginFailed;
         public event Action? RegisterRequested;
 
@@ -43,6 +47,7 @@ namespace SkolniJidelna.ViewModels
             RegisterCommand = new RelayCommand(_ => RegisterRequested?.Invoke());
         }
 
+        // Jednoduchá validace e‑mailu
         private bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email)) return false;
@@ -50,6 +55,7 @@ namespace SkolniJidelna.ViewModels
             return Regex.IsMatch(email.Trim(), pattern);
         }
 
+        // Hlavní login rutina: načte uživatele z DB, ověří heslo, vyhodnotí roli a přesměruje do příslušného okna
         private async Task ExecuteLoginAsync()
         {
             if (string.IsNullOrWhiteSpace(Username) || Username == "Uživatelské jméno" || string.IsNullOrWhiteSpace(Password))
@@ -75,7 +81,7 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // ověření hesla
+                // Ověření hesla (včetně náhražky $2y$ -> $2a$/$2b$)
                 var verified = VerifyPasswordSafe(Password, user.Heslo);
                 if (!verified)
                 {
@@ -83,14 +89,14 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // Log role/type for debugging. Use Debug output and file logging because WPF apps may not have a console.
+                // Debug logy do Debug Output a souboru
                 Debug.WriteLine($"Login attempt - Email={user.Email}, RoleRaw='{user.Role}', TypStravnik='{user.TypStravnik}'");
                 try
                 {
                     File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "login-debug.log"),
                         $"Login attempt - Email={user.Email}, RoleRaw='{user.Role}', TypStravnik='{user.TypStravnik}', Time={DateTime.Now:o}{Environment.NewLine}");
                 }
-                catch { /* ignore logging failures */ }
+                catch { }
 
                 var roleNorm = user.Role?.Trim();
                 var typeNorm = user.TypStravnik?.Trim();
@@ -98,7 +104,6 @@ namespace SkolniJidelna.ViewModels
                 bool isPracovnik = string.Equals(typeNorm, "pr", StringComparison.OrdinalIgnoreCase);
                 bool isAdmin = string.Equals(roleNorm, "ADMIN", StringComparison.OrdinalIgnoreCase);
 
-                // If role looks unexpected, log it for troubleshooting
                 if (!isAdmin && !string.IsNullOrEmpty(roleNorm) && !string.Equals(roleNorm, "USER", StringComparison.OrdinalIgnoreCase))
                 {
                     try
@@ -106,10 +111,10 @@ namespace SkolniJidelna.ViewModels
                         File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "login-role-debug.log"),
                             $"User={user.Email}, RoleRaw='{user.Role}', RoleNorm='{roleNorm}', Time={DateTime.Now:o}{Environment.NewLine}");
                     }
-                    catch { /* ignore logging failures */ }
+                    catch { }
                 }
 
-                // Навигация через сервис (MVVM-friendly)
+                // Navigace přes službu (MVVM-friendly)
                 if (isAdmin)
                 {
                     _windowService.ShowAdminProfile(user.Email);
@@ -119,7 +124,7 @@ namespace SkolniJidelna.ViewModels
                     _windowService.ShowUserProfile(user.Email, isPracovnik);
                 }
 
-                // уведомление view, чтобы оно могло закрыть окно
+                // Notifikace pro View – může zavřít přihlašovací okno
                 LoginSucceeded?.Invoke(user.Email, isPracovnik, isAdmin);
             }
             catch (Exception ex)
@@ -128,7 +133,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
-        // Robust bcrypt verification (tries $2y$ fixes)
+        // Robustní ověření bcrypt (řeší varianty $2y$)
         private bool VerifyPasswordSafe(string plainPassword, string? storedHash)
         {
             if (string.IsNullOrEmpty(storedHash)) return false;
@@ -138,7 +143,7 @@ namespace SkolniJidelna.ViewModels
                 if (BCrypt.Net.BCrypt.Verify(plainPassword, storedHash))
                     return true;
             }
-            catch (Exception) { /* fallthrough */ }
+            catch (Exception) { }
 
             try
             {
@@ -151,7 +156,7 @@ namespace SkolniJidelna.ViewModels
                     if (BCrypt.Net.BCrypt.Verify(plainPassword, alt)) return true;
                 }
             }
-            catch { /* ignore */ }
+            catch { }
 
             return false;
         }

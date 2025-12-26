@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SkolniJidelna.Services;
+// Implementace repozitáře strávníků nad EF Core DbContextem
 public class StravnikRepository : IStravnikRepository
 {
     private readonly AppDbContext _db;

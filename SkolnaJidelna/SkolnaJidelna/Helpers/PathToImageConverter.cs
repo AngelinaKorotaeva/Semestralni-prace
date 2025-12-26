@@ -5,6 +5,7 @@ using System;
 
 namespace SkolniJidelna.Helpers
 {
+    // Převede cestu k souboru (string) na `BitmapImage` pro zobrazení v `Image` v XAML
     public class PathToImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -20,10 +21,7 @@ namespace SkolniJidelna.Helpers
                     bmp.EndInit();
                     return bmp;
                 }
-                catch
-                {
-                    return null;
-                }
+                catch { return null; }
             }
             return null;
         }

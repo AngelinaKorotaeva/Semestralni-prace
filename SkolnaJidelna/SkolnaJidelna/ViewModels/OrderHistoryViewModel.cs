@@ -8,6 +8,8 @@ using SkolniJidelna.Models;
 
 namespace SkolniJidelna.ViewModels
 {
+    // ViewModel pro historii objednávek konkrétního strávníka.
+    // Načítá seznam objednávek, detail vybrané objednávky, stavové přehledy a umožňuje platbu/zrušení.
     public class OrderHistoryViewModel : BaseViewModel
     {
         private readonly string _email;
@@ -25,18 +27,21 @@ namespace SkolniJidelna.ViewModels
         private string _ordersStatusOverview = string.Empty;
         private bool _isCancelVisible;
 
+        // Filtr podle stavu ("Vše", "V procesu", "Nezaplacený", "Dokončeno", "Zrušený")
         public string SelectedStav
         {
             get => _selectedStav;
             set { _selectedStav = value; RaisePropertyChanged(); }
         }
 
+        // Kolekce objednávek pro UI
         public ObservableCollection<OrderSummary> Orders
         {
             get => _orders;
             set { _orders = value; RaisePropertyChanged(); }
         }
 
+        // Aktuálně vybraná objednávka – přepočítá texty a viditelnosti tlačítek
         public OrderSummary? SelectedOrder
         {
             get => _selectedOrder;
@@ -48,6 +53,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Texty pro panel detailu
         public string OrderDateText { get => _orderDateText; private set { _orderDateText = value; RaisePropertyChanged(); } }
         public string OrderStatusText { get => _orderStatusText; private set { _orderStatusText = value; RaisePropertyChanged(); } }
         public string OrderTotalText { get => _orderTotalText; private set { _orderTotalText = value; RaisePropertyChanged(); } }
@@ -57,6 +63,7 @@ namespace SkolniJidelna.ViewModels
         public string OrdersStatusOverview { get => _ordersStatusOverview; private set { _ordersStatusOverview = value; RaisePropertyChanged(); } }
         public bool IsCancelVisible { get => _isCancelVisible; private set { _isCancelVisible = value; RaisePropertyChanged(); } }
 
+        // Konstruktor – zjistí Id strávníka podle e‑mailu
         public OrderHistoryViewModel(string email)
         {
             _email = email;
@@ -64,11 +71,12 @@ namespace SkolniJidelna.ViewModels
             _idStravnik = ctx.Stravnik.AsNoTracking().Where(s => s.Email == _email).Select(s => s.IdStravnik).FirstOrDefault();
         }
 
+        // DTO pro položky a souhrn objednávky
         public class OrderItemDetail
         {
             public string Nazev { get; set; } = string.Empty;
             public int Mnozstvi { get; set; }
-            public double Cena { get; set; } // celkem for the item
+            public double Cena { get; set; } // celkem za položku
         }
 
         public class OrderSummary
@@ -82,12 +90,14 @@ namespace SkolniJidelna.ViewModels
             public ObservableCollection<OrderItemDetail> Items { get; set; } = new();
         }
 
+        // Nastaví filtr a znovu načte objednávky
         public void SetFilter(string value)
         {
             SelectedStav = value;
             LoadOrders();
         }
 
+        // Přepočítá odvozené texty a viditelnosti pro vybranou objednávku
         private void UpdateSelectedOrderComputed()
         {
             if (SelectedOrder == null)
@@ -111,10 +121,11 @@ namespace SkolniJidelna.ViewModels
             SelectedOrderItems = o.Items;
             var statusUp = (o.StavNazev ?? string.Empty).ToUpperInvariant();
             IsSelectedOrderUnpaid = statusUp.StartsWith("NEZAPLAC");
-            // Hide cancel button if already canceled
+            // Skrýt tlačítko zrušení, pokud je objednávka už zrušená
             IsCancelVisible = !statusUp.StartsWith("ZRU");
         }
 
+        // Načte objednávky z pohledu, aplikuje filtr a doplní přehled přes F_OBJEDNAVKA_STAV a ceny přes F_CELKOVA_CENA
         public void LoadOrders()
         {
             var list = new System.Collections.Generic.List<OrderSummary>();
@@ -143,13 +154,13 @@ namespace SkolniJidelna.ViewModels
                 .ThenByDescending(r => r.DatumVytvoreni)
                 .ToList();
 
-            // Prepare a single connection for calling the DB function per order and overview
+            // Připraví jedno spojení a zavolá DB funkce pro přehled a ceny
             var dbConn = ctx.Database.GetDbConnection();
             var needClose = dbConn.State != ConnectionState.Open;
             if (needClose) dbConn.Open();
             try
             {
-                // Overview status for the stravnik via F_OBJEDNAVKA_STAV
+                // Přehled stavů objednávek pro strávníka
                 using (var cmdOv = dbConn.CreateCommand())
                 {
                     cmdOv.CommandType = CommandType.Text;
@@ -167,7 +178,7 @@ namespace SkolniJidelna.ViewModels
                 {
                     var first = g.First();
 
-                    // Call Oracle function F_CELKOVA_CENA for the order
+                    // Celková cena přes F_CELKOVA_CENA
                     double celkovaCena = 0;
                     using (var cmd = dbConn.CreateCommand())
                     {
@@ -208,7 +219,7 @@ namespace SkolniJidelna.ViewModels
                     list.Add(summary);
                 }
 
-                // notes
+                // Poznámky k objednávkám
                 if (list.Count > 0)
                 {
                     var ids = list.Select(o => o.IdObjednavka).ToList();
@@ -232,12 +243,14 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Způsoby platby
         public enum PaymentMethod
         {
             Card,
             Account
         }
 
+        // Uhradí objednávku – u účtu ověří zůstatek F_ZUSTATEK a aktualizuje zůstatek i stav
         public void PayOrder(OrderSummary order, PaymentMethod method)
         {
             using var ctx = new AppDbContext();
@@ -246,7 +259,7 @@ namespace SkolniJidelna.ViewModels
             {
                 if (method == PaymentMethod.Account)
                 {
-                    // Validate balance using DB function F_ZUSTATEK
+                    // Ověření zůstatku přes DB funkci F_ZUSTATEK
                     var dbConn = ctx.Database.GetDbConnection();
                     var needClose = dbConn.State != ConnectionState.Open;
                     if (needClose) dbConn.Open();
@@ -282,7 +295,7 @@ namespace SkolniJidelna.ViewModels
                 }
 
                 var obj = ctx.Objednavka.Single(o => o.IdObjednavka == order.IdObjednavka);
-                obj.IdStav = 1; // původní chování: nastavit na ID=1
+                obj.IdStav = 1; // Dokončeno
                 ctx.SaveChanges();
 
                 tx.Commit();
@@ -294,6 +307,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Zruší objednávku – vrátí peníze pokud byla zaplacena, nastaví stav "Zrušený"
         public void CancelOrder(OrderSummary order)
         {
             using var ctx = new AppDbContext();
@@ -314,7 +328,7 @@ namespace SkolniJidelna.ViewModels
                     .Where(s => (s.Nazev ?? string.Empty).ToUpper().StartsWith("ZRU"))
                     .Select(s => s.IdStav)
                     .FirstOrDefault();
-                if (canceledId == 0) canceledId = obj.IdStav; // fallback, aby se nezměnilo na neplatnou hodnotu
+                if (canceledId == 0) canceledId = obj.IdStav; // Fallback, aby se nenastavila neplatná hodnota
                 obj.IdStav = canceledId;
                 ctx.SaveChanges();
 
@@ -327,6 +341,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Uloží PDF výtisk objednávky do tabulky SOUBORY
         public void SavePdfFile(OrderSummary order, string fileName, byte[] content)
         {
             using var ctx = new AppDbContext();

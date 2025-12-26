@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SkolniJidelna.Services;
+// Rozhraní repozitáře strávníků – CRUD operace a načtení seznamu
 public interface IStravnikRepository
 {
     // Vrátí všechny strávníky (asynchronně) pro výpis.

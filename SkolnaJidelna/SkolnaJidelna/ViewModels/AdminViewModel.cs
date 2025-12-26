@@ -12,6 +12,14 @@ using SkolniJidelna.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkolniJidelna.ViewModels;
+
+// ViewModel pro administrátorský panel.
+// Zajišťuje:
+// - výběr typu entity (Studenti/Pracovníci/Jídla/Alergie a omezení),
+// - načítání položek s filtrováním (třída/pozice/kategorie/typ),
+// - zobrazení a editaci vlastností vybrané položky,
+// - vytvoření nového studenta/pracovníka,
+// - uložení a mazání záznamů.
 public class AdminViewModel : INotifyPropertyChanged
 {
     private readonly AppDbContext _db;
@@ -19,14 +27,21 @@ public class AdminViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     void Raise(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
+    // Seznam dostupných typů entit v admin panelu
     public ObservableCollection<EntityTypeDescriptor> EntityTypes { get; } = new();
+    // Načtené položky aktuálně zvoleného typu
     public ObservableCollection<ItemViewModel> Items { get; } = new();
+    // Editovatelné vlastnosti vybrané položky
     public ObservableCollection<PropertyViewModel> Properties { get; } = new();
+    // Sloupce tabulky (fallback pro ostatní entity)
     public ObservableCollection<string> TableProperties { get; } = new();
+    // Pomocné kolekce pro filtry
     public ObservableCollection<string> Classes { get; } = new();
     public ObservableCollection<string> Positions { get; } = new();
     public ObservableCollection<string> FoodCategories { get; } = new();
     public ObservableCollection<string> DietTypes { get; } = new();
+
+    // Aktuální seznam pro zobrazení v levém panelu (dynamicky ukazuje třídy/pozice/kategorie/sloupce)
     private ObservableCollection<string> _currentList = new();
     public ObservableCollection<string> CurrentList
     {
@@ -39,6 +54,7 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Vybraný typ entity – mění filtry a spouští načtení položek
     private EntityTypeDescriptor? _selectedEntityType;
     public EntityTypeDescriptor? SelectedEntityType
     {
@@ -48,6 +64,7 @@ public class AdminViewModel : INotifyPropertyChanged
             if (_selectedEntityType == value) return;
             _selectedEntityType = value;
 
+            // Reset filtrů a příprava odpovídajících seznamů podle vybraného typu
             TableProperties.Clear();
             Classes.Clear();
             Positions.Clear();
@@ -74,25 +91,25 @@ public class AdminViewModel : INotifyPropertyChanged
             {
                 if (_selectedEntityType.Name == "Studenti")
                 {
-                    // Load classes asynchronously
+                    // Studenti – načti seznam tříd
                     _ = LoadClassesAsync();
                     CurrentList = Classes;
                 }
                 else if (_selectedEntityType.Name == "Pracovníci")
                 {
-                    // Load positions asynchronously
+                    // Pracovníci – načti seznam pozic
                     _ = LoadPositionsAsync();
                     CurrentList = Positions;
                 }
                 else if (_selectedEntityType.Name == "Jídla")
                 {
-                    // Load food categories asynchronously
+                    // Jídla – načti seznam kategorií jídel
                     _ = LoadFoodCategoriesAsync();
                     CurrentList = FoodCategories;
                 }
                 else if (_selectedEntityType.Name == "Alergie a omezení")
                 {
-                    // Load diet types
+                    // Předvolby pro zobrazení alergií vs. dietních omezení
                     DietTypes.Clear();
                     DietTypes.Add("Vše");
                     DietTypes.Add("Alergie");
@@ -101,6 +118,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 }
                 else
                 {
+                    // Ostatní entity – zobraz jejich sloupce
                     var props = _selectedEntityType.EntityType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                         .Where(p => p.CanRead && p.GetCustomAttribute<ColumnAttribute>() != null)
                         .Select(p => $"{p.Name}");
@@ -113,11 +131,12 @@ public class AdminViewModel : INotifyPropertyChanged
             {
                 CurrentList = TableProperties;
             }
-            // Load items automatically when entity type changes
+            // Automatické načtení položek po změně typu entity
             _ = LoadItemsForSelectedEntityAsync();
         }
     }
 
+    // Vybraná položka – aktualizace panelu vlastností
     private ItemViewModel? _selectedItem;
     public ItemViewModel? SelectedItem
     {
@@ -131,6 +150,7 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Filtry (změna vyvolá znovunačtení položek)
     private string? _selectedClass;
     public string? SelectedClass
     {
@@ -183,6 +203,7 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Příkazy pro UI
     public ICommand RefreshCommand { get; }
     public ICommand SaveCommand { get; }
     public ICommand CloseCommand { get; }
@@ -191,12 +212,13 @@ public class AdminViewModel : INotifyPropertyChanged
     public AdminViewModel(AppDbContext db)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
+        // Obnovení dat/typů, uložení změn vybrané položky, zavření okna (řeší view), smazání položky
         RefreshCommand = new RelayCommand(async _ => await LoadEntityTypesAsync());
         SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => SelectedItem != null);
         CloseCommand = new RelayCommand(_ => { /* zavření okna řeší view */ });
         DeleteCommand = new RelayCommand(async _ => await DeleteAsync(), _ => SelectedItem != null);
 
-        // Statically load entity types
+        // Statické nadefinování typů entit zobrazovaných v panelu a jejich načítacích rutin
         var entityTypesToInclude = new[]
         {
             ("Studenti", typeof(Student)),
@@ -215,17 +237,16 @@ public class AdminViewModel : INotifyPropertyChanged
                 {
                     try
                     {
-                        //MessageBox.Show($"Starting load for {entityType.Name}");
-                        // Get DbSet using Set<T>
+                        // Obecné získání DbSet<T>
                         var setMethod = typeof(DbContext).GetMethods()
                             .Where(m => m.Name == "Set" && m.IsGenericMethod && m.GetParameters().Length == 0)
                             .FirstOrDefault()?.MakeGenericMethod(entityType);
                         var dbSet = setMethod?.Invoke(_db, null) as IQueryable;
                         if (dbSet == null) return new List<ItemViewModel>();
 
+                        // Větvení podle typu entity – cílené dotazy + filtry
                         if (entityType == typeof(Student))
                         {
-                            // Load students with includes
                             var query = _db.Student
                                 .Include(s => s.Stravnik).ThenInclude(str => str.Adresa)
                                 .Include(s => s.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
@@ -252,7 +273,6 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         else if (entityType == typeof(Pracovnik))
                         {
-                            // Load workers with includes
                             var query = _db.Pracovnik
                                 .Include(p => p.Stravnik).ThenInclude(str => str.Adresa)
                                 .Include(p => p.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
@@ -277,7 +297,6 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         else if (entityType == typeof(Jidlo))
                         {
-                            // Load foods with includes
                             var query = _db.Jidlo
                                 .Include(j => j.SlozkyJidla).ThenInclude(sj => sj.Slozka)
                                 .AsQueryable();
@@ -297,6 +316,7 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         else if (entityType == typeof(DietniOmezeni))
                         {
+                            // Kombinované zobrazení: Alergie i Dietní omezení podle výběru
                             var dietItems = new List<ItemViewModel>();
                             if (_selectedDietType == "Alergie" || _selectedDietType == "Vše")
                             {
@@ -319,13 +339,12 @@ public class AdminViewModel : INotifyPropertyChanged
                             return dietItems;
                         }
 
-                        // Call ToListAsync using reflection
+                        // Fallback – načti obecně (omezeno na 100 záznamů)
                         var toListAsyncMethod = typeof(Queryable).GetMethods()
                             .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
                             .FirstOrDefault()?.MakeGenericMethod(entityType);
                         if (toListAsyncMethod == null) return new List<ItemViewModel>();
 
-                        // Limit to 100 items to avoid hanging
                         var takeMethod = typeof(Queryable).GetMethods()
                             .Where(m => m.Name == "Take" && m.GetParameters().Length == 2 && m.GetGenericArguments().Length == 1)
                             .FirstOrDefault()?.MakeGenericMethod(entityType);
@@ -338,7 +357,6 @@ public class AdminViewModel : INotifyPropertyChanged
                         await task;
                         var resultProperty = task.GetType().GetProperty("Result");
                         var list = resultProperty?.GetValue(task) as System.Collections.IList;
-                        MessageBox.Show($"List count for {entityType.Name}: {list?.Count ?? 0}");
                         if (list == null) return new List<ItemViewModel>();
 
                         var items = new List<ItemViewModel>();
@@ -349,9 +367,8 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         return items;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        //MessageBox.Show($"Error loading {entityType.Name}: {ex.Message}");
                         return new List<ItemViewModel>();
                     }
                 }
@@ -359,13 +376,14 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Inicializace typů entit a první načtení položek (pokud již je vybrán typ)
     public async Task LoadEntityTypesAsync()
     {
         if (EntityTypes.Count == 0) return;
-        // Do not set SelectedEntityType by default
         await LoadItemsForSelectedEntityAsync();
     }
 
+    // Načte položky podle právě vybraného typu a aktivních filtrů
     public async Task LoadItemsForSelectedEntityAsync()
     {
         Items.Clear();
@@ -377,6 +395,7 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var it in items) Items.Add(it);
     }
 
+    // Příprava nového studenta – vytvoří prázdné objekty a nastaví do editoru
     public async Task<bool> BeginCreateStudentAsync()
     {
         var trida = await _db.Trida.OrderBy(t => t.CisloTridy).FirstOrDefaultAsync();
@@ -415,6 +434,7 @@ public class AdminViewModel : INotifyPropertyChanged
         return true;
     }
 
+    // Příprava nového pracovníka – vytvoří prázdné objekty a nastaví do editoru
     public async Task<bool> BeginCreateWorkerAsync()
     {
         var pozice = await _db.Pozice.OrderBy(p => p.IdPozice).FirstOrDefaultAsync();
@@ -453,11 +473,14 @@ public class AdminViewModel : INotifyPropertyChanged
         return true;
     }
 
+    // Reakce na výběr položky – připraví PropertyViewModely podle typu entity
     public void OnSelectedItemChanged(ItemViewModel? item)
     {
         Properties.Clear();
         if (item == null) return;
 
+        // Speciální editor pro Student/Pracovník (vč. adresy, tříd/pozic, alergií a diet)
+        // Ostatní entity se generují obecně podle scalarních vlastností
         if (item.Entity is Student student)
         {
             student.Stravnik.Alergie ??= new List<StravnikAlergie>();
@@ -596,6 +619,7 @@ public class AdminViewModel : INotifyPropertyChanged
         (SaveCommand as RelayCommand)?.RaiseCanExecuteChanged();
     }
 
+    // Uloží změny vybrané položky (nebo vloží novou) včetně vazeb
     public async Task SaveAsync()
     {
         if (SelectedItem == null) return;
@@ -822,6 +846,7 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Smaže vybranou položku včetně souvisejících vazeb (podle typu)
     private async Task DeleteAsync()
     {
         if (SelectedItem == null) return;
@@ -962,6 +987,7 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    // Načte seznam tříd pro filtr studenta
     public async Task LoadClassesAsync()
     {
         var classes = await _db.Trida.Select(t => t.CisloTridy).ToListAsync();
@@ -970,6 +996,7 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var c in classes.OrderBy(c => c)) Classes.Add(c.ToString());
     }
 
+    // Načte seznam pozic pro filtr pracovníka
     public async Task LoadPositionsAsync()
     {
         var positions = await _db.Pozice.Select(p => p.Nazev).ToListAsync();
@@ -978,6 +1005,7 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var p in positions.OrderBy(p => p)) Positions.Add(p);
     }
 
+    // Načte kategorie jídel pro filtr
     public async Task LoadFoodCategoriesAsync()
     {
         var foodCategories = await _db.Jidlo.Select(j => j.Kategorie).Distinct().ToListAsync();
@@ -986,6 +1014,7 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var c in foodCategories.OrderBy(c => c)) FoodCategories.Add(c);
     }
 
+    // Načte typy (Alergie/Dietní omezení) pro přehled
     public async Task LoadDietTypesAsync()
     {
         var dietTypes = await _db.DietniOmezeni.Select(d => d.Nazev).Distinct().ToListAsync();
@@ -994,6 +1023,7 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var d in dietTypes.OrderBy(d => d)) DietTypes.Add(d);
     }
 
+    // Pomocná metoda: odhadne ID z entity pro textový přehled
     private static string GetIdValue(object entity)
     {
         var type = entity.GetType();

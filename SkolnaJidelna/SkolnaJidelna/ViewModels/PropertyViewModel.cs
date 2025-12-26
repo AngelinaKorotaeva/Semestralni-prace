@@ -5,6 +5,8 @@ using System.ComponentModel;
 using SkolniJidelna.Models;
 
 namespace SkolniJidelna.ViewModels;
+// ViewModel jedné vlastnosti entity pro admin UI
+// Udržuje název, typ, hodnotu a vyvolá změny zpět do entity pomocí callbacku
 public class PropertyViewModel : INotifyPropertyChanged
 {
     public string Name { get; }
@@ -13,7 +15,9 @@ public class PropertyViewModel : INotifyPropertyChanged
     private readonly Action<object?> _onChanged;
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    // Typ editoru v UI (Default/Combo/MultiSelect)
     public string EditorType { get; set; } = "Default";
+    // Zdroj položek pro Combo/MultiSelect editory
     public IEnumerable ItemsSource { get; set; }
 
     public PropertyViewModel(string name, Type propertyType, object? value, Action<object?> onChanged)
@@ -32,6 +36,7 @@ public class PropertyViewModel : INotifyPropertyChanged
             if (!Equals(_value, value))
             {
                 _value = value;
+                // Notifikace pro binding a zápis změny zpět do entity
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
                 _onChanged?.Invoke(value);
             }
@@ -39,6 +44,7 @@ public class PropertyViewModel : INotifyPropertyChanged
     }
 }
 
+// Položka pro multi‑výběr (checkbox list) s názvem a příznakem vybranosti
 public class SelectableItem
 {
     public object Item { get; }

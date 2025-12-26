@@ -3,6 +3,8 @@ using SkolniJidelna.Models;
 
 namespace SkolniJidelna.ViewModels
 {
+    // Polo?ka pro v?b?r alergie v UI (checkbox)
+    // Udr?uje model `Alergie` a p??znak `IsSelected` pro ozna?en? vybran?ch polo?ek
     public class SelectableAlergie : INotifyPropertyChanged
     {
         private bool _isSelected;

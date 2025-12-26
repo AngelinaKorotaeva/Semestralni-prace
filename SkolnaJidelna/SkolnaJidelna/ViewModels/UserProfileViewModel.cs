@@ -3,20 +3,19 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using SkolniJidelna.Data;
 using SkolniJidelna.Models;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows;
-using System.Windows.Media.TextFormatting;
-using System.Collections.Generic;
-using System.IO;
-using System.Data.Common;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace SkolniJidelna.ViewModels
 {
+    // ViewModel uživatelského profilu – načítá a zobrazuje údaje pro daný e‑mail
+    // Zobrazuje základní informace, adresu, status (student/pracovník), třídu/pozici,
+    // alergie a dietní omezení (textově i jako výběr), a profilovou fotku
     public class UserProfileViewModel : INotifyPropertyChanged
     {
         private string _fullName = string.Empty;
@@ -29,6 +28,7 @@ namespace SkolniJidelna.ViewModels
         private string _rokNarozeni = string.Empty;
         private ImageSource? _profileImage;
 
+        // Viditelnosti částí UI (textové vs. editační prvky)
         private Visibility _comboAlergiesVisibility = Visibility.Collapsed;
         private Visibility _comboDietRestrictionsVisibility = Visibility.Collapsed;
         private Visibility _saveButtonVisibility = Visibility.Collapsed;
@@ -39,6 +39,7 @@ namespace SkolniJidelna.ViewModels
         private Visibility _rokVisibility = Visibility.Collapsed;
         private Visibility _phoneVisibility = Visibility.Collapsed;
 
+        // Základní bindované vlastnosti
         public string FullName { get => _fullName; private set { if (_fullName == value) return; _fullName = value; OnPropertyChanged(nameof(FullName)); } }
         public string BalanceFormatted { get => _balanceFormatted; private set { if (_balanceFormatted == value) return; _balanceFormatted = value; OnPropertyChanged(nameof(BalanceFormatted)); } }
         public string Email { get => _email; private set { if (_email == value) return; _email = value; OnPropertyChanged(nameof(Email)); } }
@@ -50,6 +51,7 @@ namespace SkolniJidelna.ViewModels
 
         public ImageSource? ProfileImage { get => _profileImage; private set { if (_profileImage == value) return; _profileImage = value; OnPropertyChanged(nameof(ProfileImage)); } }
 
+        // Viditelnosti a texty pro alergie/diety
         public Visibility ComboAlergiesVisibility { get => _comboAlergiesVisibility; private set { if (_comboAlergiesVisibility == value) return; _comboAlergiesVisibility = value; OnPropertyChanged(nameof(ComboAlergiesVisibility)); } }
         public Visibility ComboDietRestrictionsVisibility { get => _comboDietRestrictionsVisibility; private set { if (_comboDietRestrictionsVisibility == value) return; _comboDietRestrictionsVisibility = value; OnPropertyChanged(nameof(ComboDietRestrictionsVisibility)); } }
         public Visibility SaveButtonVisibility { get => _saveButtonVisibility; private set { if (_saveButtonVisibility == value) return; _saveButtonVisibility = value; OnPropertyChanged(nameof(SaveButtonVisibility)); } }

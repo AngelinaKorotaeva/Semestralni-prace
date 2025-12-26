@@ -4,13 +4,13 @@ using System;
 
 namespace SkolniJidelna.Helpers
 {
-    // Invertuje bool pro vazby v XAML (true -> false, false -> true)
+    // Konvertor, který invertuje bool hodnotu pro XAML bindingy (true -> false, false -> true)
     public class InverseBoolConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool b) return !b;
-            // pokud je null a cílový typ nullable bool, vrať true (alternativa: Binding.DoNothing)
+            // Pokud je null a cílový typ je bool/bool?, vrátí true (lze upravit dle potřeby)
             if (value == null && (targetType == typeof(bool) || targetType == typeof(bool?))) return true;
             return Binding.DoNothing;
         }

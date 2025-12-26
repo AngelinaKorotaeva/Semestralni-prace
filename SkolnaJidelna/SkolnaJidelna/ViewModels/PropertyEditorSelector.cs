@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System;
 
 namespace SkolniJidelna.ViewModels;
+// Selektor šablon editorů pro vlastnosti v admin UI
+// Rozhoduje, jaký DataTemplate použít podle typu vlastnosti nebo požadovaného editoru (Combo/MultiSelect)
 public class PropertyEditorSelector : DataTemplateSelector
 {
     public DataTemplate? StringTemplate { get; set; }
@@ -16,9 +18,11 @@ public class PropertyEditorSelector : DataTemplateSelector
     {
         if (item is not PropertyViewModel p) return base.SelectTemplate(item, container);
 
+        // Přímé určení editoru podle EditorType
         if (p.EditorType == "Combo") return ComboTemplate ?? base.SelectTemplate(item, container);
         if (p.EditorType == "MultiSelect") return MultiSelectTemplate ?? base.SelectTemplate(item, container);
 
+        // Jinak rozhodnutí podle skutečného typu vlastnosti (včetně Nullable<>)
         var t = p.PropertyType;
         var underlying = Nullable.GetUnderlyingType(t) ?? t;
 
@@ -28,6 +32,7 @@ public class PropertyEditorSelector : DataTemplateSelector
             || underlying == typeof(double) || underlying == typeof(decimal))
             return NumberTemplate ?? base.SelectTemplate(item, container);
 
+        // Fallback na textový editor
         return StringTemplate ?? base.SelectTemplate(item, container);
     }
 }

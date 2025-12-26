@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SkolniJidelna.Services
 {
+    // Rozhraní služby pro otevírání oken – oddělení UI navigace od ViewModelů
     public interface IWindowService
     {
         // Otevře okno profilu administrátora podle jeho emailu.
         void ShowAdminProfile(string adminEmail);
-        // Otevře okno profilu uživatele podle emailu; isPracovnik určuje, zda zobrazit variantu pro pracovníka nebo studenta.
+        // Otevře okno profilu uživatele podle emailu; isPracovnik určuje variantu.
         void ShowUserProfile(string email, bool isPracovnik);
     }
 }

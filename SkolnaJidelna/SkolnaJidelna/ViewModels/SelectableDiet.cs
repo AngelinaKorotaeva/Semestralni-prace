@@ -3,6 +3,8 @@ using SkolniJidelna.Models;
 
 namespace SkolniJidelna.ViewModels
 {
+    // Polo?ka pro v?b?r dietn?ho omezen? v UI (checkbox)
+    // Udr?uje model `DietniOmezeni` a p??znak `IsSelected`
     public class SelectableDiet : INotifyPropertyChanged
     {
         private bool _isSelected;

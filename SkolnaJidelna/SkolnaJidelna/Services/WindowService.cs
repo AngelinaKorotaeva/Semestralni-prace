@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace SkolniJidelna.Services
 {
+    // Implementace `IWindowService` – otevírá WPF okna na UI vlákně přes Dispatcher
     public class WindowService : IWindowService
     {
         public void ShowAdminProfile(string adminEmail)
