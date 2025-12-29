@@ -151,6 +151,7 @@
                         <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="UpravitButton_Click"/>
                         <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}"/>
                     </StackPanel>
+                    <Button Content="Systemový katalog" Style="{StaticResource LightButton}" Margin="0,20,10,0" Click="SystemovyKatalog_Click" Width="200"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

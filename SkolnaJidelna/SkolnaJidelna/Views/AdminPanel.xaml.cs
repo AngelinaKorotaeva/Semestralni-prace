@@ -132,5 +132,14 @@ namespace SkolniJidelna
                 MessageBox.Show("Přidání je aktuálně podporováno pouze pro studenty a pracovníky.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        private void SystemovyKatalog_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AdminViewModel vm)
+            {
+                var wnd = new SystemovyKatalogWindow(vm.DbContext);
+                wnd.ShowDialog();
+            }
+        }
     }
 }

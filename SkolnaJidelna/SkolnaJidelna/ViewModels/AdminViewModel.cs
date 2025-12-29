@@ -1369,4 +1369,6 @@ public class AdminViewModel : INotifyPropertyChanged
         }
         return "N/A";
     }
+
+    public AppDbContext DbContext => _db;
 }
