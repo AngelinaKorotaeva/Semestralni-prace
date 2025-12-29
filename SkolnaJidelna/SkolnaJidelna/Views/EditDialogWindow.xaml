@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkolniJidelna"
         mc:Ignorable="d"
-        Title="Upravit" Height="600" Width="500"
+        Title="Upravit" Height="630" Width="500"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow">
 
@@ -26,7 +26,48 @@
         <DataTemplate x:Key="ComboInputTemplate">
             <ComboBox ItemsSource="{Binding ItemsSource}"
                       SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="CisloTridy"
+                      Margin="0,5,0,0"
+                      Style="{StaticResource ComboBoxStyle}">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Foreground="Black">
+                            <TextBlock.Text>
+                                <PriorityBinding>
+                                    <Binding Path="Nazev"/>
+                                    <Binding Path="CisloTridy"/>
+                                    <Binding Path="."/>
+                                </PriorityBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DataTemplate>
+
+        <!-- Combo editor for Pozice (show Nazev in selection box) -->
+        <DataTemplate x:Key="ComboInputPoziceTemplate">
+            <ComboBox ItemsSource="{Binding ItemsSource}"
+                      SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Nazev"
+                      IsTextSearchEnabled="True"
+                      TextSearch.TextPath="Nazev"
+                      Margin="0,5,0,0"
+                      Style="{StaticResource ComboBoxStyle}"/>
+        </DataTemplate>
+
+        <!-- Combo editor for Stav (show Nazev in selection box) -->
+        <DataTemplate x:Key="ComboInputStavTemplate">
+            <ComboBox ItemsSource="{Binding ItemsSource}"
+                      SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Nazev"
+                      IsTextSearchEnabled="True"
+                      TextSearch.TextPath="Nazev"
                       Margin="0,5,0,0"
                       Style="{StaticResource ComboBoxStyle}"/>
         </DataTemplate>
@@ -63,6 +104,12 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding EditorType}" Value="Combo">
                                     <Setter Property="ContentTemplate" Value="{StaticResource ComboInputTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Name}" Value="Pozice">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource ComboInputPoziceTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Name}" Value="Stav">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource ComboInputStavTemplate}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding EditorType}" Value="CheckboxList">
                                     <Setter Property="ContentTemplate" Value="{StaticResource CheckboxListInputTemplate}"/>

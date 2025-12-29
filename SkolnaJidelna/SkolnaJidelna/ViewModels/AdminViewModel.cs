@@ -15,7 +15,7 @@ namespace SkolniJidelna.ViewModels;
 
 // ViewModel pro administrátorský panel.
 // Zajišťuje:
-// - výběr typu entity (Studenti/Pracovníci/Jídla/Alergie a omezení),
+// - výběr typu entity (Studenti/Pracovníci/Jídla/Složky/Alergie a omezení/Menu/Soubory/Objednavky),
 // - načítání položek s filtrováním (třída/pozice/kategorie/typ),
 // - zobrazení a editaci vlastností vybrané položky,
 // - vytvoření nového studenta/pracovníka,
@@ -40,6 +40,8 @@ public class AdminViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Positions { get; } = new();
     public ObservableCollection<string> FoodCategories { get; } = new();
     public ObservableCollection<string> DietTypes { get; } = new();
+    public ObservableCollection<string> MenuCategories { get; } = new();
+    public ObservableCollection<string> ObjednavkyStav { get; } = new();
 
     // Aktuální seznam pro zobrazení v levém panelu (dynamicky ukazuje třídy/pozice/kategorie/sloupce)
     private ObservableCollection<string> _currentList = new();
@@ -70,6 +72,8 @@ public class AdminViewModel : INotifyPropertyChanged
             Positions.Clear();
             FoodCategories.Clear();
             DietTypes.Clear();
+            MenuCategories.Clear();
+            ObjednavkyStav.Clear();
 
             CurrentList = null;
 
@@ -77,16 +81,20 @@ public class AdminViewModel : INotifyPropertyChanged
             _selectedPosition = null;
             _selectedFoodCategory = null;
             _selectedDietType = null;
+            _selectedOrderState = null;
 
             Raise(nameof(SelectedClass));
             Raise(nameof(SelectedPosition));
             Raise(nameof(SelectedFoodCategory));
             Raise(nameof(SelectedDietType));
+            Raise(nameof(SelectedOrderState));
 
             TableProperties.Clear();
             Classes.Clear();
             Positions.Clear();
             FoodCategories.Clear();
+            MenuCategories.Clear();
+            ObjednavkyStav.Clear();
             if (_selectedEntityType != null)
             {
                 if (_selectedEntityType.Name == "Studenti")
@@ -115,6 +123,32 @@ public class AdminViewModel : INotifyPropertyChanged
                     DietTypes.Add("Alergie");
                     DietTypes.Add("Dietní omezení");
                     CurrentList = DietTypes;
+                } 
+                else if (_selectedEntityType.Name == "Menu")
+                {
+                    // Typ menu
+                    MenuCategories.Clear();
+                    MenuCategories.Add("Vše");
+                    MenuCategories.Add("Snidaně");
+                    MenuCategories.Add("Oběd");
+                    CurrentList = MenuCategories;
+                    SelectedMenuType = null;
+                }
+                else if (_selectedEntityType.Name == "Složky")
+                {
+                    // inicializujeme novou kolekci
+                    CurrentList = new ObservableCollection<string>();
+                    CurrentList.Add("Vše");
+                }
+                else if (_selectedEntityType.Name == "Soubory")
+                {
+                    CurrentList = new ObservableCollection<string>();
+                    CurrentList.Add("Vše");
+                }
+                else if (_selectedEntityType.Name == "Objednavky")
+                {
+                    _ = LoadObjednavkyStavAsync();
+                    CurrentList = ObjednavkyStav;
                 }
                 else
                 {
@@ -203,6 +237,32 @@ public class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    private string? _selectedMenuType;
+    public string? SelectedMenuType
+    {
+        get => _selectedMenuType;
+        set
+        {
+            if (_selectedMenuType == value) return;
+            _selectedMenuType = value;
+            Raise(nameof(SelectedMenuType));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
+    private string? _selectedOrderState;
+    public string? SelectedOrderState
+    {
+        get => _selectedOrderState;
+        set
+        {
+            if (_selectedOrderState == value) return;
+            _selectedOrderState = value;
+            Raise(nameof(SelectedOrderState));
+            _ = LoadItemsForSelectedEntityAsync();
+        }
+    }
+
     // Příkazy pro UI
     public ICommand RefreshCommand { get; }
     public ICommand SaveCommand { get; }
@@ -224,7 +284,11 @@ public class AdminViewModel : INotifyPropertyChanged
             ("Studenti", typeof(Student)),
             ("Pracovníci", typeof(Pracovnik)),
             ("Jídla", typeof(Jidlo)),
-            ("Alergie a omezení", typeof(DietniOmezeni))
+            ("Složky", typeof(Slozka)),
+            ("Alergie a omezení", typeof(DietniOmezeni)),
+            ("Menu", typeof(Menu)),
+            ("Soubory", typeof(Soubor)),
+            ("Objednavky", typeof(Objednavka))
         };
 
         foreach (var (displayName, entityType) in entityTypesToInclude)
@@ -337,12 +401,124 @@ public class AdminViewModel : INotifyPropertyChanged
                                 }
                             }
                             return dietItems;
+                        } else if (entityType == typeof(Menu))
+                        {
+                            var query = _db.Menu
+                                .Include(m => m.Jidla)
+                                .AsQueryable();
+
+                            if (!string.IsNullOrEmpty(_selectedMenuType) && _selectedMenuType != "Vše")
+                            {
+                                var typ = _selectedMenuType.Trim().ToUpperInvariant();
+                                // Map UI labels to DB values
+                                if (typ == "SNIDANĚ" || typ == "SNIDANE") typ = "SNIDANE";
+                                else if (typ == "OBĚD" || typ == "OBED") typ = "OBED";
+                                query = query.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == typ);
+                            }
+
+                            var menus = await query
+                                .OrderBy(m => m.IdMenu)
+                                .Take(100)
+                                .ToListAsync();
+
+                            var menuItems = new List<ItemViewModel>();
+                            foreach (var m in menus)
+                            {
+                                var pocetJidel = m.Jidla?.Count ?? 0;
+                                var typText = string.IsNullOrWhiteSpace(m.TypMenu) ? "Nezadáno" : m.TypMenu;
+                                var summary = $"{m.Nazev} - {typText} - Od: {m.TimeOd:dd.MM.yyyy} - Do: {m.TimeDo:dd.MM.yyyy} - Počet jídel: {pocetJidel}";
+                                menuItems.Add(new ItemViewModel(m, summary));
+                            }
+                            return menuItems;
+                        } else if (entityType == typeof(Slozka))
+                        {
+                            // Zobrazení složek (ingrediencí) s počtem jídel, ve kterých se používají
+                            var slozky = await _db.Slozka
+                                .AsNoTracking()
+                                .OrderBy(s => s.Nazev)
+                                .Take(200)
+                                .ToListAsync();
+
+                            // Načti mapu počtů použití složek v jídelníčku
+                            var usageCounts = await _db.SlozkaJidlo
+                                .AsNoTracking()
+                                .GroupBy(sj => sj.IdSlozka)
+                                .Select(g => new { IdSlozka = g.Key, Count = g.Count() })
+                                .ToDictionaryAsync(x => x.IdSlozka, x => x.Count);
+
+                            var slozkaItems = new List<ItemViewModel>();
+                            foreach (var s in slozky)
+                            {
+                                var count = 0;
+                                if (usageCounts.TryGetValue(s.IdSlozka, out var c)) count = c;
+                                var summary = string.IsNullOrWhiteSpace(s.Nazev)
+                                    ? $"Složka {s.IdSlozka} - Použito v {count} jídlech"
+                                    : $"{s.Nazev} - Použito v {count} jídlech";
+                                slozkaItems.Add(new ItemViewModel(s, summary));
+                            }
+                            return slozkaItems;
+                        }
+                        else if (entityType == typeof(Soubor))
+                        {
+                            // Zobrazení souborů: název, přípona, typ, cílová tabulka, vlastník a datum nahrání
+                            var files = await _db.Soubor
+                                .Include(s => s.Stravnik)
+                                .AsNoTracking()
+                                .OrderByDescending(s => s.DatumNahrani)
+                                .Take(100)
+                                .ToListAsync();
+
+                            var fileItems = new List<ItemViewModel>();
+                            foreach (var f in files)
+                            {
+                                var owner = f.Stravnik?.Email;
+                                if (string.IsNullOrWhiteSpace(owner))
+                                {
+                                    var jm = (f.Stravnik?.Jmeno ?? string.Empty).Trim();
+                                    var pr = (f.Stravnik?.Prijmeni ?? string.Empty).Trim();
+                                    owner = string.Join(" ", new[] { jm, pr }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                                }
+                                var sizeKb = f.Obsah != null ? ($" {(f.Obsah.Length / 1024.0):F1} KB") : string.Empty;
+                                var nameWithExt = string.IsNullOrWhiteSpace(f.Pripona) ? f.Nazev : $"{f.Nazev}.{f.Pripona}";
+                                var summary = $"{nameWithExt} - {f.Typ} - {f.Tabulka}{sizeKb} - {f.DatumNahrani:dd.MM.yyyy}";
+                                if (!string.IsNullOrWhiteSpace(owner)) summary += $" - {owner}";
+                                fileItems.Add(new ItemViewModel(f, summary));
+                            }
+                            return fileItems;
+                        }
+                        else if (entityType == typeof(Objednavka))
+                        {
+                            var query = _db.Objednavka
+                                .Include(o => o.Stravnik)
+                                .Include(o => o.Stav)
+                                .Include(o => o.Polozky)
+                                .AsQueryable();
+
+                            if (!string.IsNullOrWhiteSpace(_selectedOrderState) && _selectedOrderState != "Vše")
+                            {
+                                query = query.Where(o => o.Stav != null && o.Stav.Nazev == _selectedOrderState);
+                            }
+
+                            var orders = await query
+                                .OrderByDescending(o => o.Datum)
+                                .Take(200)
+                                .ToListAsync();
+
+                            var orderItems = new List<ItemViewModel>();
+                            foreach (var o in orders)
+                            {
+                                var user = o.Stravnik?.Email ?? ($"{o.Stravnik?.Jmeno} {o.Stravnik?.Prijmeni}".Trim());
+                                var polCount = o.Polozky?.Count ?? 0;
+                                var summary = $"#{o.IdObjednavka} - {o.Datum:dd.MM.yyyy} - {o.Stav?.Nazev ?? "Nezadáno"} - {o.CelkovaCena} Kč - {user} - Položek: {polCount}";
+                                orderItems.Add(new ItemViewModel(o, summary));
+                            }
+                            return orderItems;
                         }
 
-                        // Fallback – načti obecně (omezeno na 100 záznamů)
-                        var toListAsyncMethod = typeof(Queryable).GetMethods()
-                            .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
-                            .FirstOrDefault()?.MakeGenericMethod(entityType);
+                            // Fallback – načti obecně (omezeno na 100 záznamů)
+                            var toListAsyncMethod = typeof(Queryable).GetMethods()
+                                .Where(m => m.Name == "ToList" && m.GetParameters().Length == 1 && m.GetGenericArguments().Length == 1)
+                                .FirstOrDefault()?.MakeGenericMethod(entityType);
                         if (toListAsyncMethod == null) return new List<ItemViewModel>();
 
                         var takeMethod = typeof(Queryable).GetMethods()
@@ -549,6 +725,12 @@ public class AdminViewModel : INotifyPropertyChanged
 
             // Pozice combo
             var pozice = _db.Pozice.ToList();
+            // default to first pozice if none selected
+            if (pracovnik.Pozice == null && pozice.Count > 0)
+            {
+                pracovnik.Pozice = pozice[0];
+                pracovnik.IdPozice = pozice[0].IdPozice;
+            }
             Properties.Add(new PropertyViewModel("Pozice", typeof(Pozice), pracovnik.Pozice, val => { if (val is Pozice p) { pracovnik.Pozice = p; pracovnik.IdPozice = p.IdPozice; } }) { EditorType = "Combo", ItemsSource = pozice });
 
             // Adresa - editable parts
@@ -565,6 +747,78 @@ public class AdminViewModel : INotifyPropertyChanged
             var allOmezeni = _db.DietniOmezeni.ToList();
             var selectableOmezeni = allOmezeni.Select(o => new SelectableItem(o, pracovnik.Stravnik.Omezeni.Any(so => so.IdOmezeni == o.IdOmezeni))).ToList();
             Properties.Add(new PropertyViewModel("Dietní omezení", typeof(IEnumerable<SelectableItem>), selectableOmezeni, null) { EditorType = "CheckboxList", ItemsSource = selectableOmezeni });
+        }
+        else if (item.Entity is Menu menu)
+        {
+            // Název
+            Properties.Add(new PropertyViewModel("Název", typeof(string), menu.Nazev ?? string.Empty, val => menu.Nazev = val?.ToString() ?? string.Empty));
+
+            // Typ menu (SNIDANĚ / OBĚD)
+            var typy = new[] { "SNIDANE", "OBED" };
+            Properties.Add(new PropertyViewModel("Typ menu", typeof(string), string.IsNullOrWhiteSpace(menu.TypMenu) ? "SNIDANE" : menu.TypMenu,
+                val => menu.TypMenu = (val?.ToString() ?? "SNIDANE").Trim().ToUpperInvariant())
+            { EditorType = "Combo", ItemsSource = typy });
+
+            // Datum od + čas od (model používá nenulové DateTime)
+            var timeOd = menu.TimeOd;
+            Properties.Add(new PropertyViewModel("Datum od", typeof(DateTime), timeOd.Date, v =>
+            {
+                var date = ((DateTime)v).Date;
+                var tod = timeOd.TimeOfDay;
+                menu.TimeOd = date.Add(tod);
+            }) { EditorType = "Date" });
+            Properties.Add(new PropertyViewModel("Čas od (HH:mm)", typeof(string), timeOd.ToString("HH:mm"), v =>
+            {
+                if (TimeSpan.TryParse(v?.ToString(), out var ts))
+                {
+                    var d = menu.TimeOd.Date;
+                    menu.TimeOd = d.Add(ts);
+                }
+            }));
+
+            // Datum do + čas do
+            var timeDo = menu.TimeDo;
+            Properties.Add(new PropertyViewModel("Datum do", typeof(DateTime), timeDo.Date, v =>
+            {
+                var date = ((DateTime)v).Date;
+                var tod = timeDo.TimeOfDay;
+                menu.TimeDo = date.Add(tod);
+            }) { EditorType = "Date" });
+            Properties.Add(new PropertyViewModel("Čas do (HH:mm)", typeof(string), timeDo.ToString("HH:mm"), v =>
+            {
+                if (TimeSpan.TryParse(v?.ToString(), out var ts))
+                {
+                    var d = menu.TimeDo.Date;
+                    menu.TimeDo = d.Add(ts);
+                }
+            }));
+        }
+        else if (item.Entity is Objednavka objednavka)
+        {
+            // Datum objednávky (date only)
+            Properties.Add(new PropertyViewModel("Datum objednávky", typeof(DateTime), objednavka.Datum.Date, v => objednavka.Datum = ((DateTime)v).Date)
+            {
+                EditorType = "Date"
+            });
+
+            // Stav objednávky (combo)
+            var stavy = _db.Stav.ToList();
+            if (objednavka.Stav == null && stavy.Count > 0)
+            {
+                objednavka.Stav = stavy[0];
+                objednavka.IdStav = stavy[0].IdStav;
+            }
+            Properties.Add(new PropertyViewModel("Stav", typeof(Stav), objednavka.Stav, v => { if (v is Stav s) { objednavka.Stav = s; objednavka.IdStav = s.IdStav; } })
+            { EditorType = "Combo", ItemsSource = stavy });
+
+            // Cena celkem
+            Properties.Add(new PropertyViewModel("Cena celkem", typeof(double), objednavka.CelkovaCena, v =>
+            {
+                if (v != null && double.TryParse(v.ToString(), out var d)) objednavka.CelkovaCena = d;
+            }));
+
+            // Poznámka
+            Properties.Add(new PropertyViewModel("Poznámka", typeof(string), objednavka.Poznamka ?? string.Empty, v => objednavka.Poznamka = v?.ToString()));
         }
         else
         {
@@ -824,6 +1078,70 @@ public class AdminViewModel : INotifyPropertyChanged
 
                 await _db.SaveChangesAsync();
             }
+            else if (SelectedItem.Entity is Menu menu)
+            {
+                // Speciální zpracování pro Menu
+                if (string.IsNullOrWhiteSpace(menu.Nazev))
+                {
+                    MessageBox.Show("Vyplňte název menu.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Základní validace času
+                if (menu.TimeOd == default || menu.TimeDo == default)
+                {
+                    MessageBox.Show("Vyplňte časové rozmezí (od-do) pro menu.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Výchozí typ menu na SNIDANE, pokud není oběd
+                if (string.IsNullOrWhiteSpace(menu.TypMenu)) menu.TypMenu = "SNIDANE";
+
+                var timeOd = menu.TimeOd;
+                var timeDo = menu.TimeDo;
+
+                // Kontrola časového rozmezí
+                if (timeOd >= timeDo)
+                {
+                    MessageBox.Show("Čas \"od\" musí být před časem \"do\".", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Uložení přes EF Core
+                if (menu.IdMenu == 0)
+                {
+                    _db.Menu.Add(menu);
+                }
+                else
+                {
+                    _db.Menu.Update(menu);
+                }
+                await _db.SaveChangesAsync();
+            }
+            else if (SelectedItem.Entity is Objednavka objednavka)
+            {
+                // Speciální editor pro Objednavku
+                if (objednavka.IdObjednavka == 0)
+                {
+                    // Nová objednávka – povinné položky
+                    if (string.IsNullOrWhiteSpace(objednavka.Stravnik?.Email))
+                    {
+                        MessageBox.Show("Vyplňte e-mail strávníka.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                }
+
+                // Uložení přes EF Core
+                if (objednavka.IdObjednavka == 0)
+                {
+                    _db.Objednavka.Add(objednavka);
+                }
+                else
+                {
+                    _db.Objednavka.Update(objednavka);
+                }
+                await _db.SaveChangesAsync();
+            }
             else
             {
                 if (_db.Entry(SelectedItem.Entity).State == EntityState.Detached)
@@ -1021,6 +1339,22 @@ public class AdminViewModel : INotifyPropertyChanged
         DietTypes.Clear();
         DietTypes.Add("Vše");
         foreach (var d in dietTypes.OrderBy(d => d)) DietTypes.Add(d);
+    }
+
+    public async Task LoadMenuTypesAsync()
+    {
+        var menuTypes = await _db.Menu.Select(m => m.Nazev).Distinct().ToListAsync();
+        MenuCategories.Clear();
+        MenuCategories.Add("Vše");
+        foreach (var m in MenuCategories.OrderBy(m => m)) MenuCategories.Add(m);
+    }
+
+    public async Task LoadObjednavkyStavAsync()
+    {
+        var objStav = await _db.Stav.Select(s => s.Nazev).Distinct().OrderBy(s => s).ToListAsync();
+        ObjednavkyStav.Clear();
+        ObjednavkyStav.Add("Vše");
+        foreach (var s in objStav) ObjednavkyStav.Add(s);
     }
 
     // Pomocná metoda: odhadne ID z entity pro textový přehled

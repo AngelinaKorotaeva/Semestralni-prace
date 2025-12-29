@@ -40,20 +40,18 @@
         <DataTemplate x:Key="ComboEditor">
             <StackPanel>
                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
-                <ComboBox ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding Value, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <PriorityBinding>
-                                        <Binding Path="Nazev"/>
-                                        <Binding Path="CisloTridy"/>
-                                        <Binding Path="."/>
-                                    </PriorityBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                <ComboBox ItemsSource="{Binding ItemsSource}"
+                          SelectedItem="{Binding Value, Mode=TwoWay}"
+                          DisplayMemberPath="Nazev"
+                          IsTextSearchEnabled="True"
+                          TextSearch.TextPath="Nazev">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
                 </ComboBox>
             </StackPanel>
         </DataTemplate>
@@ -105,17 +103,20 @@
 
             <StackPanel Grid.Column="0" Margin="20">
                 <TextBlock Text="Vyberte kategorii" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,20"/>
-                <ComboBox IsEditable="True" IsReadOnly="True" Text="{Binding SelectedEntityType.Name, FallbackValue='Vyberte kategorii'}" ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
+                <ComboBox IsEditable="True" IsReadOnly="True" 
+                          ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType}" 
+                          Style="{StaticResource ComboBoxStyle}" Margin="0,0,0,20" SelectionChanged="FilterChanged" DisplayMemberPath="Name" />
                 <TextBlock Text="Atributy tabulky" FontSize="16" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                <ListBox ItemsSource="{Binding CurrentList}" Style="{StaticResource ListBoxStyle}" IsEnabled="True" Height="400" SelectionChanged="ListBox_SelectionChanged"/>
+                <ListBox ItemsSource="{Binding CurrentList}" Style="{StaticResource ListBoxStyle}" IsEnabled="True" 
+                          Height="400" SelectionChanged="ListBox_SelectionChanged"/>
 
-                <!-- ??? -->
+                <!-- Buttons -->
                 <Button Content="Obnovit" Command="{Binding RefreshCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0"/>
                 <Button Content="Zpět do profilu" Command="{Binding CloseCommand}" Style="{StaticResource LightButton}" Margin="0,20,0,0" Click="BackButton_Click"/>
             </StackPanel>
         </Grid>
 
-        <!-- Правая панель: управление системой -->
+        <!-- Pravá panel: validace sýstému -->
         <Grid Grid.Column="1">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">

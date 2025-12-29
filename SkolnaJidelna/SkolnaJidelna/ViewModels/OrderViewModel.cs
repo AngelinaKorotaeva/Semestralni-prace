@@ -319,8 +319,12 @@ namespace SkolniJidelna.ViewModels
         public void CreateOrder(string email, PaymentMethod method, string? note)
         {
             var dateVal = SelectedDate ?? DateTime.Today;
+            // Nepovolit víkend
             if (dateVal.DayOfWeek == DayOfWeek.Saturday || dateVal.DayOfWeek == DayOfWeek.Sunday)
                 throw new InvalidOperationException("Objednávku nelze vytvořit na víkend (sobota/neděle). Zvolte pracovní den.");
+            // Nepovolit dnešní nebo minulý den
+            if (dateVal.Date <= DateTime.Today)
+                throw new InvalidOperationException("Objednávku lze vytvářet pouze na budoucí pracovní den.");
 
             using var ctx = new AppDbContext();
             var stravnik = ctx.Stravnik.AsNoTracking().FirstOrDefault(s => s.Email == email);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore; // restore EF extensions
 using SkolniJidelna.ViewModels;
 
 namespace SkolniJidelna
@@ -17,20 +17,6 @@ namespace SkolniJidelna
             Email = email;
             _vm = new MenuViewModel();
             this.DataContext = _vm;
-        }
-
-        private void FilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Read selected value from ComboBox and set on VM
-            var selected = (comboTypMenu.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString();
-            if (!string.IsNullOrWhiteSpace(selected))
-            {
-                _vm.SelectedTypMenu = selected;
-            }
-            else
-            {
-                _vm.LoadMenus();
-            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

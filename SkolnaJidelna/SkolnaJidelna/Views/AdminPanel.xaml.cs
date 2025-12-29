@@ -60,6 +60,13 @@ namespace SkolniJidelna
                 else if (vm.SelectedEntityType?.Name == "Alergie a omezení")
                 {
                     vm.SelectedDietType = lb.SelectedItem as string;
+                } else if (vm.SelectedEntityType?.Name == "Menu")
+                {
+                    vm.SelectedMenuType = lb.SelectedItem as string;
+                }
+                else if (vm.SelectedEntityType?.Name == "Objednavky")
+                {
+                    vm.SelectedOrderState = lb.SelectedItem as string;
                 }
                 else
                 {

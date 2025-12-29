@@ -2,45 +2,67 @@
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Data;
 
 namespace SkolniJidelna.ViewModels
 {
-    // ViewModel pro zobrazení seznamu menu a jejich stavů
+    // ViewModel pro zobrazení seznamu menu a jejich jídel
     public class MenuViewModel : BaseViewModel
     {
-        private ObservableCollection<MenuItemVm> _menus = new();
-        // Kolekce položek menu pro binding do UI
-        public ObservableCollection<MenuItemVm> Menus { get => _menus; private set { _menus = value; RaisePropertyChanged(); } }
+        private ObservableCollection<MenuNode> _menus = new();
+        private string _selectedTypMenu = "Vše";
 
-        // Položka menu včetně vypočteného stavu pomocí DB funkce F_STAV_MENU
-        public class MenuItemVm : BaseViewModel
+        // Kolekce položek menu pro binding do UI
+        public ObservableCollection<MenuNode> Menus { get => _menus; private set { _menus = value; RaisePropertyChanged(); } }
+
+        // Položky pro ComboBox typů menu
+        public ObservableCollection<TypMenuItem> TypyMenuItems { get; } = new()
         {
-            public int IdMenu { get; set; }
-            public string Nazev { get; set; } = string.Empty;
-            public string TypMenu { get; set; } = string.Empty;
-            public DateTime? TimeOd { get; set; }
-            public DateTime? TimeDo { get; set; }
-            public string StavText { get; set; } = string.Empty; // Text stavu z F_STAV_MENU
+            new TypMenuItem { Key = "Vše", Nazev = "Vše" },
+            new TypMenuItem { Key = "SNIDANE", Nazev = "Snidaně" },
+            new TypMenuItem { Key = "OBED", Nazev = "Oběd" }
+        };
+
+        public string SelectedTypMenu
+        {
+            get => _selectedTypMenu;
+            set { _selectedTypMenu = value; RaisePropertyChanged(); }
         }
 
-        // Načte všechna menu a pro každé zavolá F_STAV_MENU na databázi
+        public ICommand FilterCommand { get; }
+
+        public MenuViewModel()
+        {
+            FilterCommand = new RelayCommand(_ => LoadMenus());
+        }
+
+        public class TypMenuItem
+        {
+            public string Key { get; set; } = string.Empty; // hodnoty: "Vše", "SNIDANE", "OBED"
+            public string Nazev { get; set; } = string.Empty; // zobrazení: "Vše", "Snidaně", "Oběd"
+        }
+
+        // Načte menu s aktuálním filtrem SelectedTypMenu včetně jejich jídel a stavu menu
         public void LoadMenus()
         {
             using var ctx = new AppDbContext();
-            // Dotaz přes EF pro základní data menu
-            var list = ctx.Menu.AsNoTracking()
+
+            var query = ctx.Menu.AsNoTracking();
+            var selected = (SelectedTypMenu ?? "").Trim();
+            if (!string.Equals(selected, "Vše", System.StringComparison.OrdinalIgnoreCase))
+            {
+                var dbTyp = selected.ToUpperInvariant(); // SNIDANE nebo OBED
+                query = query.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == dbTyp);
+            }
+
+            var rawMenus = query
                 .OrderBy(m => m.IdMenu)
-                .Select(m => new MenuItemVm
-                {
-                    IdMenu = m.IdMenu,
-                    Nazev = m.Nazev,
-                    TypMenu = m.TypMenu ?? string.Empty,
-                    TimeOd = m.TimeOd,
-                    TimeDo = m.TimeDo,
-                })
+                .Select(m => new { m.IdMenu, m.Nazev, m.TypMenu, m.TimeOd, m.TimeDo })
                 .ToList();
+
+            var list = new ObservableCollection<MenuNode>();
 
             // Přímé volání funkce F_STAV_MENU pro zjištění aktuálního stavu
             var conn = ctx.Database.GetDbConnection();
@@ -48,18 +70,49 @@ namespace SkolniJidelna.ViewModels
             if (needClose) conn.Open();
             try
             {
-                foreach (var mi in list)
+                foreach (var rm in rawMenus)
                 {
-                    using var cmd = conn.CreateCommand();
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT F_STAV_MENU(:p_id) FROM dual";
-                    var p = cmd.CreateParameter();
-                    p.ParameterName = ":p_id";
-                    p.Value = mi.IdMenu;
-                    p.DbType = DbType.Int32;
-                    cmd.Parameters.Add(p);
-                    var res = cmd.ExecuteScalar();
-                    mi.StavText = res == null || res == DBNull.Value ? string.Empty : res.ToString() ?? string.Empty;
+                    var node = new MenuNode
+                    {
+                        IdMenu = rm.IdMenu,
+                        Nazev = rm.Nazev,
+                        TypMenu = rm.TypMenu ?? string.Empty,
+                        TimeOd = rm.TimeOd,
+                        TimeDo = rm.TimeDo,
+                    };
+
+                    // Stav menu
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT F_STAV_MENU(:p_id) FROM dual";
+                        var p = cmd.CreateParameter();
+                        p.ParameterName = ":p_id";
+                        p.Value = node.IdMenu;
+                        p.DbType = DbType.Int32;
+                        cmd.Parameters.Add(p);
+                        var res = cmd.ExecuteScalar();
+                        node.StavText = res == null || res == DBNull.Value ? string.Empty : res.ToString() ?? string.Empty;
+                    }
+
+                    // Jídla daného menu
+                    var jidla = ctx.Jidlo.AsNoTracking()
+                        .Where(j => j.IdMenu == node.IdMenu)
+                        .OrderBy(j => j.Nazev)
+                        .Select(j => new JidloItem
+                        {
+                            IdJidlo = j.IdJidlo,
+                            Nazev = j.Nazev,
+                            Popis = j.Popis,
+                            Cena = j.Cena,
+                            Poznamka = j.Poznamka
+                        })
+                        .ToList();
+
+                    foreach (var ji in jidla)
+                        node.Jidla.Add(ji);
+
+                    list.Add(node);
                 }
             }
             finally
@@ -67,9 +120,29 @@ namespace SkolniJidelna.ViewModels
                 if (needClose) conn.Close();
             }
 
-            // Aktualizace kolekce pro UI
-            Menus = new ObservableCollection<MenuItemVm>(list);
+            Menus = list;
         }
+    }
+
+    // Uzly pro TreeView (root = Menu, child = Jidlo)
+    public class MenuNode : BaseViewModel
+    {
+        public int IdMenu { get; set; }
+        public string Nazev { get; set; } = string.Empty;
+        public string TypMenu { get; set; } = string.Empty;
+        public DateTime? TimeOd { get; set; }
+        public DateTime? TimeDo { get; set; }
+        public string StavText { get; set; } = string.Empty;
+        public ObservableCollection<JidloItem> Jidla { get; } = new();
+    }
+
+    public class JidloItem : BaseViewModel
+    {
+        public int IdJidlo { get; set; }
+        public string Nazev { get; set; } = string.Empty;
+        public string? Popis { get; set; }
+        public double Cena { get; set; }
+        public string? Poznamka { get; set; }
     }
 }
 
