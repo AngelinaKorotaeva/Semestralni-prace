@@ -478,12 +478,7 @@ namespace SkolniJidelna.ViewModels
                         var pozToUse = PositionId ?? adminPoziceId ?? 1;
                         cmd.Parameters.Add(new OracleParameter("p_pozice", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = pozToUse });
 
-                        // photo params
-                        cmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoBytes! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoName! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoExt! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoMime! : DBNull.Value });
-
+                        // photo params - odstraněny, protože procedura je nepřijímá
                         // Console logging before execution
                         try
                         {
@@ -499,6 +494,29 @@ namespace SkolniJidelna.ViewModels
                         try
                         {
                             cmd.ExecuteNonQuery();
+
+                            // Pokud máme fotku, zavoláme p_pridat_foto s Id strávníka
+                            if (hasPhoto && candidate != null)
+                            {
+                                using var fotoCmd = conn.CreateCommand();
+                                fotoCmd.CommandType = CommandType.StoredProcedure;
+                                ((OracleCommand)fotoCmd).BindByName = true;
+                                fotoCmd.CommandText = "p_pridat_foto";
+                                fotoCmd.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = candidate.IdStravnik });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = photoBytes! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoName! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoMime! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoExt! });
+                                try
+                                {
+                                    Console.WriteLine("Calling stored procedure: p_pridat_foto");
+                                    fotoCmd.ExecuteNonQuery();
+                                }
+                                catch (OracleException oex)
+                                {
+                                    Console.WriteLine("Photo upload failed: ORA-" + oex.Number + ": " + oex.Message);
+                                }
+                            }
 
                             RegistrationSucceeded?.Invoke(Email, true, isFirst);
                             RequestMessage?.Invoke("Registrace pracovníka byla úspěšná.");
@@ -556,12 +574,7 @@ namespace SkolniJidelna.ViewModels
                         // передаём identifikátor záznamu TRIDY (ID_TRIDA), jak očekává procedura
                         cmd.Parameters.Add(new OracleParameter("p_cislo_tridy", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = (object?)ClassId ?? DBNull.Value });
 
-                        // photo params
-                        cmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoBytes! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoName! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoExt! : DBNull.Value });
-                        cmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoMime! : DBNull.Value });
-
+                        // photo params - odstraněny, protože procedura je nepřijímá
                         // Console logging before execution
                         try
                         {
@@ -577,6 +590,29 @@ namespace SkolniJidelna.ViewModels
                         try
                         {
                             cmd.ExecuteNonQuery();
+
+                            // Pokud máme fotku, zavoláme p_pridat_foto s Id strávníka
+                            if (hasPhoto && candidate != null)
+                            {
+                                using var fotoCmd = conn.CreateCommand();
+                                fotoCmd.CommandType = CommandType.StoredProcedure;
+                                ((OracleCommand)fotoCmd).BindByName = true;
+                                fotoCmd.CommandText = "p_pridat_foto";
+                                fotoCmd.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = candidate.IdStravnik });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = photoBytes! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoName! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoMime! });
+                                fotoCmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = photoExt! });
+                                try
+                                {
+                                    Console.WriteLine("Calling stored procedure: p_pridat_foto");
+                                    fotoCmd.ExecuteNonQuery();
+                                }
+                                catch (OracleException oex)
+                                {
+                                    Console.WriteLine("Photo upload failed: ORA-" + oex.Number + ": " + oex.Message);
+                                }
+                            }
 
                             RegistrationSucceeded?.Invoke(Email, false, isFirst);
                             RequestMessage?.Invoke("Registrace studenta byla úspěšná.");

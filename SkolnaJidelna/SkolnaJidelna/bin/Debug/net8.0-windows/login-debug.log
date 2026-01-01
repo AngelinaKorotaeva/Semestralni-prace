@@ -283,3 +283,5 @@ Login attempt - Email=janN@gmail.com, RoleRaw='admin', TypStravnik='pr', Time=20
 Login attempt - Email=janN@gmail.com, RoleRaw='admin', TypStravnik='pr', Time=2026-01-01T20:56:38.4734556+01:00
 Login attempt - Email=janN@gmail.com, RoleRaw='admin', TypStravnik='pr', Time=2026-01-01T21:35:17.6389098+01:00
 Login attempt - Email=janN@gmail.com, RoleRaw='admin', TypStravnik='pr', Time=2026-01-01T21:41:47.4883976+01:00
+Login attempt - Email=karlNovy@seznam.cz, RoleRaw='user', TypStravnik='pr', Time=2026-01-01T23:02:00.4137246+01:00
+Login attempt - Email=janNovy@student.cz, RoleRaw='user', TypStravnik='st', Time=2026-01-01T23:04:50.0230801+01:00
