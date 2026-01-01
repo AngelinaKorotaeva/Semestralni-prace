@@ -155,3 +155,234 @@ PLS-00103: Встретился символ "P" в то время как ож�
 https://docs.oracle.com/error-help/db/ora-06550/, Stack=   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
    at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
    at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 543
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00904: "FALSE": недопустимый идентификатор
+https://docs.oracle.com/error-help/db/ora-00904/
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Oracle.EntityFrameworkCore.Storage.Internal.OracleRelationalCommandBuilderFactory.OracleRelationalCommandBuilder.OracleRelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Oracle.EntityFrameworkCore.Storage.Internal.OracleExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method128(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 339
+Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00904: "FALSE": недопустимый идентификатор
+https://docs.oracle.com/error-help/db/ora-00904/
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Oracle.EntityFrameworkCore.Storage.Internal.OracleRelationalCommandBuilderFactory.OracleRelationalCommandBuilder.OracleRelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Oracle.EntityFrameworkCore.Storage.Internal.OracleExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method128(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 339
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+System.InvalidCastException: ORA-50032: Column contains NULL data
+   at Oracle.ManagedDataAccess.Client.OracleDataReader.GetInt32(Int32 i)
+   at lambda_method134(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method132(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 350
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/
+Parameters:
+  p_psc (Int32) = 67463
+  p_mesto (Varchar2) = Pardubice
+  p_ulice (Varchar2) = Nová 67
+  p_jmeno (Varchar2) = Jan
+  p_prijmeni (Varchar2) = Novy
+  p_email (Varchar2) = janNovy@student.cz
+  p_heslo (Varchar2) = $2a$11$Kcggu73RHV8n6crlfiWHcu/U7X3aFk1cth3bAj0qv0RY5X0Pn2B6i
+  p_zustatek (Decimal) = 0
+  p_rok_narozeni (Date) = 12.02.2014 0:00:00
+  p_cislo_tridy (Int32) = 2
+  p_foto (Blob) = System.Byte[]
+  p_foto_nazev (Varchar2) = obrazek1
+  p_foto_pripona (Varchar2) = png
+  p_foto_typ (Varchar2) = image/png
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 587
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/
+Parameters:
+  p_psc (Int32) = 67463
+  p_mesto (Varchar2) = Pardubice
+  p_ulice (Varchar2) = Nová 67
+  p_jmeno (Varchar2) = Jan
+  p_prijmeni (Varchar2) = Novy
+  p_email (Varchar2) = janNovy@student.cz
+  p_heslo (Varchar2) = $2a$11$ayBBozRTkhzOPY8DW2k9r.wMMVCHV.X4fa7b8.h4pgHG0Ui5tB9ue
+  p_zustatek (Decimal) = 0
+  p_rok_narozeni (Date) = 12.02.2014 0:00:00
+  p_cislo_tridy (Int32) = 2
+  p_foto (Blob) = System.Byte[]
+  p_foto_nazev (Varchar2) = obrazek1
+  p_foto_pripona (Varchar2) = png
+  p_foto_typ (Varchar2) = image/png
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 587
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_STUDENT'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/
+Parameters:
+  p_psc (Int32) = 67463
+  p_mesto (Varchar2) = Pardubice
+  p_ulice (Varchar2) = Nová 67
+  p_jmeno (Varchar2) = Jan
+  p_prijmeni (Varchar2) = Novy
+  p_email (Varchar2) = janNovy@student.cz
+  p_heslo (Varchar2) = $2a$11$zztgGhp9XXmBY70FHC0IWu/1RkxTfb/Ca8VsqejhlHwl3VOQQ4fu.
+  p_zustatek (Decimal) = 0
+  p_rok_narozeni (Date) = 12.02.2014 0:00:00
+  p_cislo_tridy (Int32) = 2
+  p_foto (Blob) = System.Byte[]
+  p_foto_nazev (Varchar2) = obrazek1
+  p_foto_pripona (Varchar2) = png
+  p_foto_typ (Varchar2) = image/png
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 587
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/
+Parameters:
+  p_psc (Int32) = 12354
+  p_mesto (Varchar2) = Pardubice
+  p_ulice (Varchar2) = Nová 778
+  p_email (Varchar2) = karlNovy@seznam.cz
+  p_heslo (Varchar2) = $2a$11$5rYYk9HcL8.n3qgT.l18yOH4nZ7TYHjXsSNQxFlTv6pKZz2DwHtY6
+  p_zustatek (Decimal) = 0
+  p_telefon (Int32) = 908877111
+  p_pozice (Int32) = 11
+  p_foto (Blob) = System.Byte[]
+  p_foto_nazev (Varchar2) = obrazek1
+  p_foto_pripona (Varchar2) = png
+  p_foto_typ (Varchar2) = image/png
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 500
+OracleException Number=6550, Message=ORA-06550: Строка 1, столбец 7:
+PLS-00306: ошибочно число или типы аргументов при обращении к 'TRANS_REGISTER_PRACOVNIK'
+ORA-06550: Строка 1, столбец 7:
+PL/SQL: Statement ignored
+https://docs.oracle.com/error-help/db/ora-06550/
+Parameters:
+  p_psc (Int32) = 14213
+  p_mesto (Varchar2) = Pardubice
+  p_ulice (Varchar2) = Studentska 78
+  p_email (Varchar2) = karlNovy@seznam.cz
+  p_heslo (Varchar2) = $2a$11$SJH9ITCRSOLR2709Zx4cye8Tghw0yh2M7n1jivYAdTZkrgil4/TqO
+  p_zustatek (Double) = 0
+  p_telefon (Int32) = 908877111
+  p_pozice (Int32) = 11
+  p_foto (Blob) = System.Byte[]
+  p_foto_nazev (Varchar2) = obrazek1
+  p_foto_pripona (Varchar2) = png
+  p_foto_typ (Varchar2) = image/png
+   at OracleInternal.ServiceObjects.OracleFailoverMgrImpl.OnError(OracleConnection connection, CallHistoryRecord chr, Object mi, Exception ex, Boolean bTopLevelCall, Boolean& bCanRecordNewCall)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at SkolniJidelna.ViewModels.RegisterViewModel.Register() in C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\ViewModels\RegisterViewModel.cs:line 501

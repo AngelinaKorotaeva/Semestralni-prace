@@ -1237,9 +1237,6 @@ public class AdminViewModel : INotifyPropertyChanged
         if (string.IsNullOrWhiteSpace(jmeno) || string.IsNullOrWhiteSpace(prijmeni) || string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Jméno, příjmení a email musí být vyplněny.");
 
-        // log input
-        Console.WriteLine($"[DEBUG] CreateEmptyStravnikAsync called: jmeno='{jmeno}', prijmeni='{prijmeni}', email='{email}', typ='{typ}'");
-
         // kontrola duplicitního emailu
         // Use CountAsync to avoid EF translating boolean literals (True/False) into Oracle SQL
         var existingCount = await _db.Stravnik.CountAsync(s => s.Email == email);
@@ -1269,12 +1266,10 @@ public class AdminViewModel : INotifyPropertyChanged
 
             // malé zpoždění aby se DB transakce stihla obnovit v read modelu
             await Task.Delay(100);
-            Console.WriteLine("[DEBUG] Stored procedure executed successfully.");
             return true;
         }
         catch (Oracle.ManagedDataAccess.Client.OracleException oex)
         {
-            Console.WriteLine($"[ERROR] OracleException in CreateEmptyStravnikAsync: ORA-{oex.Number}: {oex.Message}\n{oex.StackTrace}");
             return false;
         }
         catch (Exception ex)

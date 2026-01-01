@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
 using SkolniJidelna.Models;
 
 namespace SkolniJidelna.Models
@@ -33,19 +29,19 @@ namespace SkolniJidelna.Models
         public double Zustatek { get; set; }
 
         [Column("ROLE")]
-        public string Role { get; set; } = null!;
+        public string? Role { get; set; }
 
         [Column("AKTIVITA")]
-        public char Aktivita { get; set; }
+        public char? Aktivita { get; set; }
 
         [Column("TYP_STRAVNIK")]
-        public string TypStravnik { get; set; } = null!;
+        public string? TypStravnik { get; set; }
 
         [Column("ID_ADRESA")]
-        public int IdAdresa { get; set; }
+        public int? IdAdresa { get; set; }
 
         [ForeignKey(nameof(IdAdresa))]
-        public Adresa Adresa { get; set; } = null!;
+        public Adresa? Adresa { get; set; }
 
         public ICollection<Objednavka>? Objednavky { get; set; }
         public ICollection<Platba>? Platby { get; set; }

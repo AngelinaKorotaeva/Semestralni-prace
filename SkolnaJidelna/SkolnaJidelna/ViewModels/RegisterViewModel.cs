@@ -240,7 +240,7 @@ namespace SkolniJidelna.ViewModels
                 }
                 OnPropertyChanged(nameof(SelectedBirthDate));
             }
-        } 
+        }
 
 
         /// <summary>
@@ -335,9 +335,45 @@ namespace SkolniJidelna.ViewModels
                     if (IsWorker) PositionId = adminPoziceId;
                 }
 
-                if (ctx.Stravnik.Count(s => s.Email == Email) > 0)
+                // If any active user with same email exists -> cannot register
+                if (ctx.Stravnik.Count(s => s.Email == Email && s.Aktivita == '1') > 0)
                 {
                     var err = "Uživatel s tímto e-mailem již existuje.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
+
+                var typ = IsWorker ? "pr" : "st";
+
+                // Require an existing inactive strávník matching name, surname, email and typ (per new proc contract)
+                var candidate = ctx.Stravnik
+                    .AsNoTracking()
+                    .FirstOrDefault(s => s.Email == Email
+                                         && s.Jmeno == FirstName
+                                         && s.Prijmeni == LastName
+                                         && (s.TypStravnik == typ || s.TypStravnik == null)
+                                         && s.Aktivita == '0');
+                if (candidate == null)
+                {
+                    var err = "Neexistuje předregistrovaný neaktivní uživatel se zadanými údaji (jméno, příjmení, e-mail, typ). Registrace není možná.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
+
+                // Validate required selections to avoid passing NULLs into NOT NULL DB columns
+                if (IsWorker && (PositionId == null))
+                {
+                    var err = "Vyberte prosím pozici pracovníka.";
+                    RegistrationFailed?.Invoke(err);
+                    RequestMessage?.Invoke(err);
+                    return;
+                }
+
+                if (!IsWorker && (ClassId == null))
+                {
+                    var err = "Vyberte prosím třídu pro studenta.";
                     RegistrationFailed?.Invoke(err);
                     RequestMessage?.Invoke(err);
                     return;
@@ -375,8 +411,40 @@ namespace SkolniJidelna.ViewModels
                 }
 
                 var hashed = BCrypt.Net.BCrypt.HashPassword(Password);
-                var typ = IsWorker ? "pr" : "st";
                 var role = isFirst ? "ADMIN" : "USER";
+
+                // Prepare photo bytes if present
+                byte[]? photoBytes = null;
+                string? photoName = null;
+                string? photoExt = null;
+                string? photoMime = null;
+                if (!string.IsNullOrWhiteSpace(PhotoPath) && File.Exists(PhotoPath))
+                {
+                    try
+                    {
+                        photoBytes = File.ReadAllBytes(PhotoPath);
+                        photoName = Path.GetFileNameWithoutExtension(PhotoPath);
+                        photoExt = Path.GetExtension(PhotoPath).TrimStart('.').ToLowerInvariant();
+                        photoMime = photoExt switch
+                        {
+                            "jpg" or "jpeg" => "image/jpeg",
+                            "png" => "image/png",
+                            "gif" => "image/gif",
+                            _ => "application/octet-stream",
+                        };
+                    }
+                    catch
+                    {
+                        // ignore photo if failed to read
+                        photoBytes = null;
+                        photoName = null;
+                        photoExt = null;
+                        photoMime = null;
+                    }
+                }
+
+                // Only treat as photo when bytes exist and length > 0
+                var hasPhoto = photoBytes != null && photoBytes.Length > 0;
 
                 // Připravíme připojení a spustíme proceduru trans_register_pracovnik / trans_register_student
                 var conn = ctx.Database.GetDbConnection();
@@ -387,92 +455,50 @@ namespace SkolniJidelna.ViewModels
                     if (IsWorker)
                     {
                         using var cmd = conn.CreateCommand();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).BindByName = true;
-                        cmd.CommandText = "BEGIN trans_register_pracovnik(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_telefon, :p_pozice); END;";
+                        cmd.CommandText = "trans_register_pracovnik";
 
-                        var p1 = new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc };
-                        var p2 = new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value };
-                        var p3 = new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value };
-
-                        var p4 = new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = FirstName };
-                        var p5 = new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = LastName };
-                        var p6 = new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email };
-                        var p7 = new OracleParameter("p_heslo", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hashed };
-
-                        var p8 = new OracleParameter("p_zustatek", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = 0 };
+                        cmd.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc });
+                        cmd.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email });
+                        cmd.Parameters.Add(new OracleParameter("p_heslo", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hashed });
+                        // p_zustatek očekává FLOAT -> používáme Double
+                        cmd.Parameters.Add(new OracleParameter("p_zustatek", OracleDbType.Double) { Direction = ParameterDirection.Input, Value = 0d });
 
                         var phoneDigits = Regex.Replace(Phone ?? string.Empty, @"\D", "");
-                        int telVal = 0;
+                        int? telVal = null;
                         if (!string.IsNullOrWhiteSpace(phoneDigits) && int.TryParse(phoneDigits, out var parsedTel))
                         {
                             telVal = parsedTel;
                         }
-
-                        var p9 = new OracleParameter("p_telefon", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = telVal };
+                        cmd.Parameters.Add(new OracleParameter("p_telefon", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = (object?)telVal ?? DBNull.Value });
 
                         var pozToUse = PositionId ?? adminPoziceId ?? 1;
-                        var p10 = new OracleParameter("p_pozice", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = pozToUse };
+                        cmd.Parameters.Add(new OracleParameter("p_pozice", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = pozToUse });
 
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        cmd.Parameters.Add(p4);
-                        cmd.Parameters.Add(p5);
-                        cmd.Parameters.Add(p6);
-                        cmd.Parameters.Add(p7);
-                        cmd.Parameters.Add(p8);
-                        cmd.Parameters.Add(p9);
-                        cmd.Parameters.Add(p10);
+                        // photo params
+                        cmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoBytes! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoName! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoExt! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoMime! : DBNull.Value });
+
+                        // Console logging before execution
+                        try
+                        {
+                            Console.WriteLine("Calling stored procedure: trans_register_pracovnik");
+                            foreach (OracleParameter p in ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).Parameters)
+                            {
+                                var valStr = p.Value == null ? "<null>" : p.Value == DBNull.Value ? "<DBNULL>" : p.Value.ToString();
+                                Console.WriteLine($"  {p.ParameterName} ({p.OracleDbType}) = {valStr}");
+                            }
+                        }
+                        catch { /* ignore console issues */ }
 
                         try
                         {
                             cmd.ExecuteNonQuery();
-
-                            if (!string.IsNullOrWhiteSpace(PhotoPath) && File.Exists(PhotoPath))
-                            {
-                                try
-                                {
-                                    using var idCmd = conn.CreateCommand();
-                                    ((Oracle.ManagedDataAccess.Client.OracleCommand)idCmd).BindByName = true;
-                                    idCmd.CommandType = CommandType.Text;
-                                    idCmd.CommandText = "SELECT id_stravnik FROM stravnici WHERE email = :email";
-                                    idCmd.Parameters.Add(new OracleParameter("email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email });
-                                    var idObj = idCmd.ExecuteScalar();
-                                    if (idObj != null && int.TryParse(idObj.ToString(), out var idStravnik))
-                                    {
-                                        var fileBytes = File.ReadAllBytes(PhotoPath);
-                                        var fileName = Path.GetFileName(PhotoPath);
-                                        var ext = Path.GetExtension(PhotoPath).TrimStart('.').ToLowerInvariant();
-                                        var nameOnly = Path.GetFileNameWithoutExtension(PhotoPath);
-                                        string mime = ext switch
-                                        {
-                                            "jpg" or "jpeg" => "image/jpeg",
-                                            "png" => "image/png",
-                                            "gif" => "image/gif",
-                                            _ => "application/octet-stream",
-                                        };
-
-                                        using var cmdFoto = conn.CreateCommand();
-                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)cmdFoto).BindByName = true;
-                                        cmdFoto.CommandType = CommandType.StoredProcedure;
-                                        cmdFoto.CommandText = "p_pridat_foto";
-
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
-
-                                        cmdFoto.ExecuteNonQuery();
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
-                                }
-                            }
-
 
                             RegistrationSucceeded?.Invoke(Email, true, isFirst);
                             RequestMessage?.Invoke("Registrace pracovníka byla úspěšná.");
@@ -480,109 +506,77 @@ namespace SkolniJidelna.ViewModels
                         }
                         catch (OracleException oex)
                         {
-                            File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), $"OracleException Number={oex.Number}, Message={oex.Message}, Stack={oex.StackTrace}{Environment.NewLine}");
-                            if (oex.Number == 20001 || (oex.Message?.Contains("Uživatel s tímto e-mailem") ?? false))
+                            // Detailed logging of parameters for debugging ORA errors
+                            try
                             {
-                                var err = "Uživatel s tímto e-mailem již existuje.";
-                                RegistrationFailed?.Invoke(err);
-                                RequestMessage?.Invoke(err);
+                                var sb = new System.Text.StringBuilder();
+                                sb.AppendLine($"OracleException Number={oex.Number}, Message={oex.Message}");
+                                sb.AppendLine("Parameters:");
+                                foreach (OracleParameter p in ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).Parameters)
+                                {
+                                    sb.AppendLine($"  {p.ParameterName} ({p.OracleDbType}) = {(p.Value == null ? "<null>" : p.Value == DBNull.Value ? "<DBNULL>" : p.Value.ToString())}");
+                                }
+                                sb.AppendLine(oex.StackTrace);
+                                File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), sb.ToString());
+
+                                // Console log too
+                                Console.WriteLine(sb.ToString());
                             }
-                            else
-                            {
-                                var err = "Chyba DB při registraci pracovníka: " + oex.Message + " (ORA-" + oex.Number + ")";
-                                RegistrationFailed?.Invoke(err);
-                                RequestMessage?.Invoke(err);
-                            }
+                            catch { }
+
+                            var err = oex.Message.Contains("Strávník neexistuje") ? "Strávník neexistuje nebo je již aktivní." : ("Chyba DB při registraci pracovníka: " + oex.Message + " (ORA-" + oex.Number + ")");
+                            RegistrationFailed?.Invoke(err);
+                            RequestMessage?.Invoke(err);
                         }
                     }
                     else
                     {
                         using var cmd = conn.CreateCommand();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).BindByName = true;
-                        cmd.CommandText = "BEGIN trans_register_student(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_rok_narozeni, :p_cislo_tridy); END;";
+                        cmd.CommandText = "trans_register_student";
 
-                        var p1 = new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc };
-                        var p2 = new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value };
-                        var p3 = new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value };
+                        cmd.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = psc });
+                        cmd.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)mesto ?? DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = (object)ulice ?? DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email });
+                        cmd.Parameters.Add(new OracleParameter("p_heslo", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hashed });
+                        // p_zustatek očekává FLOAT -> používáme Double
+                        cmd.Parameters.Add(new OracleParameter("p_zustatek", OracleDbType.Double) { Direction = ParameterDirection.Input, Value = 0d });
 
-                        var p4 = new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = FirstName };
-                        var p5 = new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = LastName };
-                        var p6 = new OracleParameter("p_email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email };
-                        var p7 = new OracleParameter("p_heslo", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hashed };
-                        var p8 = new OracleParameter("p_zustatek", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = 0 };
-
-                        OracleParameter p9;
                         if (SelectedBirthDate.HasValue)
                         {
-                            p9 = new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = SelectedBirthDate.Value };
+                            cmd.Parameters.Add(new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = SelectedBirthDate.Value });
                         }
                         else
                         {
-                            p9 = new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = DBNull.Value };
+                            cmd.Parameters.Add(new OracleParameter("p_rok_narozeni", OracleDbType.Date) { Direction = ParameterDirection.Input, Value = DBNull.Value });
                         }
 
-                        var p10 = new OracleParameter("p_cislo_tridy", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = (object?)ClassId ?? DBNull.Value };
+                        // передаём identifikátor záznamu TRIDY (ID_TRIDA), jak očekává procedura
+                        cmd.Parameters.Add(new OracleParameter("p_cislo_tridy", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = (object?)ClassId ?? DBNull.Value });
 
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        cmd.Parameters.Add(p4);
-                        cmd.Parameters.Add(p5);
-                        cmd.Parameters.Add(p6);
-                        cmd.Parameters.Add(p7);
-                        cmd.Parameters.Add(p8);
-                        cmd.Parameters.Add(p9);
-                        cmd.Parameters.Add(p10);
+                        // photo params
+                        cmd.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoBytes! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoName! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoExt! : DBNull.Value });
+                        cmd.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = hasPhoto ? (object)photoMime! : DBNull.Value });
+
+                        // Console logging before execution
+                        try
+                        {
+                            Console.WriteLine("Calling stored procedure: trans_register_student");
+                            foreach (OracleParameter p in ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).Parameters)
+                            {
+                                var valStr = p.Value == null ? "<null>" : p.Value == DBNull.Value ? "<DBNULL>" : p.Value.ToString();
+                                Console.WriteLine($"  {p.ParameterName} ({p.OracleDbType}) = {valStr}");
+                            }
+                        }
+                        catch { /* ignore console issues */ }
 
                         try
                         {
                             cmd.ExecuteNonQuery();
-
-                            if (!string.IsNullOrWhiteSpace(PhotoPath) && File.Exists(PhotoPath))
-                            {
-                                try
-                                {
-                                    using var idCmd = conn.CreateCommand();
-                                    ((Oracle.ManagedDataAccess.Client.OracleCommand)idCmd).BindByName = true;
-                                    idCmd.CommandType = CommandType.Text;
-                                    idCmd.CommandText = "SELECT id_stravnik FROM stravnici WHERE email = :email";
-                                    idCmd.Parameters.Add(new OracleParameter("email", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = Email });
-                                    var idObj = idCmd.ExecuteScalar();
-                                    if (idObj != null && int.TryParse(idObj.ToString(), out var idStravnik))
-                                    {
-                                        var fileBytes = File.ReadAllBytes(PhotoPath);
-                                        var fileName = Path.GetFileName(PhotoPath);
-                                        var ext = Path.GetExtension(PhotoPath).TrimStart('.').ToLowerInvariant();
-                                        var nameOnly = Path.GetFileNameWithoutExtension(PhotoPath);
-                                        string mime = ext switch
-                                        {
-                                            "jpg" or "jpeg" => "image/jpeg",
-                                            "png" => "image/png",
-                                            "gif" => "image/gif",
-                                            _ => "application/octet-stream",
-                                        };
-
-                                        using var cmdFoto = conn.CreateCommand();
-                                        ((Oracle.ManagedDataAccess.Client.OracleCommand)cmdFoto).BindByName = true;
-                                        cmdFoto.CommandType = CommandType.StoredProcedure;
-                                        cmdFoto.CommandText = "p_pridat_foto";
-
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_id_stravnik", OracleDbType.Int32) { Direction = ParameterDirection.Input, Value = idStravnik });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto", OracleDbType.Blob) { Direction = ParameterDirection.Input, Value = fileBytes });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_nazev", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = nameOnly });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_typ", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = mime });
-                                        cmdFoto.Parameters.Add(new OracleParameter("p_foto_pripona", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = ext });
-
-                                        cmdFoto.ExecuteNonQuery();
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    RequestMessage?.Invoke("Uložení fotky se nezdařilo: " + ex.Message);
-                                }
-                            }
-
 
                             RegistrationSucceeded?.Invoke(Email, false, isFirst);
                             RequestMessage?.Invoke("Registrace studenta byla úspěšná.");
@@ -590,19 +584,26 @@ namespace SkolniJidelna.ViewModels
                         }
                         catch (OracleException oex)
                         {
-                            File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), $"OracleException Number={oex.Number}, Message={oex.Message}, Stack={oex.StackTrace}{Environment.NewLine}");
-                            if (oex.Number == 20001 || (oex.Message?.Contains("Uživatel s tímto e-mailem") ?? false))
+                            try
                             {
-                                var err = "Uživatel s tímto e-mailem již existuje.";
-                                RegistrationFailed?.Invoke(err);
-                                RequestMessage?.Invoke(err);
+                                var sb = new System.Text.StringBuilder();
+                                sb.AppendLine($"OracleException Number={oex.Number}, Message={oex.Message}");
+                                sb.AppendLine("Parameters:");
+                                foreach (OracleParameter p in ((Oracle.ManagedDataAccess.Client.OracleCommand)cmd).Parameters)
+                                {
+                                    sb.AppendLine($"  {p.ParameterName} ({p.OracleDbType}) = {(p.Value == null ? "<null>" : p.Value == DBNull.Value ? "<DBNULL>" : p.Value.ToString())}");
+                                }
+                                sb.AppendLine(oex.StackTrace);
+                                File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), sb.ToString());
+
+                                // Console log too
+                                Console.WriteLine(sb.ToString());
                             }
-                            else
-                            {
-                                var err = "Chyba DB při registraci studenta: " + oex.Message + " (ORA-" + oex.Number + ")";
-                                RegistrationFailed?.Invoke(err);
-                                RequestMessage?.Invoke(err);
-                            }
+                            catch { }
+
+                            var err = oex.Message.Contains("Strávník neexistuje") ? "Strávník neexistuje nebo je již aktivní." : ("Chyba DB při registraci studenta: " + oex.Message + " (ORA-" + oex.Number + ")");
+                            RegistrationFailed?.Invoke(err);
+                            RequestMessage?.Invoke(err);
                         }
                     }
                 }
@@ -614,6 +615,7 @@ namespace SkolniJidelna.ViewModels
             catch (Exception ex)
             {
                 File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "save-error.log"), ex.ToString() + Environment.NewLine);
+                try { Console.WriteLine("Unhandled error in Register(): " + ex); } catch { }
                 var err = "Chyba při registraci: " + ex.Message;
                 RegistrationFailed?.Invoke(err);
                 RequestMessage?.Invoke(err);
