@@ -1,15 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
+using SkolniJidelna.Data;
+using SkolniJidelna.Models;
+using SkolniJidelna; // needed to reference CreateStravnikDialog from ViewModel
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using SkolniJidelna.Data;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SkolniJidelna.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkolniJidelna.ViewModels;
 
@@ -571,83 +573,9 @@ public class AdminViewModel : INotifyPropertyChanged
         foreach (var it in items) Items.Add(it);
     }
 
-    // Příprava nového studenta – vytvoří prázdné objekty a nastaví do editoru
-    public async Task<bool> BeginCreateStudentAsync()
-    {
-        var trida = await _db.Trida.OrderBy(t => t.CisloTridy).FirstOrDefaultAsync();
-        if (trida == null)
-        {
-            MessageBox.Show("Nelze vytvořit studenta: žádná třída není v databázi.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
-        }
+    // Příprava nového studenta – metoda odstraněna: vytváření nového záznamu probíhá pouze přes proceduru p_create_empty_stravnik aktivovanou z UI.
 
-        var adresa = new Adresa { Psc = 0, Mesto = string.Empty, Ulice = string.Empty };
-        var stravnik = new Stravnik
-        {
-            Jmeno = string.Empty,
-            Prijmeni = string.Empty,
-            Email = string.Empty,
-            Heslo = string.Empty,
-            Zustatek = 0,
-            Role = "user",
-            Aktivita = '1',
-            TypStravnik = "st",
-            Adresa = adresa,
-            Alergie = new List<StravnikAlergie>(),
-            Omezeni = new List<StravnikOmezeni>()
-        };
-
-        var student = new Student
-        {
-            Stravnik = stravnik,
-            DatumNarozeni = DateTime.Today,
-            Trida = trida,
-            IdTrida = trida.IdTrida
-        };
-
-        SelectedItem = new ItemViewModel(student, "Nový student");
-        OnSelectedItemChanged(SelectedItem);
-        return true;
-    }
-
-    // Příprava nového pracovníka – vytvoří prázdné objekty a nastaví do editoru
-    public async Task<bool> BeginCreateWorkerAsync()
-    {
-        var pozice = await _db.Pozice.OrderBy(p => p.IdPozice).FirstOrDefaultAsync();
-        if (pozice == null)
-        {
-            MessageBox.Show("Nelze vytvořit pracovníka: žádná pozice není v databázi.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
-        }
-
-        var adresa = new Adresa { Psc = 0, Mesto = string.Empty, Ulice = string.Empty };
-        var stravnik = new Stravnik
-        {
-            Jmeno = string.Empty,
-            Prijmeni = string.Empty,
-            Email = string.Empty,
-            Heslo = string.Empty,
-            Zustatek = 0,
-            Role = "user",
-            Aktivita = '1',
-            TypStravnik = "pr",
-            Adresa = adresa,
-            Alergie = new List<StravnikAlergie>(),
-            Omezeni = new List<StravnikOmezeni>()
-        };
-
-        var pracovnik = new Pracovnik
-        {
-            Stravnik = stravnik,
-            Telefon = 0,
-            Pozice = pozice,
-            IdPozice = pozice.IdPozice
-        };
-
-        SelectedItem = new ItemViewModel(pracovnik, "Nový pracovník");
-        OnSelectedItemChanged(SelectedItem);
-        return true;
-    }
+    // Příprava nového pracovníka – metoda odstraněna: vytváření nového záznamu probíhá pouze přes proceduru p_create_empty_stravnik aktivovanou z UI.
 
     // Reakce na výběr položky – připraví PropertyViewModely podle typu entity
     public void OnSelectedItemChanged(ItemViewModel? item)
@@ -908,42 +836,9 @@ public class AdminViewModel : INotifyPropertyChanged
 
                 if (student.IdStravnik == 0)
                 {
-                    // call stored procedure trans_register_student
-                    var conn = _db.Database.GetDbConnection();
-                    try
-                    {
-                        if (conn.State != System.Data.ConnectionState.Open) conn.Open();
-                        using var cmd = conn.CreateCommand();
-                        cmd.CommandType = System.Data.CommandType.Text;
-                        if (cmd is Oracle.ManagedDataAccess.Client.OracleCommand ocmd) ocmd.BindByName = true;
-                        cmd.CommandText = "BEGIN trans_register_student(:p_psc, :p_mesto, :p_ulice, :p_jmeno, :p_prijmeni, :p_email, :p_heslo, :p_zustatek, :p_rok_narozeni, :p_cislo_tridy); END;";
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_psc", Oracle.ManagedDataAccess.Client.OracleDbType.Int32) { Value = psc });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_mesto", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = (object)mesto ?? DBNull.Value });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_ulice", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = (object)ulice ?? DBNull.Value });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_jmeno", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Jmeno });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_prijmeni", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Prijmeni });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_email", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = student.Stravnik.Email });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_heslo", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = hashed });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_zustatek", Oracle.ManagedDataAccess.Client.OracleDbType.Decimal) { Value = 0 });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_rok_narozeni", Oracle.ManagedDataAccess.Client.OracleDbType.Date) { Value = student.DatumNarozeni });
-                        cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_cislo_tridy", Oracle.ManagedDataAccess.Client.OracleDbType.Int32) { Value = tridaCislo });
-                        cmd.ExecuteNonQuery();
-                    }
-                    finally
-                    {
-                        try { if (conn.State == System.Data.ConnectionState.Open) conn.Close(); } catch { }
-                    }
-
-                    // reload student from DB to get ids
-                    var dbStudent = _db.Student.Include(s => s.Stravnik).ThenInclude(st => st.Adresa).Include(s => s.Trida).FirstOrDefault(s => s.Stravnik.Email == student.Stravnik.Email);
-                    if (dbStudent != null)
-                    {
-                        student.IdStravnik = dbStudent.IdStravnik;
-                        student.Stravnik.IdStravnik = dbStudent.IdStravnik;
-                        student.Stravnik.IdAdresa = dbStudent.Stravnik.IdAdresa;
-                        student.Trida = dbStudent.Trida;
-                        student.IdTrida = dbStudent.IdTrida;
-                    }
+                    // Creating full Student records is now handled by the Add button which invokes the stored procedure
+                    MessageBox.Show("Nové záznamy se vytváří pouze přes tlačítko Přidat (vytvoří pouze záznam ve STRAVNICI). Poté upravte záznam přes editaci.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
                 }
                 else
                 {
@@ -999,33 +894,9 @@ public class AdminViewModel : INotifyPropertyChanged
 
                 if (pracovnik.IdStravnik == 0)
                 {
-                    if (string.IsNullOrWhiteSpace(pracovnik.Stravnik.Email) || string.IsNullOrWhiteSpace(pracovnik.Stravnik.Heslo))
-                    {
-                        MessageBox.Show("Vyplňte email a heslo pro nového pracovníka.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    var hashed = pracovnik.Stravnik.Heslo ?? string.Empty;
-                    if (!hashed.StartsWith("$2")) hashed = BCrypt.Net.BCrypt.HashPassword(hashed);
-                    pracovnik.Stravnik.Heslo = hashed;
-                    pracovnik.Stravnik.TypStravnik = "pr";
-                    pracovnik.Stravnik.Role = "user";
-                    pracovnik.Stravnik.Aktivita = '1';
-
-                    // address
-                    _db.Adresa.Add(pracovnik.Stravnik.Adresa);
-                    await _db.SaveChangesAsync();
-                    pracovnik.Stravnik.IdAdresa = pracovnik.Stravnik.Adresa.IdAdresa;
-
-                    // stravnik
-                    _db.Stravnik.Add(pracovnik.Stravnik);
-                    await _db.SaveChangesAsync();
-
-                    // pracovník
-                    pracovnik.IdStravnik = pracovnik.Stravnik.IdStravnik;
-                    if (pracovnik.Pozice != null) pracovnik.IdPozice = pracovnik.Pozice.IdPozice;
-                    _db.Pracovnik.Add(pracovnik);
-                    await _db.SaveChangesAsync();
+                    // Creating full Pracovnik records is now handled by the Add button which invokes the stored procedure
+                    MessageBox.Show("Nové záznamy se vytváří pouze přes tlačítko Přidat (vytvoří pouze záznam ve STRAVNICI). Poté upravte záznam přes editaci.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
                 }
                 else
                 {
@@ -1355,6 +1226,116 @@ public class AdminViewModel : INotifyPropertyChanged
         ObjednavkyStav.Clear();
         ObjednavkyStav.Add("Vše");
         foreach (var s in objStav) ObjednavkyStav.Add(s);
+    }
+
+    /// <summary>
+    /// Vytvoří prázdného strávníka pomocí procedury p_create_empty_stravnik.
+    /// Vrací true pokud vytvoření proběhlo úspěšně.
+    /// </summary>
+    public async Task<bool> CreateEmptyStravnikAsync(string jmeno, string prijmeni, string email, string typ)
+    {
+        if (string.IsNullOrWhiteSpace(jmeno) || string.IsNullOrWhiteSpace(prijmeni) || string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException("Jméno, příjmení a email musí být vyplněny.");
+
+        // log input
+        Console.WriteLine($"[DEBUG] CreateEmptyStravnikAsync called: jmeno='{jmeno}', prijmeni='{prijmeni}', email='{email}', typ='{typ}'");
+
+        // kontrola duplicitního emailu
+        // Use CountAsync to avoid EF translating boolean literals (True/False) into Oracle SQL
+        var existingCount = await _db.Stravnik.CountAsync(s => s.Email == email);
+        if (existingCount > 0)
+        {
+            Console.WriteLine("[DEBUG] Email already exists in DB check.");
+            return false;
+        }
+
+        var conn = _db.Database.GetDbConnection();
+        try
+        {
+            if (conn.State != System.Data.ConnectionState.Open) await conn.OpenAsync();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            if (cmd is Oracle.ManagedDataAccess.Client.OracleCommand ocmd) ocmd.BindByName = true;
+            cmd.CommandText = "p_create_empty_stravnik";
+
+            cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_jmeno", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = jmeno });
+            cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_prijmeni", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = prijmeni });
+            cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_email", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = email });
+            cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("p_typ", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = typ });
+
+            Console.WriteLine("[DEBUG] Executing stored procedure p_create_empty_stravnik...");
+            cmd.ExecuteNonQuery();
+
+            // malé zpoždění aby se DB transakce stihla obnovit v read modelu
+            await Task.Delay(100);
+            Console.WriteLine("[DEBUG] Stored procedure executed successfully.");
+            return true;
+        }
+        catch (Oracle.ManagedDataAccess.Client.OracleException oex)
+        {
+            Console.WriteLine($"[ERROR] OracleException in CreateEmptyStravnikAsync: ORA-{oex.Number}: {oex.Message}\n{oex.StackTrace}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Exception in CreateEmptyStravnikAsync: {ex.Message}\n{ex.StackTrace}");
+            throw;
+        }
+        finally
+        {
+            try { if (conn.State == System.Data.ConnectionState.Open) conn.Close(); } catch { }
+        }
+    }
+
+    /// <summary>
+    /// Otevře dialog pro zadání jména/příjmení/emailu a vytvoří prázdného strávníka pomocí procedury.
+    /// Metoda přesouvá logiku z view do ViewModel (řízené MVVM požadavkem uživatele).
+    /// </summary>
+    public async Task<bool> AddNewStravnikAsync(Window? owner = null)
+    {
+        if (SelectedEntityType == null) return false;
+        if (SelectedEntityType.Name != "Studenti" && SelectedEntityType.Name != "Pracovníci")
+        {
+            MessageBox.Show("Přidání je aktuálně podporováno pouze pro studenty a pracovníky.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            return false;
+        }
+
+        var dlg = new global::SkolniJidelna.CreateStravnikDialog();
+        if (owner != null) dlg.Owner = owner;
+        dlg.Title = SelectedEntityType.Name == "Studenti" ? "Přidat studenta" : "Přidat pracovníka";
+
+        if (dlg.ShowDialog() != true) return false;
+
+        var jmeno = dlg.Jmeno?.Trim() ?? string.Empty;
+        var prijmeni = dlg.Prijmeni?.Trim() ?? string.Empty;
+        var email = dlg.Email?.Trim() ?? string.Empty;
+        var typ = SelectedEntityType.Name == "Studenti" ? "st" : "pr";
+
+        try
+        {
+            var ok = await CreateEmptyStravnikAsync(jmeno, prijmeni, email, typ);
+            if (!ok)
+            {
+                MessageBox.Show("Uživatel s tímto e-mailem již existuje nebo se vytvoření nezdařilo.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            MessageBox.Show("Nový záznam byl vytvořen.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            await LoadItemsForSelectedEntityAsync();
+            return true;
+        }
+        catch (ArgumentException aex)
+        {
+            MessageBox.Show(aex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Chyba při vytváření: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
     }
 
     // Pomocná metoda: odhadne ID z entity pro textový přehled

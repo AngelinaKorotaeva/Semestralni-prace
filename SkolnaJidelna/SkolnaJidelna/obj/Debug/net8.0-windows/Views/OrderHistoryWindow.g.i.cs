@@ -140,7 +140,7 @@ namespace SkolniJidelna {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;component/views/orderhistorywindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;V1.0.0.0;component/views/orderhistorywindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\OrderHistoryWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

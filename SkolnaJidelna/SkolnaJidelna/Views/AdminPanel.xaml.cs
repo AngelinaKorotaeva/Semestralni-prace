@@ -105,32 +105,8 @@ namespace SkolniJidelna
         {
             if (DataContext is not AdminViewModel vm) return;
 
-            if (vm.SelectedEntityType?.Name == "Studenti")
-            {
-                var created = await vm.BeginCreateStudentAsync();
-                if (!created) return;
-
-                var editDialog = new EditDialogWindow(vm.Properties);
-                if (editDialog.ShowDialog() == true)
-                {
-                    await vm.SaveAsync();
-                }
-            }
-            else if (vm.SelectedEntityType?.Name == "Pracovníci")
-            {
-                var created = await vm.BeginCreateWorkerAsync();
-                if (!created) return;
-
-                var editDialog = new EditDialogWindow(vm.Properties);
-                if (editDialog.ShowDialog() == true)
-                {
-                    await vm.SaveAsync();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Přidání je aktuálně podporováno pouze pro studenty a pracovníky.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            // Delegate creation flow to ViewModel (MVVM): it will open dialog, call stored procedure and refresh list
+            await vm.AddNewStravnikAsync(this);
         }
 
         private void SystemovyKatalog_Click(object sender, RoutedEventArgs e)

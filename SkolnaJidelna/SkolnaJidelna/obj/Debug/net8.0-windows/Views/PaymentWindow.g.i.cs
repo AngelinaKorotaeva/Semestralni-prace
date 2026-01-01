@@ -108,7 +108,7 @@ namespace SkolniJidelna {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;component/views/paymentwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SkolniJidelna;V1.0.0.0;component/views/paymentwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\PaymentWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
