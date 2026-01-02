@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SkolniJidelna.Services;
-// Rozhraní repozitáře strávníků – CRUD operace a načtení seznamu
+/// <summary>
+/// Rozhraní repozitáře strávníků – definuje CRUD operace nad datovým úložištěm.
+/// Používá se ve ViewModelech přes DI pro testovatelnost (možno mockovat).
+/// </summary>
 public interface IStravnikRepository
 {
-    // Vrátí všechny strávníky (asynchronně) pro výpis.
+    /// <summary>
+    /// Vrátí všechny strávníky (asynchronně) pro výpis.
+    /// </summary>
     Task<List<Stravnik>> GetAllAsync();
-    // Najde strávníka podle primárního klíče IdStravnik.
+    /// <summary>
+    /// Najde strávníka podle primárního klíče `IdStravnik`.
+    /// </summary>
     Task<Stravnik?> GetByIdAsync(int id);
-    // Přidá nového strávníka do databáze.
+    /// <summary>
+    /// Přidá nového strávníka do databáze.
+    /// </summary>
     Task AddAsync(Stravnik entity);
-    // Aktualizuje existujícího strávníka v databázi.
+    /// <summary>
+    /// Aktualizuje existujícího strávníka v databázi.
+    /// </summary>
     Task UpdateAsync(Stravnik entity);
-    // Smaže strávníka podle IdStravnik.
+    /// <summary>
+    /// Smaže strávníka podle `IdStravnik`.
+    /// </summary>
     Task DeleteAsync(int id);
 }

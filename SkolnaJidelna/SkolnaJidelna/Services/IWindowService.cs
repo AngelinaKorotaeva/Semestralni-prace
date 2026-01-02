@@ -2,12 +2,18 @@
 
 namespace SkolniJidelna.Services
 {
-    // Rozhraní služby pro otevírání oken – oddělení UI navigace od ViewModelů
+    /// <summary>
+    /// Služba pro otevírání aplikačních oken – abstrahuje navigaci mimo ViewModel (pro DI/testy).
+    /// </summary>
     public interface IWindowService
     {
-        // Otevře okno profilu administrátora podle jeho emailu.
+        /// <summary>
+        /// Otevře okno profilu administrátora pro zadaný e‑mail.
+        /// </summary>
         void ShowAdminProfile(string adminEmail);
-        // Otevře okno profilu uživatele podle emailu; isPracovnik určuje variantu.
+        /// <summary>
+        /// Otevře okno profilu uživatele; parametr `isPracovnik` může měnit inicializaci UI.
+        /// </summary>
         void ShowUserProfile(string email, bool isPracovnik);
     }
 }

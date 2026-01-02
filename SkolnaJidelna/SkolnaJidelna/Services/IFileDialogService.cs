@@ -2,10 +2,16 @@
 
 namespace SkolniJidelna.Services
 {
-    // Rozhraní služby pro práci s File Open dialogem – umožňuje DI a testování bez UI
+    /// <summary>
+    /// Služba dialogu souborů – abstrakce nad OS/UI pro MVVM a testování.
+    /// Umožňuje ViewModelům vybírat soubory bez přímé závislosti na WPF API.
+    /// </summary>
     public interface IFileDialogService
     {
-        // Vrací absolutní cestu k vybranému souboru nebo null pokud uživatel zrušil.
+        /// <summary>
+        /// Otevře dialog pro výběr souboru a vrátí absolutní cestu, nebo `null` při zrušení.
+        /// Parametr `filter` omezuje typy souborů (ve formátu OpenFileDialog).
+        /// </summary>
         string? OpenFileDialog(string filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All files|*.*");
     }
 }
