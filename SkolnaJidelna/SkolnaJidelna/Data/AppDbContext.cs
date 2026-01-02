@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -8,21 +8,21 @@ using SkolniJidelna.Models;
 
 namespace SkolniJidelna.Data
 {
-    // EF Core DbContext pro Oracle � na??t? connection string z appsettings.json, loguje SQL a mapuje entity/pohledy
+    // EF Core DbContext pro Oracle – na??t? connection string z appsettings.json, loguje SQL a mapuje entity/pohledy
     public class AppDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
-        // Bezparametrick? konstruktor � pro ru?n? vytvo?en? kontextu bez DI
+        // Bezparametrick? konstruktor – pro ru?n? vytvo?en? kontextu bez DI
         public AppDbContext() { }
 
-        // Konstruktor s DI � umo??uje p?edat DbContextOptions a IConfiguration
+        // Konstruktor s DI – umo??uje p?edat DbContextOptions a IConfiguration
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
         }
 
-        // DbSety � tabulky a pohledy
+        // DbSety – tabulky a pohledy
         public DbSet<Adresa> Adresa { get; set; }
         public DbSet<Alergie> Alergie { get; set; }
         public DbSet<StravnikAlergie> StravnikAlergie { get; set; }
@@ -49,10 +49,14 @@ namespace SkolniJidelna.Data
         public DbSet<VPracovnikPozice> VPracovnikPozice { get; set; }
         public DbSet<VJidlaSlozeni> VJidlaSlozeni { get; set; }
         public DbSet<VObjHistorieDetail> VObjHistorieDetail { get; set; }
+        public DbSet<VJidlaMenu> VJidlaMenu { get; set; }
+        public DbSet<VObjPrehledAdmin> VObjPrehledAdmin { get; set; } 
+        public DbSet<VStravnikOmezeniAlergie> VStravnikOmezeniAlergie { get; set; }
+        public DbSet<VStravniciFull> VStravniciFull { get; set; } 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Pokud nen? kontext nakonfigurov?n p?es DI, na?ti connection string z appsettings.json a aktivuj logov?n? SQL
+            // Pokud není kontext nakonfigurován p?es DI, načti connection string z appsettings.json a aktivuj logování SQL
             if (!optionsBuilder.IsConfigured)
             {
                 var configuration = new ConfigurationBuilder()
@@ -109,12 +113,16 @@ namespace SkolniJidelna.Data
             modelBuilder.Entity<StravnikOmezeni>().HasKey(so => new { so.IdStravnik, so.IdOmezeni });
             modelBuilder.Entity<Stravnik>().Property(s => s.IdStravnik).HasColumnName("ID_STRAVNIK").ValueGeneratedOnAdd().HasDefaultValueSql("S_STR.NEXTVAL");
 
-            // Mapov?n? pohled?
+            // Mapování pohledý
             modelBuilder.Entity<VStravnikLogin>().ToView("V_STRAVNICI_LOGIN").HasNoKey();
             modelBuilder.Entity<VStudTrida>().ToView("V_STUD_TRIDA").HasNoKey();
             modelBuilder.Entity<VPracovnikPozice>().ToView("V_PR_POZICE").HasNoKey();
             modelBuilder.Entity<VJidlaSlozeni>().ToView("V_JIDLA_SLOZENI").HasNoKey();
             modelBuilder.Entity<VObjHistorieDetail>().ToView("V_OBJEDNAVKY_HISTORIE_DETAIL").HasNoKey();
+            modelBuilder.Entity<VJidlaMenu>().ToView("V_JIDLA_MENU").HasNoKey();
+            modelBuilder.Entity<VObjPrehledAdmin>().ToView("V_OBJ_PREHLED_ADMIN").HasNoKey();
+            modelBuilder.Entity<VStravnikOmezeniAlergie>().ToView("V_STR_OMEZENI_ALERGIE").HasNoKey();
+            modelBuilder.Entity<VStravniciFull>().ToView("V_STRAVNICI_FULL").HasNoKey();
         }
     }
 }

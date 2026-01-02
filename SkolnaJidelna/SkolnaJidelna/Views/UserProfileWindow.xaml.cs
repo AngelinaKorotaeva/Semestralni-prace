@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Data;
 using SkolniJidelna.Models;
-using SkolniJidelna.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using SkolniJidelna.ViewModels;
+using System.Windows.Controls;
+using Microsoft.EntityFrameworkCore;
 
 namespace SkolniJidelna
 {
@@ -46,7 +37,8 @@ namespace SkolniJidelna
             if (this.Tag is string originalAdmin && !string.IsNullOrWhiteSpace(originalAdmin))
             {
                 // add a button for returning to admin profile in the window (simple MessageBox-driven fallback)
-                var btn = new Button { Content = "Návrat do admina", Width =140, Height =28, Margin = new Thickness(10)};
+                // , Margin = new Thickness(5)
+                var btn = new Button { Content = "Návrat do admina", Width =200, Height =50};
 
                 // Try to apply the LightButton style from resources
                 try
@@ -83,6 +75,47 @@ namespace SkolniJidelna
                 {
                     panel.Children.Add(btn);
                 }
+            }
+
+            LoadAllergiesAndDietRestrictions();
+        }
+
+        private void LoadAllergiesAndDietRestrictions()
+        {
+            try
+            {
+                using var ctx = new AppDbContext();
+                // Try resolve email from DataContext if not provided
+                var email = Email;
+                if (string.IsNullOrWhiteSpace(email) && DataContext is BaseViewModel vm)
+                {
+                    var prop = vm.GetType().GetProperty("Email");
+                    if (prop != null)
+                    {
+                        email = prop.GetValue(vm)?.ToString();
+                    }
+                }
+
+                // Pohled V_STR_OMEZENI_ALERGIE
+                if (!string.IsNullOrWhiteSpace(email))
+                {
+                    var row = ctx.VStravnikOmezeniAlergie
+                        .AsNoTracking()
+                        .FirstOrDefault(v => v.Email == email);
+
+                    if (row != null)
+                    {
+                        var alergie = string.IsNullOrWhiteSpace(row.Alergie) ? "-" : row.Alergie;
+                        var omezeni = string.IsNullOrWhiteSpace(row.DietniOmezeni) ? "-" : row.DietniOmezeni;
+                        var text = $"Alergie: {alergie} | Dietní omezení: {omezeni}";
+                        // Assign to a TextBlock named ProfileAlergieText if present
+                        var tb = this.FindName("ProfileAlergieText") as System.Windows.Controls.TextBlock;
+                        if (tb != null) tb.Text = text;
+                    }
+                }
+            }
+            catch (Exception)
+            {
             }
         }
 

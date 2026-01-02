@@ -18,28 +18,29 @@ namespace SkolniJidelna.ViewModels
     // alergie a dietní omezení (textově i jako výběr), a profilovou fotku
     public class UserProfileViewModel : INotifyPropertyChanged
     {
-        private string _fullName = string.Empty;
-        private string _balanceFormatted = "0 Kč";
-        private string _email = string.Empty;
-        private string _phone = string.Empty;
-        private string _address = string.Empty;
-        private string _status = string.Empty;
-        private string _positionClass = string.Empty;
-        private string _rokNarozeni = string.Empty;
-        private ImageSource? _profileImage;
+        // Stavové textové vlastnosti pro hlavičku profilu (jméno, zůstatek, email, telefon, adresa, status, třída/pozice, rok narození)
+        private string _fullName = string.Empty;            // celé jméno (Jméno + Příjmení)
+        private string _balanceFormatted = "0 Kč";         // zůstatek na účtu formátovaný pro UI
+        private string _email = string.Empty;               // e‑mail uživatele – primární klíč pro načítání
+        private string _phone = string.Empty;               // telefon (jen pro pracovníky)
+        private string _address = string.Empty;             // adresa – skládá se z PSČ, ulice, města
+        private string _status = string.Empty;              // status – student/pracovník
+        private string _positionClass = string.Empty;       // třída (student) nebo pozice (pracovník)
+        private string _rokNarozeni = string.Empty;         // rok narození (student)
+        private ImageSource? _profileImage;                 // profilová fotka (soubor) nebo inicialy
 
-        // Viditelnosti částí UI (textové vs. editační prvky)
-        private Visibility _comboAlergiesVisibility = Visibility.Collapsed;
-        private Visibility _comboDietRestrictionsVisibility = Visibility.Collapsed;
-        private Visibility _saveButtonVisibility = Visibility.Collapsed;
-        private Visibility _textAlergiesVisibility = Visibility.Visible;
-        private Visibility _textDietRestrictionsVisibility = Visibility.Visible;
-        private string _alergiesText = string.Empty;
-        private string _dietRestrictionsText = string.Empty;
-        private Visibility _rokVisibility = Visibility.Collapsed;
-        private Visibility _phoneVisibility = Visibility.Collapsed;
+        // Viditelnosti částí UI (textové vs. editační prvky) – řídí, co se v profilu zobrazí
+        private Visibility _comboAlergiesVisibility = Visibility.Collapsed;        // zobrazení seznamu alergií (checkboxy)
+        private Visibility _comboDietRestrictionsVisibility = Visibility.Collapsed; // zobrazení seznamu dietních omezení (checkboxy)
+        private Visibility _saveButtonVisibility = Visibility.Collapsed;           // zobrazení tlačítka Uložit
+        private Visibility _textAlergiesVisibility = Visibility.Visible;           // zobrazení textového souhrnu alergií
+        private Visibility _textDietRestrictionsVisibility = Visibility.Visible;   // zobrazení textového souhrnu dietních omezení
+        private string _alergiesText = string.Empty;                               // souhrnný text alergií (oddělený čárkou)
+        private string _dietRestrictionsText = string.Empty;                       // souhrnný text dietních omezení (oddělený čárkou)
+        private Visibility _rokVisibility = Visibility.Collapsed;                  // zobrazení roku narození (jen student)
+        private Visibility _phoneVisibility = Visibility.Collapsed;                // zobrazení telefonu (jen pracovník)
 
-        // Základní bindované vlastnosti
+        // Základní bindované vlastnosti – změna vyvolá OnPropertyChanged pro aktualizaci UI
         public string FullName { get => _fullName; private set { if (_fullName == value) return; _fullName = value; OnPropertyChanged(nameof(FullName)); } }
         public string BalanceFormatted { get => _balanceFormatted; private set { if (_balanceFormatted == value) return; _balanceFormatted = value; OnPropertyChanged(nameof(BalanceFormatted)); } }
         public string Email { get => _email; private set { if (_email == value) return; _email = value; OnPropertyChanged(nameof(Email)); } }
@@ -51,7 +52,7 @@ namespace SkolniJidelna.ViewModels
 
         public ImageSource? ProfileImage { get => _profileImage; private set { if (_profileImage == value) return; _profileImage = value; OnPropertyChanged(nameof(ProfileImage)); } }
 
-        // Viditelnosti a texty pro alergie/diety
+        // Viditelnosti a texty pro alergie/diety – dvojí režim zobrazení: souhrnný text vs. editační checkboxy
         public Visibility ComboAlergiesVisibility { get => _comboAlergiesVisibility; private set { if (_comboAlergiesVisibility == value) return; _comboAlergiesVisibility = value; OnPropertyChanged(nameof(ComboAlergiesVisibility)); } }
         public Visibility ComboDietRestrictionsVisibility { get => _comboDietRestrictionsVisibility; private set { if (_comboDietRestrictionsVisibility == value) return; _comboDietRestrictionsVisibility = value; OnPropertyChanged(nameof(ComboDietRestrictionsVisibility)); } }
         public Visibility SaveButtonVisibility { get => _saveButtonVisibility; private set { if (_saveButtonVisibility == value) return; _saveButtonVisibility = value; OnPropertyChanged(nameof(SaveButtonVisibility)); } }
@@ -62,55 +63,61 @@ namespace SkolniJidelna.ViewModels
         public Visibility RokVisibility { get => _rokVisibility; private set { if (_rokVisibility == value) return; _rokVisibility = value; OnPropertyChanged(nameof(RokVisibility)); } }
         public Visibility PhoneVisibility { get => _phoneVisibility; private set { if (_phoneVisibility == value) return; _phoneVisibility = value; OnPropertyChanged(nameof(PhoneVisibility)); } }
 
+        // Kolekce dostupných a vybraných alergií a diet – používá se pro editační režim (checkboxy)
         public ObservableCollection<Alergie> AvailableAlergies { get; } = new();
         public ObservableCollection<Alergie> SelectedAlergies { get; } = new();
         public ObservableCollection<DietniOmezeni> AvailableDietRestrictions { get; } = new();
         public ObservableCollection<DietniOmezeni> SelectedDietRestrictions { get; } = new();
 
+        // Zjednodušené wrappery pro výběr (obsahují model + příznak IsSelected)
         public ObservableCollection<SelectableAlergie> SelectableAlergies { get; } = new();
         public ObservableCollection<SelectableDiet> SelectableDiets { get; } = new();
 
-        // Event to signal that async loading finished
+        // Událost pro View (např. skrytí spinneru po dokončení načítání)
         public event Action? LoadFinished;
 
         public UserProfileViewModel() { }
 
         public UserProfileViewModel(string email)
         {
+            // Vstupní e‑mail je povinný – zahájí asynchronní načítání dat pro profil
             if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException(nameof(email));
-            // fire-and-forget load on UI thread
+            // fire-and-forget – načítání probíhá asynchronně, UI se aktualizuje přes PropertyChanged
             _ = LoadAsync(email.Trim());
         }
 
+        // Hlavní metoda pro načtení všech údajů profilu: Stravnik, adresa, alergie/diety, student/pracovník specifika a fotka
         private async Task LoadAsync(string email)
         {
             try
             {
                 using var db = new AppDbContext();
 
-                // Load main entity first (simpler SQL)
+                // 1) Načtení záznamu Stravnik podle e‑mailu – základní identita uživatele
                 var stravnik = await db.Stravnik
-                    .AsNoTracking()
+                    .AsNoTracking() // čtení bez sledování – výkon
                     .FirstOrDefaultAsync(s => s.Email == email);
 
                 if (stravnik == null)
                 {
+                    // Když uživatel neexistuje, nastavíme jen e‑mail a zobrazíme informaci
                     Email = email;
-                    FullName = "U?ivatel nenalezen";
+                    FullName = "Uživatel nenalezen";
                     return;
                 }
 
+                // 2) Základní vlastnosti
                 Email = stravnik.Email;
                 FullName = $"{stravnik.Jmeno} {stravnik.Prijmeni}";
                 BalanceFormatted = string.Format("{0:0.##} Kč", stravnik.Zustatek);
 
-                // map TypStravnik into localized status
+                // map TypStravnik na lokalizovaný text (pr=pracovnik, st=student)
                 var t = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();
                 if (t == "pr") Status = "pracovnik";
                 else if (t == "st") Status = "student";
                 else Status = stravnik.TypStravnik ?? string.Empty;
 
-                // Address (load separately)
+                // 3) Adresa – načítá se zvlášť kvůli oddělené tabulce
                 try
                 {
                     if (stravnik.IdAdresa != null)
@@ -122,18 +129,20 @@ namespace SkolniJidelna.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    // Selhání načtení adresy nezastavuje zbytek profilu – jen vynuluje adresu
                     System.Diagnostics.Debug.WriteLine("Load Address failed: " + ex);
                     Address = string.Empty;
                 }
 
-                // Allergies (join explicitly to avoid complex single SQL with many LEFT JOINs)
+                // 4) Alergie – načítá se přes vazební tabulku a hlavní tabulku ALERGIE
                 try
                 {
-                    // Check that underlying tables exist for current DB user to avoid ORA-00942
+                    // Ověření existence tabulek pro aktuální DB uživatele – ochrana proti ORA-00942
                     bool hasAlergieTable = TableExists(db, "ALERGIE");
                     bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
                     if (!hasAlergieTable || !hasAlergieStravniciTable)
                     {
+                        // Zalogovat chybějící tabulky a vynechat načítání
                         try { File.AppendAllText(Path.Combine(AppContext.BaseDirectory, "missing-tables.log"), $"Skipping allergies load - ALERGIE present={hasAlergieTable}, STRAVNICI_ALERGIE present={hasAlergieStravniciTable}, Time={DateTime.Now:o}{Environment.NewLine}"); } catch { }
                         AlergiesText = string.Empty;
                     }
@@ -145,6 +154,7 @@ namespace SkolniJidelna.ViewModels
                             .Where(n => !string.IsNullOrWhiteSpace(n))
                             .ToListAsync();
 
+                        // Souhrnný text (např. "Laktóza, Ořechy")
                         AlergiesText = allergyNames.Any() ? string.Join(", ", allergyNames) : string.Empty;
                     }
                 }
@@ -154,7 +164,7 @@ namespace SkolniJidelna.ViewModels
                     AlergiesText = string.Empty;
                 }
 
-                // Diet restrictions
+                // 5) Dietní omezení – analogicky k alergiím
                 try
                 {
                     bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
@@ -181,12 +191,13 @@ namespace SkolniJidelna.ViewModels
                     DietRestrictionsText = string.Empty;
                 }
 
-                // Load student or pracovnik info separately
+                // 6) Specifické údaje podle typu (student/pracovník) – nastaví viditelnosti a naplní editační seznamy
                 try
                 {
                     var typ = (stravnik.TypStravnik ?? string.Empty).Trim().ToLowerInvariant();
                     if (typ == "st" || string.Equals(stravnik.TypStravnik, "student", StringComparison.OrdinalIgnoreCase))
                     {
+                        // Student – načti třídu, zobraz editační prvky (bez uložení), skryj texty, ukaž rok narození
                         var student = await db.Student
                             .Include(t2 => t2.Trida)
                             .AsNoTracking()
@@ -194,14 +205,13 @@ namespace SkolniJidelna.ViewModels
 
                         PositionClass = student != null && student.Trida != null ? $"Třída: {student.Trida.CisloTridy}" : "-";
 
-                        // Show selectable lists for student too
                         ComboAlergiesVisibility = Visibility.Visible;
                         ComboDietRestrictionsVisibility = Visibility.Visible;
-                        SaveButtonVisibility = Visibility.Collapsed; // keep saving disabled for students unless needed
+                        SaveButtonVisibility = Visibility.Collapsed; // u studentů bez ukládacího tlačítka
                         TextAlergiesVisibility = Visibility.Collapsed;
                         TextDietRestrictionsVisibility = Visibility.Collapsed;
 
-                        // Load selectable allergies
+                        // Naplnění checkboxů – výčet všech a označení vybraných
                         SelectableAlergies.Clear();
                         var allAlergies = await db.Alergie.ToListAsync();
                         var selectedAlergieIds = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToListAsync();
@@ -210,7 +220,6 @@ namespace SkolniJidelna.ViewModels
                             SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
                         }
 
-                        // Load selectable diet restrictions
                         SelectableDiets.Clear();
                         var allDiets = await db.DietniOmezeni.ToListAsync();
                         var selectedDietIds = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToListAsync();
@@ -225,6 +234,7 @@ namespace SkolniJidelna.ViewModels
                     }
                     else
                     {
+                        // Pracovník – načti pozici, zobraz editační prvky s tlačítkem Uložit, skryj texty, zobraz telefon
                         var pracovnik = await db.Pracovnik
                             .Include(p => p.Pozice)
                             .AsNoTracking()
@@ -238,7 +248,7 @@ namespace SkolniJidelna.ViewModels
                         TextAlergiesVisibility = Visibility.Collapsed;
                         TextDietRestrictionsVisibility = Visibility.Collapsed;
 
-                        // Load selectable allergies
+                        // Naplnění checkboxů – alergie a diety
                         SelectableAlergies.Clear();
                         var allAlergies = await db.Alergie.ToListAsync();
                         var selectedAlergieIds = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).Select(sa => sa.IdAlergie).ToListAsync();
@@ -247,7 +257,6 @@ namespace SkolniJidelna.ViewModels
                             SelectableAlergies.Add(new SelectableAlergie { Alergie = a, IsSelected = selectedAlergieIds.Contains(a.IdAlergie) });
                         }
 
-                        // Load selectable diet restrictions
                         SelectableDiets.Clear();
                         var allDiets = await db.DietniOmezeni.ToListAsync();
                         var selectedDietIds = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).Select(so => so.IdOmezeni).ToListAsync();
@@ -256,7 +265,7 @@ namespace SkolniJidelna.ViewModels
                             SelectableDiets.Add(new SelectableDiet { Diet = d, IsSelected = selectedDietIds.Contains(d.IdOmezeni) });
                         }
 
-                        // prefix phone with +420 when present
+                        // Telefon – prefix +420, pokud je uložen
                         if (pracovnik != null && pracovnik.Telefon != 0)
                         {
                             Phone = $"+420{pracovnik.Telefon}";
@@ -273,6 +282,7 @@ namespace SkolniJidelna.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    // Chyby ve větvi specifik (student/pracovník) neblokují zbytek – UI se nastaví do bezpečného stavu
                     System.Diagnostics.Debug.WriteLine("Load Student/Pracovnik failed: " + ex);
                     PositionClass = "-";
                     ComboAlergiesVisibility = Visibility.Collapsed;
@@ -282,12 +292,12 @@ namespace SkolniJidelna.ViewModels
                     PhoneVisibility = Visibility.Collapsed;
                 }
 
-                // Profile image placeholder (initials)
+                // 7) Profilová fotka – nejprve zkus soubor, jinak vygeneruj placeholder s iniciálami
                 try
                 {
                     try
                     {
-                        // 1) Try by ID_ZAZNAM on server, then filter TABULKA on client to avoid Oracle function/literal issues
+                        // Kandidáti: soubory se stejným IdZaznam (preferujeme Tabulka=STRAVNICI), seřazení dle data nahrání
                         var candidates = await db.Soubor
                             .AsNoTracking()
                             .Where(s => s.IdZaznam == stravnik.IdStravnik)
@@ -298,7 +308,7 @@ namespace SkolniJidelna.ViewModels
                             .FirstOrDefault(s => string.Equals((s.Tabulka ?? string.Empty).Trim(), "STRAVNICI", StringComparison.OrdinalIgnoreCase))
                             ?? candidates.FirstOrDefault();
 
-                        // 2) Fallback: try by ID_STRAVNIK column if nothing found
+                        // Fallback: vyhledat podle IdStravnik
                         if (photo == null)
                         {
                             photo = await db.Soubor
@@ -337,16 +347,17 @@ namespace SkolniJidelna.ViewModels
             }
             catch (Exception ex)
             {
-                // unexpected top-level error
+                // Neočekávaná chyba – zalogovat, UI se pokusí zobrazit dostupná data
                 System.Diagnostics.Debug.WriteLine("UserProfileViewModel.LoadAsync unexpected exception: " + ex);
             }
             finally
             {
-                // notify view that loading finished (success or failure)
+                // Notifikace pro View – může skrýt spinner nebo povolit tlačítka
                 try { LoadFinished?.Invoke(); } catch { }
             }
         }
 
+        // Vytvoří placeholder obrázek s iniciálami – běží bezpečně na UI vlákně (přes Dispatcher)
         private ImageSource? CreateInitialsImage(string firstName, string lastName)
         {
             try
@@ -363,6 +374,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Jádro generování obrázku s iniciálami – 120x120 px, bílý podklad, font Segoe UI 48
         private ImageSource? CreateInitialsImageCore(string firstName, string lastName)
         {
             try
@@ -403,6 +415,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Ověření existence tabulky v aktuální DB schématu – dotazuje se USER_TABLES
         private bool TableExists(AppDbContext db, string tableName)
         {
             try
@@ -411,7 +424,7 @@ namespace SkolniJidelna.ViewModels
                 var wasClosed = conn.State == System.Data.ConnectionState.Closed;
                 if (wasClosed) conn.Open();
                 using var cmd = conn.CreateCommand();
-                // use USER_TABLES which lists tables accessible to current schema
+                // USER_TABLES obsahuje seznam tabulek přístupných aktuálnímu uživateli
                 cmd.CommandText = $"SELECT COUNT(*) FROM user_tables WHERE table_name = '{tableName.ToUpperInvariant()}'";
                 var obj = cmd.ExecuteScalar();
                 if (wasClosed) conn.Close();
@@ -432,7 +445,7 @@ namespace SkolniJidelna.ViewModels
             var handler = PropertyChanged;
             if (handler == null) return;
 
-            // Ensure the PropertyChanged event is raised on the UI thread so WPF bindings update correctly
+            // Zajistí, že PropertyChanged se vyvolá na UI vlákně (Dispatcher), aby se WPF bindingy korektně aktualizovaly
             try
             {
                 if (Application.Current == null || Application.Current.Dispatcher.CheckAccess())
@@ -446,10 +459,11 @@ namespace SkolniJidelna.ViewModels
             }
             catch
             {
-                // ignore exceptions from raising PropertyChanged
+                // Ignorovat chyby při vyvolání PropertyChanged
             }
         }
 
+        // Uloží změny (alergie a dietní omezení) vybraného uživatele – přepíše vazební tabulky podle aktuálního výběru
         public async Task SaveChangesAsync()
         {
             try
@@ -462,7 +476,7 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // Check tables exist
+                // Ověření existence nutných tabulek
                 bool hasAlergieTable = TableExists(db, "ALERGIE");
                 bool hasAlergieStravniciTable = TableExists(db, "STRAVNICI_ALERGIE");
                 bool hasDietTable = TableExists(db, "DIETNI_OMEZENI");
@@ -474,32 +488,22 @@ namespace SkolniJidelna.ViewModels
                     return;
                 }
 
-                // Debug: show counts
-                int selectedAlergiesCount = SelectableAlergies.Count(s => s.IsSelected);
-                int selectedDietsCount = SelectableDiets.Count(s => s.IsSelected);
-                MessageBox.Show($"Selected allergies: {selectedAlergiesCount}, Selected diets: {selectedDietsCount}", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Save allergies
+                // Přepsání vazeb – nejprve odstraníme existující, poté přidáme aktuálně vybraný seznam
                 var existingAlergies = await db.StravnikAlergie.Where(sa => sa.IdStravnik == stravnik.IdStravnik).ToListAsync();
                 db.StravnikAlergie.RemoveRange(existingAlergies);
                 var toAddAlergies = SelectableAlergies.Where(s => s.IsSelected && s.Alergie.IdAlergie != null).ToList();
-                MessageBox.Show($"Will add {toAddAlergies.Count} allergies: {string.Join(", ", toAddAlergies.Select(a => a.Alergie.IdAlergie))}", "Debug Add", MessageBoxButton.OK, MessageBoxImage.Information);
                 foreach (var sa in toAddAlergies)
                 {
                     db.StravnikAlergie.Add(new StravnikAlergie { IdStravnik = stravnik.IdStravnik, IdAlergie = sa.Alergie.IdAlergie });
                 }
-                MessageBox.Show($"Context has {db.StravnikAlergie.Local.Count} StravnikAlergie entities", "Context", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Save diet restrictions
                 var existingDiets = await db.StravnikOmezeni.Where(so => so.IdStravnik == stravnik.IdStravnik).ToListAsync();
                 db.StravnikOmezeni.RemoveRange(existingDiets);
                 var toAddDiets = SelectableDiets.Where(s => s.IsSelected && s.Diet.IdOmezeni != null).ToList();
-                MessageBox.Show($"Will add {toAddDiets.Count} diets: {string.Join(", ", toAddDiets.Select(d => d.Diet.IdOmezeni))}", "Debug Add", MessageBoxButton.OK, MessageBoxImage.Information);
                 foreach (var sd in toAddDiets)
                 {
                     db.StravnikOmezeni.Add(new StravnikOmezeni { IdStravnik = stravnik.IdStravnik, IdOmezeni = sd.Diet.IdOmezeni });
                 }
-                MessageBox.Show($"Context has {db.StravnikOmezeni.Local.Count} StravnikOmezeni entities", "Context", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 await db.SaveChangesAsync();
                 MessageBox.Show("Změny byly uloženy.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -511,6 +515,7 @@ namespace SkolniJidelna.ViewModels
             }
         }
 
+        // Změna profilové fotografie – uloží soubor do DB (tabulka SOUBORY) a aktualizuje UI
         public async Task ChangePhotoAsync()
         {
             try
@@ -530,7 +535,7 @@ namespace SkolniJidelna.ViewModels
                     var stravnik = await db.Stravnik.FirstOrDefaultAsync(s => s.Email == Email);
                     if (stravnik == null) return;
 
-                    // Create new Soubor
+                    // Vytvoření nového souboru (fotografie) v DB
                     var soubor = new Soubor
                     {
                         Nazev = Path.GetFileName(filePath),
@@ -542,11 +547,7 @@ namespace SkolniJidelna.ViewModels
                     db.Soubor.Add(soubor);
                     await db.SaveChangesAsync();
 
-                    // Update Stravnik if needed (assuming IdSoubor field exists)
-                    // stravnik.IdSoubor = soubor.IdSoubor; // if exists
-                    // await db.SaveChangesAsync();
-
-                    // Update UI
+                    // Aktualizace UI – načtení z právě nahraných dat
                     using var ms = new MemoryStream(bytes);
                     var bmp = new BitmapImage();
                     bmp.BeginInit();

@@ -19,7 +19,7 @@ namespace SkolniJidelna.Models
         public string Kategorie { get; set; }
 
         [Column("CENA")]
-        public decimal Cena { get; set; }
+        public double Cena { get; set; }
 
         [Column("SLOZENI")]
         public string Slozeni { get; set; }

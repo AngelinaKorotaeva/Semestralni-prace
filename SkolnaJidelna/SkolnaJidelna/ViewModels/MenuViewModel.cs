@@ -66,7 +66,7 @@ namespace SkolniJidelna.ViewModels
 
             // Přímé volání funkce F_STAV_MENU pro zjištění aktuálního stavu
             var conn = ctx.Database.GetDbConnection();
-            var needClose = conn.State != ConnectionState.Open;
+            var needClose = conn.State != System.Data.ConnectionState.Open;
             if (needClose) conn.Open();
             try
             {
@@ -84,32 +84,38 @@ namespace SkolniJidelna.ViewModels
                     // Stav menu
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = "SELECT F_STAV_MENU(:p_id) FROM dual";
                         var p = cmd.CreateParameter();
                         p.ParameterName = ":p_id";
                         p.Value = node.IdMenu;
-                        p.DbType = DbType.Int32;
+                        p.DbType = System.Data.DbType.Int32;
                         cmd.Parameters.Add(p);
                         var res = cmd.ExecuteScalar();
                         node.StavText = res == null || res == DBNull.Value ? string.Empty : res.ToString() ?? string.Empty;
                     }
 
-                    // Jídla daného menu
-                    var jidla = ctx.Jidlo.AsNoTracking()
+                    // IDs jídel pro dané menu
+                    var jidlaIds = ctx.Jidlo.AsNoTracking()
                         .Where(j => j.IdMenu == node.IdMenu)
-                        .OrderBy(j => j.Nazev)
-                        .Select(j => new JidloItem
+                        .Select(j => j.IdJidlo)
+                        .ToList();
+
+                    // Detaily jídel z view V_JIDLA_SLOZENI
+                    var foods = ctx.VJidlaSlozeni.AsNoTracking()
+                        .Where(v => jidlaIds.Contains(v.IdJidlo))
+                        .OrderBy(v => v.NazevJidla)
+                        .Select(v => new JidloItem
                         {
-                            IdJidlo = j.IdJidlo,
-                            Nazev = j.Nazev,
-                            Popis = j.Popis,
-                            Cena = j.Cena,
-                            Poznamka = j.Poznamka
+                            IdJidlo = v.IdJidlo,
+                            Nazev = v.NazevJidla,
+                            Popis = v.PopisJidla,
+                            Cena = v.Cena,
+                            Poznamka = v.Slozeni // reuse Poznamka field to display composition text
                         })
                         .ToList();
 
-                    foreach (var ji in jidla)
+                    foreach (var ji in foods)
                         node.Jidla.Add(ji);
 
                     list.Add(node);

@@ -22,6 +22,11 @@ namespace SkolniJidelna.ViewModels;
 // - zobrazení a editaci vlastností vybrané položky,
 // - vytvoření nového studenta/pracovníka,
 // - uložení a mazání záznamů.
+// Poznámky k DB pohledům a procedurám:
+// - Pohled `V_STRAVNICI_FULL` slouží jako jednotný read‑model pro seznam studentů/pracovníků (FIO, e‑mail, adresa, pozice/třída, telefon/rok narození).
+//   Použití v Loaderu pro typy `Student` a `Pracovnik` kvůli výkonu (bez vícenásobných Include/joinů).
+// - Pohled `V_OBJ_PREHLED_ADMIN` slouží k přehledu objednávek (hlavička, stav, cena, e‑mail, počet položek) bez načítání plné entity.
+// - Procedura `p_create_empty_stravnik` vytváří „prázdného“ strávníka – MVVM jej volá z ViewModelu (AddNewStravnikAsync), místo přímého vkládání přes EF.
 public class AdminViewModel : INotifyPropertyChanged
 {
     private readonly AppDbContext _db;
@@ -149,6 +154,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 }
                 else if (_selectedEntityType.Name == "Objednavky")
                 {
+                    // Pohled `V_OBJ_PREHLED_ADMIN` – pro seznam objednávek používáme read‑model z DB
                     _ = LoadObjednavkyStavAsync();
                     CurrentList = ObjednavkyStav;
                 }
@@ -313,51 +319,48 @@ public class AdminViewModel : INotifyPropertyChanged
                         // Větvení podle typu entity – cílené dotazy + filtry
                         if (entityType == typeof(Student))
                         {
-                            var query = _db.Student
-                                .Include(s => s.Stravnik).ThenInclude(str => str.Adresa)
-                                .Include(s => s.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
-                                .Include(s => s.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
-                                .Include(s => s.Trida)
+                            // Pohled `V_STRAVNICI_FULL` – rychlé načtení studentů bez složitých Include
+                            var query = _db.VStravniciFull
+                                .AsNoTracking()
+                                .Where(v => (v.TypStravnik ?? "").Trim().ToLower() == "st")
                                 .AsQueryable();
                             if (!string.IsNullOrEmpty(_selectedClass) && _selectedClass != "Vše")
                             {
                                 if (int.TryParse(_selectedClass, out int cislo))
                                 {
-                                    query = query.Where(s => s.Trida.CisloTridy == cislo);
+                                    query = query.Where(v => v.IdTrida == cislo);
                                 }
                             }
                             var students = await query.Take(100).ToListAsync();
                             var studentItems = new List<ItemViewModel>();
-                            foreach (var student in students)
+                            foreach (var v in students)
                             {
-                                var alergie = student.Stravnik.Alergie != null ? string.Join(", ", student.Stravnik.Alergie.Select(sa => sa.Alergie.Nazev)) : "Žádné";
-                                var omezeni = student.Stravnik.Omezeni != null ? string.Join(", ", student.Stravnik.Omezeni.Select(so => so.DietniOmezeni.Nazev)) : "Žádné";
-                                var summary = $"{student.Stravnik.Jmeno} {student.Stravnik.Prijmeni} - {student.Stravnik.Email} - {student.DatumNarozeni.ToShortDateString()} - Alergie: {alergie} - Omezení: {omezeni}";
-                                studentItems.Add(new ItemViewModel(student, summary));
+                                var rok = v.DatumNarozeni?.Year.ToString() ?? "";
+                                var summary = $"{v.Jmeno} {v.Prijmeni} - {v.Email} - Třída: {v.IdTrida?.ToString() ?? "-"} - Rok: {rok} - A: {v.Psc} {v.Ulice}, {v.Mesto}";
+                                // Pozor: vytváří se lehký placeholder `Student { IdStravnik = v.IdStravnik }`; navázané entity se dohrají při výběre.
+                                studentItems.Add(new ItemViewModel(new Student { IdStravnik = v.IdStravnik }, summary));
                             }
                             return studentItems;
                         }
                         else if (entityType == typeof(Pracovnik))
                         {
-                            var query = _db.Pracovnik
-                                .Include(p => p.Stravnik).ThenInclude(str => str.Adresa)
-                                .Include(p => p.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
-                                .Include(p => p.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
-                                .Include(p => p.Pozice)
+                            // Pohled `V_STRAVNICI_FULL` – rychlé načtení pracovníků
+                            var query = _db.VStravniciFull
+                                .AsNoTracking()
+                                .Where(v => (v.TypStravnik ?? "").Trim().ToLower() == "pr")
                                 .AsQueryable();
                             if (!string.IsNullOrEmpty(_selectedPosition) && _selectedPosition != "Vše")
                             {
-                                query = query.Where(p => p.Pozice != null && p.Pozice.Nazev == _selectedPosition);
+                                query = query.Where(v => v.Pozice == _selectedPosition);
                             }
                             var workers = await query.Take(100).ToListAsync();
                             var workerItems = new List<ItemViewModel>();
-                            foreach (var worker in workers)
+                            foreach (var v in workers)
                             {
-                                var pozice = worker.Pozice?.Nazev ?? "Nezadáno";
-                                var alergie = worker.Stravnik.Alergie != null ? string.Join(", ", worker.Stravnik.Alergie.Select(sa => sa.Alergie.Nazev)) : "Žádné";
-                                var omezeni = worker.Stravnik.Omezeni != null ? string.Join(", ", worker.Stravnik.Omezeni.Select(so => so.DietniOmezeni.Nazev)) : "Žádné";
-                                var summary = $"{worker.Stravnik.Jmeno} {worker.Stravnik.Prijmeni} - {worker.Stravnik.Email} - Telefon: {worker.Telefon} - Pozice: {pozice} - Alergie: {alergie} - Omezení: {omezeni}";
-                                workerItems.Add(new ItemViewModel(worker, summary));
+                                var tel = v.Telefon != null && v.Telefon != 0 ? $"+420{v.Telefon}" : "";
+                                var summary = $"{v.Jmeno} {v.Prijmeni} - {v.Email} - Pozice: {v.Pozice ?? "Nezadáno"} - {tel} - A: {v.Psc} {v.Ulice}, {v.Mesto}";
+                                // Lehké placeholdery – plná entita se načte až při kliknutí na položku.
+                                workerItems.Add(new ItemViewModel(new Pracovnik { IdStravnik = v.IdStravnik }, summary));
                             }
                             return workerItems;
                         }
@@ -382,7 +385,7 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         else if (entityType == typeof(DietniOmezeni))
                         {
-                            // Kombinované zobrazení: Alergie i Dietní omezení podle výběru
+                            // Původní chování: odděleně zobrazit seznam alergií a seznam dietních omezení
                             var dietItems = new List<ItemViewModel>();
                             if (_selectedDietType == "Alergie" || _selectedDietType == "Vše")
                             {
@@ -412,7 +415,7 @@ public class AdminViewModel : INotifyPropertyChanged
                             if (!string.IsNullOrEmpty(_selectedMenuType) && _selectedMenuType != "Vše")
                             {
                                 var typ = _selectedMenuType.Trim().ToUpperInvariant();
-                                // Map UI labels to DB values
+                                // Mapování UI štítků na DB hodnoty
                                 if (typ == "SNIDANĚ" || typ == "SNIDANE") typ = "SNIDANE";
                                 else if (typ == "OBĚD" || typ == "OBED") typ = "OBED";
                                 query = query.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == typ);
@@ -441,7 +444,7 @@ public class AdminViewModel : INotifyPropertyChanged
                                 .Take(200)
                                 .ToListAsync();
 
-                            // Načti mapu počtů použití složek v jídelníčku
+                            // Počty použití složek v jídelníčku
                             var usageCounts = await _db.SlozkaJidlo
                                 .AsNoTracking()
                                 .GroupBy(sj => sj.IdSlozka)
@@ -490,29 +493,30 @@ public class AdminViewModel : INotifyPropertyChanged
                         }
                         else if (entityType == typeof(Objednavka))
                         {
-                            var query = _db.Objednavka
-                                .Include(o => o.Stravnik)
-                                .Include(o => o.Stav)
-                                .Include(o => o.Polozky)
-                                .AsQueryable();
-
+                            // Pohled `V_OBJ_PREHLED_ADMIN` – lehký přehled objednávek pro AdminPanel
+                            var q = _db.VObjPrehledAdmin.AsNoTracking();
                             if (!string.IsNullOrWhiteSpace(_selectedOrderState) && _selectedOrderState != "Vše")
                             {
-                                query = query.Where(o => o.Stav != null && o.Stav.Nazev == _selectedOrderState);
+                                q = q.Where(v => v.StavObjednavky == _selectedOrderState);
                             }
 
-                            var orders = await query
-                                .OrderByDescending(o => o.Datum)
+                            var rows = await q
+                                .OrderByDescending(v => v.Datum)
                                 .Take(200)
                                 .ToListAsync();
 
                             var orderItems = new List<ItemViewModel>();
-                            foreach (var o in orders)
+                            foreach (var r in rows)
                             {
-                                var user = o.Stravnik?.Email ?? ($"{o.Stravnik?.Jmeno} {o.Stravnik?.Prijmeni}".Trim());
-                                var polCount = o.Polozky?.Count ?? 0;
-                                var summary = $"#{o.IdObjednavka} - {o.Datum:dd.MM.yyyy} - {o.Stav?.Nazev ?? "Nezadáno"} - {o.CelkovaCena} Kč - {user} - Položek: {polCount}";
-                                orderItems.Add(new ItemViewModel(o, summary));
+                                var summary = $"#{r.IdObjednavka} - {r.Datum:dd.MM.yyyy} - {r.StavObjednavky} - {r.CelkovaCena} Kč - {r.Email} - Položek: {r.Polozek}";
+                                // Připoj lehký placeholder entity pro editor vlastností (plná entita se může načíst dodatečně)
+                                var entity = new Objednavka
+                                {
+                                    IdObjednavka = r.IdObjednavka,
+                                    Datum = r.Datum,
+                                    CelkovaCena = r.CelkovaCena
+                                };
+                                orderItems.Add(new ItemViewModel(entity, summary));
                             }
                             return orderItems;
                         }
@@ -582,6 +586,36 @@ public class AdminViewModel : INotifyPropertyChanged
     {
         Properties.Clear();
         if (item == null) return;
+
+        // Pokud je vybraná položka jen zástupná (vytvořená z pohledu V_STRAVNICI_FULL), načti plnou entitu z DB
+        if (item.Entity is Student s && (s.Stravnik == null || s.Stravnik.IdStravnik == 0))
+        {
+            var full = _db.Student
+                .Include(st => st.Stravnik).ThenInclude(str => str.Adresa)
+                .Include(st => st.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
+                .Include(st => st.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
+                .Include(st => st.Trida)
+                .FirstOrDefault(st => st.IdStravnik == s.IdStravnik);
+            if (full != null)
+            {
+                SelectedItem = new ItemViewModel(full, item.Summary);
+                return; // nová volba znovu zavolá OnSelectedItemChanged s plnou entitou
+            }
+        }
+        else if (item.Entity is Pracovnik p && (p.Stravnik == null || p.Stravnik.IdStravnik == 0))
+        {
+            var fullPr = _db.Pracovnik
+                .Include(pr => pr.Stravnik).ThenInclude(str => str.Adresa)
+                .Include(pr => pr.Stravnik).ThenInclude(str => str.Alergie).ThenInclude(sa => sa.Alergie)
+                .Include(pr => pr.Stravnik).ThenInclude(str => str.Omezeni).ThenInclude(so => so.DietniOmezeni)
+                .Include(pr => pr.Pozice)
+                .FirstOrDefault(pr => pr.IdStravnik == p.IdStravnik);
+            if (fullPr != null)
+            {
+                SelectedItem = new ItemViewModel(fullPr, item.Summary);
+                return;
+            }
+        }
 
         // Speciální editor pro Student/Pracovník (vč. adresy, tříd/pozic, alergií a diet)
         // Ostatní entity se generují obecně podle scalarních vlastností
@@ -659,7 +693,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 pracovnik.Pozice = pozice[0];
                 pracovnik.IdPozice = pozice[0].IdPozice;
             }
-            Properties.Add(new PropertyViewModel("Pozice", typeof(Pozice), pracovnik.Pozice, val => { if (val is Pozice p) { pracovnik.Pozice = p; pracovnik.IdPozice = p.IdPozice; } }) { EditorType = "Combo", ItemsSource = pozice });
+            Properties.Add(new PropertyViewModel("Pozice", typeof(Pozice), pracovnik.Pozice, val => { if (val is Pozice p2) { pracovnik.Pozice = p2; pracovnik.IdPozice = p2.IdPozice; } }) { EditorType = "Combo", ItemsSource = pozice });
 
             // Adresa - editable parts
             Properties.Add(new PropertyViewModel("PSČ", typeof(int), pracovnik.Stravnik.Adresa?.Psc ?? 0, val => { if (val != null && int.TryParse(val.ToString(), out var psc)) pracovnik.Stravnik.Adresa.Psc = psc; }));
@@ -762,9 +796,8 @@ public class AdminViewModel : INotifyPropertyChanged
                 })
                 .Where(p =>
                 {
-                    // never edit IDs
+                    // nikdy neupravovat ID a Email
                     if (p.Name.StartsWith("Id", StringComparison.OrdinalIgnoreCase)) return false;
-                    // never edit emails
                     if (p.Name.Equals("Email", StringComparison.OrdinalIgnoreCase)) return false;
                     return true;
                 })
@@ -813,7 +846,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 student.Stravnik.Omezeni ??= new List<StravnikOmezeni>();
                 if (student.Stravnik.Adresa == null) student.Stravnik.Adresa = new Adresa();
 
-                // basic required fields
+                // základní povinné údaje
                 if (string.IsNullOrWhiteSpace(student.Stravnik.Jmeno) || string.IsNullOrWhiteSpace(student.Stravnik.Prijmeni) || string.IsNullOrWhiteSpace(student.Stravnik.Email))
                 {
                     MessageBox.Show("Vyplňte jméno, příjmení a email.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -828,7 +861,7 @@ public class AdminViewModel : INotifyPropertyChanged
                 string hashed = student.Stravnik.Heslo ?? string.Empty;
                 if (!hashed.StartsWith("$2")) hashed = BCrypt.Net.BCrypt.HashPassword(hashed);
 
-                // address parts
+                // adresa – jednotlivé části
                 var psc = student.Stravnik.Adresa?.Psc ?? 0;
                 var mesto = student.Stravnik.Adresa?.Mesto ?? "Nezadáno";
                 var ulice = student.Stravnik.Adresa?.Ulice ?? "Nezadáno";
@@ -836,13 +869,13 @@ public class AdminViewModel : INotifyPropertyChanged
 
                 if (student.IdStravnik == 0)
                 {
-                    // Creating full Student records is now handled by the Add button which invokes the stored procedure
+                    // Vytváření plného záznamu studenta probíhá pouze přes tlačítko Přidat (procedura `p_create_empty_stravnik`).
                     MessageBox.Show("Nové záznamy se vytváří pouze přes tlačítko Přidat (vytvoří pouze záznam ve STRAVNICI). Poté upravte záznam přes editaci.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
                 else
                 {
-                    // update existing via EF
+                    // update existujícího studenta přes EF
                     student.Stravnik.Heslo = hashed;
                     _db.Update(student.Stravnik.Adresa);
                     _db.Update(student.Stravnik);
@@ -850,7 +883,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     await _db.SaveChangesAsync();
                 }
 
-                // Update alergie links
+                // Alergie
                 var alergieProp = Properties.FirstOrDefault(p => p.Name == "Alergie");
                 if (alergieProp?.ItemsSource != null)
                 {
@@ -864,7 +897,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     }
                 }
 
-                // Update dietni omezeni links
+                // Dietní omezení
                 var omezeniProp = Properties.FirstOrDefault(p => p.Name == "Dietní omezení");
                 if (omezeniProp?.ItemsSource != null)
                 {
@@ -894,13 +927,13 @@ public class AdminViewModel : INotifyPropertyChanged
 
                 if (pracovnik.IdStravnik == 0)
                 {
-                    // Creating full Pracovnik records is now handled by the Add button which invokes the stored procedure
+                    // Vytváření plného záznamu pracovníka probíhá přes tlačítko Přidat (procedura `p_create_empty_stravnik`).
                     MessageBox.Show("Nové záznamy se vytváří pouze přes tlačítko Přidat (vytvoří pouze záznam ve STRAVNICI). Poté upravte záznam přes editaci.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
                 else
                 {
-                    // update address
+                    // update adresy
                     if (pracovnik.Stravnik.Adresa.IdAdresa == 0)
                     {
                         _db.Adresa.Add(pracovnik.Stravnik.Adresa);
@@ -919,7 +952,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     await _db.SaveChangesAsync();
                 }
 
-                // Update alergie links
+                // Alergie
                 var alergieProp = Properties.FirstOrDefault(p => p.Name == "Alergie");
                 if (alergieProp?.ItemsSource != null)
                 {
@@ -933,7 +966,7 @@ public class AdminViewModel : INotifyPropertyChanged
                     }
                 }
 
-                // Update dietni omezeni links
+                // Dietní omezení
                 var omezeniProp = Properties.FirstOrDefault(p => p.Name == "Dietní omezení");
                 if (omezeniProp?.ItemsSource != null)
                 {

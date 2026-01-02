@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\
 SkolniJidelna
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\App.xaml
+C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\App.xaml
 14634571071
 
-711094126618
-235-230929474
+75432654118
+2351097409265
 MainWindow.xaml;Views\AdminPanel.xaml;Views\AdminProfileWindow.xaml;Views\CreateStravnikDialog.xaml;Views\EditDialogWindow.xaml;Views\LoginWindow.xaml;Views\MenuWindow.xaml;Views\OrderHistoryWindow.xaml;Views\OrderWindow.xaml;Views\PaymentWindow.xaml;Views\RechargeBalanceWindow.xaml;Views\StravnikListView.xaml;Views\SystemovyKatalogWindow.xaml;Views\UserProfileWindow.xaml;
 
 False

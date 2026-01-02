@@ -125,29 +125,43 @@ namespace SkolniJidelna.ViewModels
                     menusQuery = menusQuery.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == typ);
                 }
 
-                var list = menusQuery
+                // Materialize menus first to avoid correlated subquery issues with keyless views
+                var rawMenus = menusQuery
                     .OrderBy(m => m.IdMenu)
-                    .Select(m => new MenuWithJidla
+                    .Select(m => new { m.IdMenu, m.Nazev, m.TypMenu })
+                    .ToList();
+
+                var list = new List<MenuWithJidla>();
+                foreach (var m in rawMenus)
+                {
+                    var menuNode = new MenuWithJidla
                     {
                         IdMenu = m.IdMenu,
                         Nazev = m.Nazev,
                         TypMenu = m.TypMenu ?? string.Empty,
-                        Jidla = new ObservableCollection<JidloItem>(
-                            ctx.Jidlo
-                                .AsNoTracking()
-                                .Where(j => j.IdMenu == m.IdMenu)
-                                .OrderBy(j => j.Nazev)
-                                .Select(j => new JidloItem
-                                {
-                                    IdJidlo = j.IdJidlo,
-                                    Nazev = j.Nazev,
-                                    Popis = j.Popis,
-                                    Cena = j.Cena,
-                                    Poznamka = j.Poznamka
-                                })
-                                .ToList())
-                    })
-                    .ToList();
+                        Jidla = new ObservableCollection<JidloItem>()
+                    };
+
+                    // Load foods for the menu using view V_JIDLA_MENU in a separate query
+                    var foods = ctx.VJidlaMenu
+                        .AsNoTracking()
+                        .Where(v => v.MenuNazev == m.Nazev)
+                        .OrderBy(v => v.Jidlo)
+                        .Select(v => new JidloItem
+                        {
+                            IdJidlo = v.IdJidlo,
+                            Nazev = v.Jidlo,
+                            Popis = v.Popis,
+                            Cena = v.Cena,
+                            Poznamka = null
+                        })
+                        .ToList();
+
+                    foreach (var f in foods)
+                        menuNode.Jidla.Add(f);
+
+                    list.Add(menuNode);
+                }
 
                 // Označ položky, které kolidují s alergiemi/diety uživatele.
                 if (_userAllergicProducts.Count > 0 || _userDietKeywords.Count > 0)
