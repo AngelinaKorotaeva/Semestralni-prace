@@ -299,7 +299,7 @@ namespace SkolniJidelna.ViewModels
                     SaveButtonVisibility = Visibility.Collapsed;
                 }
 
-                // Profilová fotka – načtení ze SOUBORY, fallback na iniciály
+                // Profilová fotka – načtení ze SOUBORY, fallback na inciály
                 try
                 {
                     var candidates = ctx.Soubor
@@ -548,6 +548,44 @@ namespace SkolniJidelna.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show($"Chyba při změně fotografie: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Otevře okno pro doplnění zůstatku a po potvrzení přesměruje na Platební okno.
+        public void OpenRechargeBalanceDialog()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Email))
+                {
+                    MessageBox.Show("E‑mail není znám.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var rechargeWin = new RechargeBalanceWindow(Email)
+                {
+                    Owner = Application.Current?.MainWindow
+                };
+                var result = rechargeWin.ShowDialog();
+                if (result == true)
+                {
+                    // RechargeBalanceWindow už otevře PaymentWindow a nastaví DialogResult=true po úspěchu.
+                    // Zde pouze aktualizujeme zobrazený zůstatek.
+                    try
+                    {
+                        using var ctx = new AppDbContext();
+                        var s = ctx.Stravnik.AsNoTracking().FirstOrDefault(x => x.Email == Email);
+                        if (s != null)
+                        {
+                            BalanceFormatted = string.Format("{0:0.##} Kč", s.Zustatek);
+                        }
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při otevírání okna pro doplnění zůstatku: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -23,20 +23,25 @@ namespace SkolniJidelna
             }
         }
 
-        //public AdminProfileWindow(string adminEmail) : this()
-        //{
-        //    if (!string.IsNullOrWhiteSpace(adminEmail))
-        //    {
-        //        var vm = new AdminProfileViewModel(adminEmail);
-        //        DataContext = vm;
-        //
-        //        // No debug popup on load
-        //    }
-        //}
-
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                if (this.DataContext is AdminProfileViewModel vm)
+                {
+                    vm.OpenRechargeBalanceDialog();
+                }
+                else
+                {
+                    // Fallback to dialog directly
+                    var dlg = new RechargeBalanceWindow(Email) { Owner = this };
+                    dlg.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při doplnění zůstatku: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ViewMenuButton_Click(object sender, RoutedEventArgs e)

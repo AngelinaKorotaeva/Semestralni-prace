@@ -12,16 +12,30 @@ using System.Text;
 
 namespace SkolniJidelna.ViewModels
 {
+    /// <summary>
+    /// ViewModel pro práci s objednávkami ve WPF aplikaci školní jídelny.
+    /// Zajišťuje načtení menu a jídel, zvýraznění alergií/omezení dle uživatele,
+    /// správu košíku, výpočet celkové ceny a vytvoření objednávky v databázi (Oracle).
+    /// Podporuje platbu kartou, hotově a z účtu strávníka včetně kontroly a ručního odečtení zůstatku.
+    /// </summary>
     public class OrderViewModel : BaseViewModel
     {
+        // Aktuálně vybraný typ menu ("Vše" = bez filtru)
         private string _selectedTypMenu = "Vše";
+        // Kolekce dostupných menu včetně jídel
         private ObservableCollection<MenuWithJidla> _menus = new();
+        // Položky košíku (vybraná jídla a množství)
         private ObservableCollection<CartItem> _cartItems = new();
+        // Celková cena košíku
         private double _total;
+        // Zvolený datum pro objednávku
         private DateTime? _selectedDate = DateTime.Today;
+        // Normalizované názvy produktů, na které má uživatel alergii
         private HashSet<string> _userAllergicProducts = new(StringComparer.OrdinalIgnoreCase);
+        // Normalizované klíčové výrazy dietních omezení uživatele
         private HashSet<string> _userDietKeywords = new(StringComparer.OrdinalIgnoreCase);
 
+        // Vlastnosti pro binding do UI
         public string SelectedTypMenu { get => _selectedTypMenu; set { _selectedTypMenu = value; RaisePropertyChanged(); } }
         public ObservableCollection<MenuWithJidla> Menus { get => _menus; set { _menus = value; RaisePropertyChanged(); } }
         public ObservableCollection<CartItem> CartItems { get => _cartItems; set { _cartItems = value; UpdateTotal(); RaisePropertyChanged(); } }
@@ -29,6 +43,9 @@ namespace SkolniJidelna.ViewModels
         public double Total { get => _total; private set { _total = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(TotalFormatted)); } }
         public string TotalFormatted => $"Celkem: {Total:0.##} Kč";
 
+        /// <summary>
+        /// Datový model jedné položky jídla z menu, včetně příznaků alergie/dietního konfliktu pro aktuálního uživatele.
+        /// </summary>
         public class JidloItem : BaseViewModel
         {
             private bool _isAllergic;
@@ -42,12 +59,19 @@ namespace SkolniJidelna.ViewModels
             public double Cena { get; set; }
             public string? Poznamka { get; set; }
 
+            // Příznak, zda jídlo obsahuje alergenní složky pro uživatele
             public bool IsAllergic { get => _isAllergic; set { _isAllergic = value; RaisePropertyChanged(); } }
+            // Seznam nalezených alergenních složek (text)
             public string? MatchedAllergens { get => _matchedAllergens; set { _matchedAllergens = value; RaisePropertyChanged(); } }
+            // Příznak, zda jídlo koliduje s dietními omezeními uživatele
             public bool IsDietConflict { get => _isDietConflict; set { _isDietConflict = value; RaisePropertyChanged(); } }
+            // Seznam složek způsobujících dietní konflikt (text)
             public string? MatchedDietKeywords { get => _matchedDietKeywords; set { _matchedDietKeywords = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// Model menu s kolekcí jídel.
+        /// </summary>
         public class MenuWithJidla
         {
             public int IdMenu { get; set; }
@@ -56,6 +80,9 @@ namespace SkolniJidelna.ViewModels
             public ObservableCollection<JidloItem> Jidla { get; set; } = new();
         }
 
+        /// <summary>
+        /// Položka košíku – vybrané jídlo, jednotková cena, množství a vypočtená cena celkem.
+        /// </summary>
         public class CartItem : BaseViewModel
         {
             private int _mnozstvi;
@@ -64,24 +91,34 @@ namespace SkolniJidelna.ViewModels
             public string Nazev { get; set; } = string.Empty;
             public double CenaJednotkova { get => _cenaJednotkova; set { _cenaJednotkova = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CenaCelkem)); } }
             public int Mnozstvi { get => _mnozstvi; set { _mnozstvi = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CenaCelkem)); } }
+            // Cena celkem = jednotková cena * množství
             public double CenaCelkem => Math.Round(CenaJednotkova * Mnozstvi, 2);
         }
 
+        // Načte menu bez filtru
         public void LoadMenus() { LoadMenus(null); }
+
+        /// <summary>
+        /// Načte menu a jídla. Pokud je zadán e‑mail, načtou se alergie a dietní omezení uživatele
+        /// a položky se podle nich vizuálně označí.
+        /// </summary>
         public void LoadMenus(string? email)
         {
             try
             {
                 using var ctx = new AppDbContext();
+                // Vyčisti cache alergií a diet
                 _userAllergicProducts.Clear();
                 _userDietKeywords.Clear();
                 if (!string.IsNullOrWhiteSpace(email))
                 {
                     try
                     {
+                        // Najdi strávníka dle e‑mailu a načti jeho alergie/diety
                         var stravnik = ctx.Stravnik.AsNoTracking().FirstOrDefault(s => s.Email == email);
                         if (stravnik != null)
                         {
+                            // Alergie -> seznam produktů, které budeme porovnávat se složkami jídel
                             var products = ctx.StravnikAlergie.AsNoTracking()
                                 .Where(sa => sa.IdStravnik == stravnik.IdStravnik)
                                 .Join(ctx.Alergie, sa => sa.IdAlergie, a => a.IdAlergie, (sa, a) => a.Produkt)
@@ -90,6 +127,7 @@ namespace SkolniJidelna.ViewModels
                                 .ToList();
                             foreach (var p in products) _userAllergicProducts.Add(Normalize(p));
 
+                            // Dietní omezení -> převedeme na množinu klíčových slov
                             var diets = ctx.StravnikOmezeni.AsNoTracking()
                                 .Where(so => so.IdStravnik == stravnik.IdStravnik)
                                 .Join(ctx.DietniOmezeni, so => so.IdOmezeni, d => d.IdOmezeni, (so, d) => d.Nazev)
@@ -103,6 +141,7 @@ namespace SkolniJidelna.ViewModels
                     catch { }
                 }
 
+                // Aplikuj filtr typu menu (pokud není "Vše")
                 var menusQuery = ctx.Menu.AsNoTracking();
                 var selected = (SelectedTypMenu ?? "").Trim();
                 if (!string.Equals(selected, "Vše", StringComparison.OrdinalIgnoreCase))
@@ -111,6 +150,7 @@ namespace SkolniJidelna.ViewModels
                     menusQuery = menusQuery.Where(m => m.TypMenu != null && m.TypMenu.ToUpper() == typ);
                 }
 
+                // Zmaterializuj menu a k nim dobij jídla z pohledu V_JIDLA_MENU
                 var rawMenus = menusQuery.OrderBy(m => m.IdMenu).Select(m => new { m.IdMenu, m.Nazev, m.TypMenu }).ToList();
                 var list = new List<MenuWithJidla>();
                 foreach (var m in rawMenus)
@@ -122,7 +162,7 @@ namespace SkolniJidelna.ViewModels
                     list.Add(menuNode);
                 }
 
-                // mark allergies/diets
+                // Pokud máme alergie/diety, označ položky, které kolidují
                 if (_userAllergicProducts.Count > 0 || _userDietKeywords.Count > 0)
                 {
                     foreach (var menu in list)
@@ -130,6 +170,7 @@ namespace SkolniJidelna.ViewModels
                     {
                         try
                         {
+                            // Načti složky jídla a porovnej s alergiemi/dietami (normalizovaně)
                             var slozkyRaw = ctx.SlozkaJidlo.AsNoTracking()
                                 .Where(sj => sj.IdJidlo == item.IdJidlo)
                                 .Join(ctx.Slozka, sj => sj.IdSlozka, s => s.IdSlozka, (sj, s) => s.Nazev).ToList();
@@ -154,6 +195,7 @@ namespace SkolniJidelna.ViewModels
                         }
                         catch
                         {
+                            // Robustně: při chybě neoznačuj nic
                             item.IsAllergic = false; item.MatchedAllergens = null; item.IsDietConflict = false; item.MatchedDietKeywords = null;
                         }
                     }
@@ -163,11 +205,15 @@ namespace SkolniJidelna.ViewModels
             }
             catch (Exception ex)
             {
+                // Chybové hlášení při selhání načtení
                 MessageBox.Show("Chyba pri nacitani menu: " + ex.Message);
                 Menus = new ObservableCollection<MenuWithJidla>();
             }
         }
 
+        /// <summary>
+        /// Převod názvů dietních omezení na normalizovanou množinu klíčových slov pro porovnání se složkami jídel.
+        /// </summary>
         private static HashSet<string> BuildDietKeywordsSet(IEnumerable<string> dietNames)
         {
             var map = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
@@ -194,6 +240,9 @@ namespace SkolniJidelna.ViewModels
             return set;
         }
 
+        /// <summary>
+        /// Normalizace textu na malé znaky bez diakritiky pro robustní porovnávání (ponechává písmena/čísla/mezery).
+        /// </summary>
         private static string Normalize(string s)
         {
             var t = (s ?? string.Empty).Trim().ToLowerInvariant();
@@ -207,6 +256,9 @@ namespace SkolniJidelna.ViewModels
             return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
+        /// <summary>
+        /// Přidá jídlo do košíku (zvýší množství, pokud už existuje) a přepočítá celkovou cenu.
+        /// </summary>
         public void AddToOrder(JidloItem item)
         {
             if (item == null) return;
@@ -217,6 +269,9 @@ namespace SkolniJidelna.ViewModels
             UpdateTotal();
         }
 
+        /// <summary>
+        /// Odebere jednu jednotku z košíku (nebo celou položku, pokud množství klesne na 0) a přepočítá cenu.
+        /// </summary>
         public void RemoveOneFromOrder(int idJidlo)
         {
             var existing = CartItems.FirstOrDefault(ci => ci.IdJidlo == idJidlo);
@@ -225,8 +280,15 @@ namespace SkolniJidelna.ViewModels
             UpdateTotal();
         }
 
+        // Přepočet celkové ceny košíku
         private void UpdateTotal() { Total = CartItems.Sum(ci => ci.CenaCelkem); }
 
+        /// <summary>
+        /// Vytvoří objednávku v DB pro daný e‑mail, způsob platby a poznámku.
+        /// Kontroluje víkend a budoucí datum, ověřuje zůstatek pro platbu z účtu přes F_ZUSTATECNY,
+        /// vloží objednávku (procedura), položky a aktualizuje cenu. Při platbě z účtu provede ruční odečet zůstatku.
+        /// Celé proběhne v jedné transakci.
+        /// </summary>
         public void CreateOrder(string email, PaymentMethod method, string? note)
         {
             var dateVal = SelectedDate ?? DateTime.Today;
@@ -244,7 +306,7 @@ namespace SkolniJidelna.ViewModels
             if (wasClosed) dbConn.Open();
             var conn = dbConn as OracleConnection; if (conn == null) throw new InvalidOperationException("OracleConnection není dostupné");
 
-            // 1) Check account balance if paying from account (no debit yet)
+            // 1) Kontrola zůstatku pro platbu z účtu (bez odečtu)
             if (method == PaymentMethod.Account)
             {
                 using var cmdCheck = new OracleCommand("SELECT F_ZUSTATEK(:p_sid, :p_amt) FROM dual", conn) { CommandType = System.Data.CommandType.Text };
@@ -265,7 +327,7 @@ namespace SkolniJidelna.ViewModels
                 var stavId = (method == PaymentMethod.Cash) ? 4 : 1;
                 var noteVal = string.IsNullOrWhiteSpace(note) ? null : note;
 
-                // 2) Create order via stored proc
+                // 2) Vložení objednávky pomocí procedury P_INSERT_OBJ
                 int objednavkaId;
                 using (var cmdIns = new OracleCommand("P_INSERT_OBJ", conn) { CommandType = System.Data.CommandType.StoredProcedure, Transaction = tx })
                 {
@@ -281,7 +343,7 @@ namespace SkolniJidelna.ViewModels
                     objednavkaId = Convert.ToInt32(outId.Value.ToString());
                 }
 
-                // 3) Insert items
+                // 3) Vložení položek objednávky přes proceduru P_INSERT_POLOZKA
                 foreach (var ci in CartItems)
                 {
                     using var cmdItem = new OracleCommand("P_INSERT_POLOZKA", conn) { CommandType = System.Data.CommandType.StoredProcedure, Transaction = tx };
@@ -292,11 +354,11 @@ namespace SkolniJidelna.ViewModels
                     cmdItem.ExecuteNonQuery();
                 }
 
-                // 4) Update order total
+                // 4) Aktualizace celkové ceny objednávky
                 using (var cmdUpd = new OracleCommand("UPDATE objednavky SET celkova_cena = :c WHERE id_objednavka = :id", conn) { CommandType = System.Data.CommandType.Text, Transaction = tx })
                 { cmdUpd.Parameters.Add(":c", OracleDbType.Decimal).Value = Convert.ToDecimal(Total); cmdUpd.Parameters.Add(":id", OracleDbType.Int32).Value = objednavkaId; cmdUpd.ExecuteNonQuery(); }
 
-                // 5) Manually debit account inside the same transaction (only for Account payments)
+                // 5) Ruční odečet zůstatku strávníka (pouze u platby z účtu)
                 if (method == PaymentMethod.Account)
                 {
                     using var cmdDebit = new OracleCommand("UPDATE stravnici SET zustatek = zustatek - :amt WHERE id_stravnik = :sid", conn)
@@ -314,6 +376,7 @@ namespace SkolniJidelna.ViewModels
             finally { if (wasClosed) dbConn.Close(); }
         }
 
+        // Způsoby platby
         public enum PaymentMethod { Card, Account, Cash }
     }
 }
