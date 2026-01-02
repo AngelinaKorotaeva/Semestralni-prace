@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\Ангелина\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\App.xaml
 14634571071
 
-75432654118
+75-1421184845
 2351097409265
 MainWindow.xaml;Views\AdminPanel.xaml;Views\AdminProfileWindow.xaml;Views\CreateStravnikDialog.xaml;Views\EditDialogWindow.xaml;Views\LoginWindow.xaml;Views\MenuWindow.xaml;Views\OrderHistoryWindow.xaml;Views\OrderWindow.xaml;Views\PaymentWindow.xaml;Views\RechargeBalanceWindow.xaml;Views\StravnikListView.xaml;Views\SystemovyKatalogWindow.xaml;Views\UserProfileWindow.xaml;
 
-False
+True
 

@@ -3,6 +3,7 @@ using System.Windows.Input;
 using SkolniJidelna.Models;
 using SkolniJidelna.Services;
 using System.Threading.Tasks;
+using SkolniJidelna.Helpers;
 
 namespace SkolniJidelna.ViewModels;
 // ViewModel seznamu strávníků – načítá data z repozitáře a poskytuje Refresh příkaz

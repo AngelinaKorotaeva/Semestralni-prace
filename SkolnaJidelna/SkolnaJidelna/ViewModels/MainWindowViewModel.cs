@@ -10,6 +10,7 @@ using SkolniJidelna.Services;
 using System.IO;
 using System.Windows.Xps.Serialization;
 using System.Diagnostics;
+using SkolniJidelna.Helpers;
 
 namespace SkolniJidelna.ViewModels
 {

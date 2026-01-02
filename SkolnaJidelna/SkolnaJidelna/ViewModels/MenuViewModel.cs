@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using SkolniJidelna.Data;
+using SkolniJidelna.Helpers;
 
 namespace SkolniJidelna.ViewModels
 {
