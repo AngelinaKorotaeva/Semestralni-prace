@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System;
 
-namespace SkolniJidelna.ViewModels
+namespace SkolniJidelna.Helpers
 {
     // Jednoduchá implementace ICommand pro MVVM – deleguje Execute/CanExecute na předané akce
     public class RelayCommand : ICommand
