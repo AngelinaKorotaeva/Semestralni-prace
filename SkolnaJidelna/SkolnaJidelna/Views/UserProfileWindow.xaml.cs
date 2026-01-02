@@ -36,6 +36,54 @@ namespace SkolniJidelna
             this.DataContext = vm;
 
             // Removed debug MessageBox on LoadFinished as requested
+
+            // If window.Tag contains original admin email, show a small Return button in titlebar
+            this.Loaded += UserProfileWindow_Loaded;
+        }
+
+        private void UserProfileWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.Tag is string originalAdmin && !string.IsNullOrWhiteSpace(originalAdmin))
+            {
+                // add a button for returning to admin profile in the window (simple MessageBox-driven fallback)
+                var btn = new Button { Content = "Návrat do admina", Width =140, Height =28, Margin = new Thickness(10)};
+
+                // Try to apply the LightButton style from resources
+                try
+                {
+                    var lightStyle = this.TryFindResource("LightButton") as Style;
+                    if (lightStyle == null && Application.Current != null && Application.Current.Resources.Contains("LightButton"))
+                    {
+                        lightStyle = Application.Current.Resources["LightButton"] as Style;
+                    }
+                    if (lightStyle != null) btn.Style = lightStyle;
+                }
+                catch
+                {
+                    // ignore resource lookup errors and keep default button style
+                }
+
+                btn.HorizontalAlignment = HorizontalAlignment.Right;
+                btn.VerticalAlignment = VerticalAlignment.Top;
+                btn.Click += (s, a) =>
+                {
+                    try
+                    {
+                        var apw = new AdminProfileWindow(originalAdmin);
+                        apw.Show();
+                        this.Close();
+                    }
+                    catch
+                    {
+                    }
+                };
+
+                // Add to main Grid root if exists
+                if (this.Content is FrameworkElement fe && fe is Panel panel)
+                {
+                    panel.Children.Add(btn);
+                }
+            }
         }
 
         private void RechargeBalanceButton_Click(object sender, RoutedEventArgs e)

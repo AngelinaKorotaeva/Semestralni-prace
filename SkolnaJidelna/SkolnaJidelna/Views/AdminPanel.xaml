@@ -127,7 +127,7 @@
 
             <Canvas>
                 <Ellipse Width="120" Height="120" Fill="#FFE5B430" Canvas.Right="50" Canvas.Top="80"/>
-                <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="200" Canvas.Top="500"/>
+                <Ellipse Width="80" Height="80" Fill="#FFB6D930" Canvas.Right="80" Canvas.Top="520"/>
             </Canvas>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Panel.ZIndex="1">
@@ -149,7 +149,8 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Přidat" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="PridatButton_Click"/>
                         <Button Content="Upravit" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="UpravitButton_Click"/>
-                        <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}"/>
+                        <Button Content="Smazat" Command="{Binding DeleteCommand}" Style="{StaticResource LightButton}" Margin="0,0,10,0"/>
+                        <Button Content="Přepnout" Style="{StaticResource LightButton}" Margin="0,0,10,0" Click="SwitchUserButton_Click"/>
                     </StackPanel>
                     <Button Content="Systemový katalog" Style="{StaticResource LightButton}" Margin="0,20,10,0" Click="SystemovyKatalog_Click" Width="200"/>
                 </StackPanel>

@@ -9,12 +9,14 @@ namespace SkolniJidelna
     public partial class AdminPanel : Window
     {
         private string Email;
+        private string _originalAdminEmail;
         public AdminPanel(string email)
         {
             InitializeComponent();
             Loaded += AdminPanel_Loaded;
 
             this.Email = email;
+            this._originalAdminEmail = email;
 
 
             var db = new AppDbContext();
@@ -115,6 +117,63 @@ namespace SkolniJidelna
             {
                 var wnd = new SystemovyKatalogWindow(vm.DbContext);
                 wnd.ShowDialog();
+            }
+        }
+
+        private void SwitchUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AdminViewModel vm && vm.SelectedItem != null)
+            {
+                // selected item entity should contain Stravnik with Email property for students/workers
+                var entity = vm.SelectedItem.Entity;
+                string targetEmail = null;
+
+                // try common patterns
+                var type = entity.GetType();
+                var propEmail = type.GetProperty("Email");
+                if (propEmail != null)
+                {
+                    var val = propEmail.GetValue(entity);
+                    targetEmail = val?.ToString();
+                }
+                else
+                {
+                    // maybe nested Stravnik property
+                    var stravnikProp = type.GetProperty("Stravnik");
+                    if (stravnikProp != null)
+                    {
+                        var stravnik = stravnikProp.GetValue(entity);
+                        if (stravnik != null)
+                        {
+                            var eprop = stravnik.GetType().GetProperty("Email");
+                            if (eprop != null) targetEmail = eprop.GetValue(stravnik)?.ToString();
+                        }
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(targetEmail))
+                {
+                    MessageBox.Show("Nelze přepnout: vybraný záznam neobsahuje e-mail.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Open UserProfileWindow for targetEmail, but keep admin's original email to allow return
+                try
+                {
+                    var userWin = new UserProfileWindow(targetEmail);
+                    // store original admin email on the window's Tag to allow return
+                    userWin.Tag = this._originalAdminEmail;
+                    userWin.Show();
+                    this.Close();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show($"Nelze otevřít profil uživatele: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vyberte uživatele, na kterého chcete přepnout.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

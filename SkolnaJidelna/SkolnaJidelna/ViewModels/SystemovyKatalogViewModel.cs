@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.ComponentModel; 
+using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
@@ -145,7 +145,18 @@ namespace SkolniJidelna.ViewModels
                     }
                     list.Add(string.Join(" | ", parts));
                 }
+                // Populate Results (previously cleared only)
                 Results.Clear();
+                foreach (var item in list)
+                {
+                    Results.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optional: show error in results
+                Results.Clear();
+                Results.Add("Chyba: " + ex.Message);
             }
             finally
             {

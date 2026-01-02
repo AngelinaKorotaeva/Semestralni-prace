@@ -339,3 +339,7 @@ C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJid
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\SystemovyKatalogWindow.g.cs
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\CreateStravnikDialog.baml
 C:\Users\Ангелина\source\repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\CreateStravnikDialog.g.cs
+C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\CreateStravnikDialog.baml
+C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\SystemovyKatalogWindow.baml
+C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\CreateStravnikDialog.g.cs
+C:\Users\Polina Odintsova\Source\Repos\Semestralni-prace\SkolnaJidelna\SkolnaJidelna\obj\Debug\net8.0-windows\Views\SystemovyKatalogWindow.g.cs
