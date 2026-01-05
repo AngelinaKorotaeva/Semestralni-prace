@@ -235,12 +235,28 @@ END;
 
 4. Automatické nastavení datumu objednávky (bod 6 – automatické doplnění hodnot)
 
-CREATE OR REPLACE TRIGGER t_obj_date
+create or replace TRIGGER T_OBJ_DATE
 BEFORE INSERT ON objednavky
 FOR EACH ROW
+DECLARE
+    v_date DATE;
+    v_dow  VARCHAR2(10);
 BEGIN
     IF :NEW.datum IS NULL THEN
-        :NEW.datum := SYSDATE;
+        -- základ: zítra
+        v_date := TRUNC(SYSDATE) + 1;
+
+        -- den v týdnu (závisí na NLS, proto explicitně)
+        v_dow := TO_CHAR(v_date, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH');
+
+        -- pokud je sobota nebo neděle → pondělí
+        IF v_dow = 'SAT' THEN
+            v_date := v_date + 2;
+        ELSIF v_dow = 'SUN' THEN
+            v_date := v_date + 1;
+        END IF;
+
+        :NEW.datum := v_date;
     END IF;
 END;
 
@@ -315,4 +331,5 @@ EXCEPTION
     WHEN OTHERS THEN
         RAISE;
 END;
+
 
