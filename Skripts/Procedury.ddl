@@ -313,3 +313,54 @@ BEGIN
             RAISE;
     END;
 END;
+
+10. Transakční vytváření objednávky
+
+create or replace PROCEDURE TRANS_CREATE_ORDER
+(
+  P_ID_STRAVNIK   IN NUMBER,
+  P_POZNAMKA      IN VARCHAR2,
+  P_POLOZKY       IN SYS.ODCINUMBERLIST,
+  P_DATUM         IN DATE,
+  P_ID_OBJEDNAVKA OUT NUMBER,
+  P_ID_STAV       IN NUMBER
+) AS
+  V_CELKOVA_CENA FLOAT := 0;
+  V_CENA_JIDLA   FLOAT;
+BEGIN
+  P_INSERT_OBJ(
+    P_ID_STRAVNIK   => P_ID_STRAVNIK,
+    P_CELKOVA_CENA  => 0,
+    P_DATUM         => P_DATUM,  
+    P_POZNAMKA      => P_POZNAMKA,
+    P_ID_OBJEDNAVKA => P_ID_OBJEDNAVKA,
+    P_ID_STAV       => P_ID_STAV
+  );
+
+  FOR i IN 1 .. P_POLOZKY.COUNT LOOP
+    IF MOD(i, 2) = 1 THEN
+      SELECT cena
+      INTO V_CENA_JIDLA
+      FROM jidla
+      WHERE id_jidlo = P_POLOZKY(i);
+
+      INSERT INTO polozky
+        (id_jidlo, id_objednavka, mnozstvi, cena_polozky)
+      VALUES
+        (P_POLOZKY(i), P_ID_OBJEDNAVKA, P_POLOZKY(i+1), V_CENA_JIDLA);
+
+      V_CELKOVA_CENA := V_CELKOVA_CENA +
+                        (V_CENA_JIDLA * P_POLOZKY(i+1));
+    END IF;
+  END LOOP;
+
+  UPDATE objednavky
+  SET celkova_cena = V_CELKOVA_CENA
+  WHERE id_objednavka = P_ID_OBJEDNAVKA;
+  COMMIT;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END TRANS_CREATE_ORDER;
